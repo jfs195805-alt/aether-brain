@@ -134,13 +134,13 @@ async function carga(){
 }
 async function viaRaw(){
   const J=async(f,x)=>{try{const r=await fetch(RAW+f+"?t="+Date.now());return r.ok?await r.json():x;}catch(e){return x;}};
-  const [st,dc,ng,cb,fc,sy,ai,pf,au]=await Promise.all([
+  const [st,dc,ng,cb,fc,sy,ai,pf,au,nc]=await Promise.all([
     J("CANAIS_STATS.json",{}),J("DECISIONS.json",{decisoes:[]}),J("NEURAL_GRAPH.json",{}),
     J("COBERTURA.json",{}),J("FRASES_CATEGORIAS.json",{}),J("SINAPSES.json",{}),
-    J("AI_HEALTH.json",{}),J("PROFIT_MODEL.json",{}),J("AUDITORIA_CANAL.json",{})]);
+    J("AI_HEALTH.json",{}),J("PROFIT_MODEL.json",{}),J("AUDITORIA_CANAL.json",{}),J("NOVOS_CANAIS.json",{canais:[]})]);
   return {videos:st.total_videos,canais:st.total_canais,novos_videos:st.novos_videos,novos_canais:st.novos_canais,
     crescendo:st.canais_que_cresceram||[],
-    top_canais:Object.entries(st.por_canal||{}).map(([canal,videos])=>({canal,videos})).sort((a,b)=>b.videos-a.videos).slice(0,20),
+    top_canais:Object.entries(st.por_canal||{}).map(([canal,videos])=>({canal,videos})).sort((a,b)=>b.videos-a.videos),
     decisoes:dc.decisoes||[],total_decisoes:dc.total_decisoes||0,cruzamentos:dc.cruzamentos_por_decisao||0,
     grafo:{pontos:(ng.nodes||[]).length,sinapses:(ng.edges||[]).length,frases_reais:ng.frases_reais,
            frases_com_timestamp:ng.frases_com_timestamp,pares_frases_avaliados:ng.pares_frases_avaliados,
@@ -150,7 +150,7 @@ async function viaRaw(){
     categorias:{ranking:fc.ranking||[],contagem:Object.fromEntries(Object.entries(fc.categorias||{}).map(([k,v])=>[k,v.n_frases_corpus])),
                 exemplos:Object.fromEntries(Object.entries(fc.categorias||{}).map(([k,v])=>[k,(v.exemplos||[]).slice(0,3)])),
                 classificadas:fc.frases_classificadas},
-    sinapses:sy, auditoria:au, ia:(ai.ranked||ai.providers||[]), lucro:pf.por_categoria||{}, gh:{}};
+    sinapses:sy, auditoria:au, fila_novos_canais:(nc.canais||[]), ia:(ai.ranked||ai.providers||[]), lucro:pf.por_categoria||{}, gh:{}};
 }
 function conectar(){
   try{ es=new EventSource(EP+"/stream"); }catch(e){ return; }
@@ -212,6 +212,13 @@ function render(){
     : `<div class="sub" style="padding:8px">Fila vazia nesta janela. As figuras acima entram em produção assim que passam do limiar.</div>`;
 
   const P=[];
+  const fila=S.fila_novos_canais||[], porc=Object.fromEntries((S.top_canais||[]).map(t=>[t.canal,t.videos]));
+  P.push(`<div class="panel"><h3>Canais que você adicionou (${n(fila.length)})</h3><div class="scroll">${
+    fila.length ? fila.map(cn=>{
+      const v=porc[cn]||0;
+      const st = v>0 ? `<span class="ok">✓ integrado · ${n(v)} vídeos</span>` : `<span class="au">⏳ na fila — descobrindo vídeos</span>`;
+      return `<div class="row"><span>@${cn}</span>${st}</div>`;}).join('')
+    : '<div class="sub">nenhum canal adicionado por você ainda — use o campo ➕ acima</div>'}</div></div>`);
   P.push(`<div class="panel"><h3>Monitoramento perpétuo dos canais</h3>
     <div class="row"><span>Canais monitorados</span><b>${n(cb.canais)}</b></div>
     <div class="row"><span>Vídeos existentes no YouTube</span><b>${n(cb.videos_youtube)}</b></div>
