@@ -278,8 +278,21 @@ function render(){
     <div class="row"><span>Sem link (revisar)</span><b class="au">${n((au.sem_link_de_produto_revisar||[]).length)}</b></div>
     <div class="sub" style="margin-top:4px">Nunca deleto vídeo — duplicado vira privado (reversível).</div></div>`);
   const top=(S.top_canais||[]).filter(t=>!F||bate('',t.canal)||bate(t.canal,'')); const mx2=top.length?top[0].videos:1;
-  P.push(`<div class="panel"><h3>Vídeos por canal (${n(top.length)} canais)</h3><div class="scroll">${top.map(t=>
-    `<div class="row click" style="display:block" onclick="setFiltro('canal','${t.canal}')"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx2*100)}%"></i></div></div>`).join('')||'<div class="sub">nenhum canal bate com o filtro</div>'}</div></div>`);
+  const CPC=S.cobertura_por_canal||{};
+  const faltaTot=Object.values(CPC).reduce((a,b)=>a+(b.faltando||0),0);
+  P.push(`<div class="panel"><h3>Vídeos por canal (${n(top.length)} canais) ${faltaTot?`<span class="au" style="font-weight:400;font-size:11px">· faltam ${n(faltaTot)} no total</span>`:''}</h3><div class="scroll">${top.map(t=>
+    {const c=CPC[t.canal]||{}; const tot=c.total||0; const falta=c.faltando||0;
+     const pct = tot ? Math.round(t.videos/tot*100) : 0;
+     return `<div class="row click" style="display:block" onclick="setFiltro('canal','${t.canal}')">
+      <div style="display:flex;justify-content:space-between;gap:6px"><span>${t.canal}</span>
+        <b>${n(t.videos)}${tot?`<span class="mut" style="font-weight:400"> / ${n(tot)}</span>`:''}</b></div>
+      <div class="bar" style="position:relative;background:#1a2740">
+        <i style="width:${tot?pct:Math.round(t.videos/mx2*100)}%"></i></div>
+      <div class="sub" style="font-size:10.5px;margin-top:2px">${
+        tot ? (falta>0 ? `<span class="au">faltam ${n(falta)}</span> · ${pct}% coberto`
+                       : `<span class="ok">✓ 100% coberto</span>`)
+            : 'total do canal ainda não medido (monitor roda no próximo ciclo)'}</div>
+     </div>`;}).join('')||'<div class="sub">nenhum canal bate com o filtro</div>'}</div></div>`);
   const lp=Object.entries(S.lucro||{}).slice(0,10).map(([k,v])=>`<div class="row"><span>${k}</span><span class="au">$${n(typeof v==='object'?(v.lucro_1k||0):v)}</span></div>`).join('');
   P.push(`<div class="panel"><h3>Lucro estimado / categoria</h3>${lp||'<div class="sub">motor aquecendo</div>'}</div>`);
   const prov=(S.ia||[]).map(p=>`<div class="row"><span>${p.name||p}</span><span class="${p.alive?'ok':'mut'}">${p.alive?'✓':'—'}</span></div>`).join('');
