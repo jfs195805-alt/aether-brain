@@ -57,11 +57,11 @@
    "score": 1220.1
   },
   "outros": {
-   "n": 12,
-   "profit_ewma": 2698.6,
+   "n": 13,
+   "profit_ewma": 2887.9,
    "views": 0,
    "support": 0,
-   "score": 1349.3
+   "score": 1444.0
   },
   "culinaria / receitas": {
    "n": 10,
@@ -226,9 +226,19 @@
    ],
    "next_best": "noticias / politica",
    "score": 3140.9
+  },
+  {
+   "ts": "2026-07-11T16:25:48Z",
+   "top": [
+    "noticias / politica",
+    "suplementos / saude",
+    "ia / tecnologia / automacao"
+   ],
+   "next_best": "noticias / politica",
+   "score": 3140.9
   }
  ],
- "cycles": 12,
+ "cycles": 13,
  "compostas": [
   "curiosity-gap hook -> aplicar em noticias / politica",
   "price-shock POV -> aplicar em noticias / politica",
@@ -239,9 +249,9 @@
   "curiosity-gap hook -> aplicar em ia / tecnologia / automacao",
   "price-shock POV -> aplicar em ia / tecnologia / automacao",
   "'3 things nobody tells you' -> aplicar em ia / tecnologia / automacao",
-  "curiosity-gap hook -> aplicar em afiliados / marketing digital",
-  "price-shock POV -> aplicar em afiliados / marketing digital",
-  "'3 things nobody tells you' -> aplicar em afiliados / marketing digital",
+  "curiosity-gap hook -> aplicar em outros",
+  "price-shock POV -> aplicar em outros",
+  "'3 things nobody tells you' -> aplicar em outros",
   "ponte Afiliados / Marketing Digital x Noticias / Politica via because, gente, going",
   "ponte geral x Noticias / Politica via because, gente, going",
   "ponte IA / Tecnologia / Automacao x Financas / Investimentos via assim, fazer, gente",
@@ -253,5 +263,5 @@
  ],
  "next_best": "noticias / politica",
  "next_best_score": 3140.9,
- "ts": "2026-07-11T16:24:47Z"
+ "ts": "2026-07-11T16:25:48Z"
 }

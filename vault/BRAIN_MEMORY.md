@@ -1,14 +1,14 @@
 # BRAIN MEMORY — aprendizado acumulado (offline, cresce sozinho)
 
-Ciclos: 12 | atualizado: 2026-07-11T16:24:47Z | NEXT BEST: **noticias / politica** (score 3140.9)
+Ciclos: 13 | atualizado: 2026-07-11T16:25:48Z | NEXT BEST: **noticias / politica** (score 3140.9)
 
 ## Hipoteses por nicho (score = lucro x confianca x views)
 
 - **noticias / politica** — score 3140.9 | lucro/1k $6282 | views 0 | ideias 0
 - **suplementos / saude** — score 2160.6 | lucro/1k $4321 | views 0 | ideias 0
 - **ia / tecnologia / automacao** — score 1752.7 | lucro/1k $3505 | views 0 | ideias 0
+- **outros** — score 1444.0 | lucro/1k $2888 | views 0 | ideias 0
 - **afiliados / marketing digital** — score 1440.5 | lucro/1k $2881 | views 0 | ideias 0
-- **outros** — score 1349.3 | lucro/1k $2699 | views 0 | ideias 0
 - **emagrecimento** — score 1268.0 | lucro/1k $2536 | views 0 | ideias 0
 - **psicologia / desenvolvimento pessoal** — score 1251.3 | lucro/1k $2503 | views 0 | ideias 0
 - **investimentos / financas** — score 1238.5 | lucro/1k $2477 | views 0 | ideias 0
@@ -31,9 +31,9 @@ Ciclos: 12 | atualizado: 2026-07-11T16:24:47Z | NEXT BEST: **noticias / politica
 - curiosity-gap hook -> aplicar em ia / tecnologia / automacao
 - price-shock POV -> aplicar em ia / tecnologia / automacao
 - '3 things nobody tells you' -> aplicar em ia / tecnologia / automacao
-- curiosity-gap hook -> aplicar em afiliados / marketing digital
-- price-shock POV -> aplicar em afiliados / marketing digital
-- '3 things nobody tells you' -> aplicar em afiliados / marketing digital
+- curiosity-gap hook -> aplicar em outros
+- price-shock POV -> aplicar em outros
+- '3 things nobody tells you' -> aplicar em outros
 - ponte Afiliados / Marketing Digital x Noticias / Politica via because, gente, going
 - ponte geral x Noticias / Politica via because, gente, going
 - ponte IA / Tecnologia / Automacao x Financas / Investimentos via assim, fazer, gente
