@@ -1,6 +1,6 @@
 # MASS IDEAS — cruzamento em massa (offline, sem API)
 
-592 arquivos, 8155 registros, vocab 1600, **698,412 cruzamentos avaliados** em 6.05s (numpy=True).
+592 arquivos, 8155 registros, vocab 1600, **698,412 cruzamentos avaliados** em 6.1s (numpy=True).
 
 Top ideias (combo -> lucro estimado/1000, ancorado no nicho de maior retorno):
 
