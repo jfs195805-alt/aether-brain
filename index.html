@@ -248,6 +248,14 @@ function render(){
       const st = v>0 ? `<span class="ok">✓ integrado · ${n(v)} vídeos</span>` : `<span class="au">⏳ na fila — descobrindo vídeos</span>`;
       return `<div class="row"><span>@${cn}</span>${st}</div>`;}).join('')
     : '<div class="sub">nenhum canal adicionado por você ainda — use o campo ➕ acima</div>'}</div></div>`);
+  const fq=(S.fila_scrape||[]).filter(x=>!F||bate('',x.canal)||bate(x.canal,''));
+  P.push(`<div class="panel"><h3>Fila de atualização (próximos a serem transcritos)</h3>
+    <div class="sub" style="margin-bottom:6px">${n(LOTE)} vídeos por ciclo · ordem = lucro da categoria × quanto falta · canais que você adiciona furam a fila</div>
+    <div class="scroll">${fq.length ? fq.map(x=>`
+      <div class="row click" onclick="setFiltro('canal','${x.canal}')">
+        <span><b class="${x.pos<=LOTE?'ok':'mut'}">#${x.pos}</b> ${x.canal} ${x.manual?'<span class="vi">★</span>':''}</span>
+        <span class="au">${x.faltando==null?'descobrindo…':n(x.faltando)+' faltando'}</span>
+      </div>`).join('') : '<div class="sub">fila vazia — o monitor ainda não mediu os canais (roda no próximo ciclo)</div>'}</div></div>`);
   P.push(`<div class="panel"><h3>Monitoramento perpétuo dos canais</h3>
     <div class="row"><span>Canais monitorados</span><b>${n(cb.canais)}</b></div>
     <div class="row"><span>Vídeos existentes no YouTube</span><b>${n(cb.videos_youtube)}</b></div>
@@ -279,19 +287,26 @@ function render(){
     <div class="sub" style="margin-top:4px">Nunca deleto vídeo — duplicado vira privado (reversível).</div></div>`);
   const top=(S.top_canais||[]).filter(t=>!F||bate('',t.canal)||bate(t.canal,'')); const mx2=top.length?top[0].videos:1;
   const CPC=S.cobertura_por_canal||{};
+  const FILA=Object.fromEntries((S.fila_scrape||[]).map(x=>[x.canal,x]));
+  const LOTE=S.lote_por_ciclo||120;
   const faltaTot=Object.values(CPC).reduce((a,b)=>a+(b.faltando||0),0);
   P.push(`<div class="panel"><h3>Vídeos por canal (${n(top.length)} canais) ${faltaTot?`<span class="au" style="font-weight:400;font-size:11px">· faltam ${n(faltaTot)} no total</span>`:''}</h3><div class="scroll">${top.map(t=>
     {const c=CPC[t.canal]||{}; const tot=c.total||0; const falta=c.faltando||0;
      const pct = tot ? Math.round(t.videos/tot*100) : 0;
+     const q=FILA[t.canal];
+     const badge = q ? (q.pos<=LOTE
+          ? `<span class="tag ok" style="padding:1px 6px">⚡ #${q.pos} — entra no próximo ciclo</span>`
+          : `<span class="tag" style="padding:1px 6px">#${q.pos} na fila${q.manual?' · você adicionou':''}</span>`)
+        : (tot ? `<span class="tag ok" style="padding:1px 6px">✓ em dia</span>` : '');
      return `<div class="row click" style="display:block" onclick="setFiltro('canal','${t.canal}')">
       <div style="display:flex;justify-content:space-between;gap:6px"><span>${t.canal}</span>
         <b>${n(t.videos)}${tot?`<span class="mut" style="font-weight:400"> / ${n(tot)}</span>`:''}</b></div>
       <div class="bar" style="position:relative;background:#1a2740">
         <i style="width:${tot?pct:Math.round(t.videos/mx2*100)}%"></i></div>
-      <div class="sub" style="font-size:10.5px;margin-top:2px">${
+      <div class="sub" style="font-size:10.5px;margin-top:3px;display:flex;gap:6px;align-items:center;flex-wrap:wrap">${
         tot ? (falta>0 ? `<span class="au">faltam ${n(falta)}</span> · ${pct}% coberto`
                        : `<span class="ok">✓ 100% coberto</span>`)
-            : 'total do canal ainda não medido (monitor roda no próximo ciclo)'}</div>
+            : 'total ainda não medido'} ${badge}</div>
      </div>`;}).join('')||'<div class="sub">nenhum canal bate com o filtro</div>'}</div></div>`);
   const lp=Object.entries(S.lucro||{}).slice(0,10).map(([k,v])=>`<div class="row"><span>${k}</span><span class="au">$${n(typeof v==='object'?(v.lucro_1k||0):v)}</span></div>`).join('');
   P.push(`<div class="panel"><h3>Lucro estimado / categoria</h3>${lp||'<div class="sub">motor aquecendo</div>'}</div>`);
