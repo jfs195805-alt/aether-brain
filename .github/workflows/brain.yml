@@ -50,6 +50,13 @@ jobs:
           python results_collector.py || true
           python brain_memory.py || true
           python mass_ideas.py || true
+      - name: GRAFO NEURAL REAL (frases reais + PMI, 16GB)
+        env:
+          NG_V: "1500"
+          NG_NODES: "700"
+          NG_EDGES: "6000"
+          NG_RECS: "250"
+        run: python neural_graph.py || true
       - name: ffmpeg
         run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg || true
       - name: GOVERNADOR + PUBLICAR (marca, QA>=80, cooldowns)

@@ -8,47 +8,56 @@
 :root{--bg:#05060a;--pan:#0d1119;--bd:#1b2233;--tx:#dbe4f0;--mut:#7f8ca3;--ac:#39d3ff;--au:#ffd166;--ok:#42e29b;--pk:#ff5d8f}
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(1200px 700px at 70% -10%,#0b1830 0,var(--bg) 60%);color:var(--tx);font:14px/1.5 -apple-system,Segoe UI,Roboto,Arial}
-header{padding:14px 20px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--bd)}
-header h1{font-size:17px;margin:0;letter-spacing:.5px}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:bl 1.4s infinite}
-@keyframes bl{50%{opacity:.25}}
-.wrap{max-width:1280px;margin:0 auto;padding:16px 20px 60px}
+header{padding:12px 20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--bd);flex-wrap:wrap}
+header h1{font-size:16px;margin:0;letter-spacing:.5px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:bl 1.2s infinite}
+.dot.off{background:var(--pk);box-shadow:0 0 10px var(--pk)}
+@keyframes bl{50%{opacity:.2}}
+.pill{font-size:11px;color:var(--mut);border:1px solid var(--bd);border-radius:20px;padding:2px 9px}
+.pill b{color:var(--ok)}
+.wrap{max-width:1320px;margin:0 auto;padding:14px 20px 60px}
 .sub{color:var(--mut);font-size:12px}
-h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mut);margin:22px 4px 10px}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
-.kpi{background:linear-gradient(180deg,#111826,#0b0f18);border:1px solid var(--bd);border-radius:14px;padding:14px}
-.kpi .n{font-size:26px;font-weight:800;line-height:1}
-.kpi .l{color:var(--mut);font-size:11px;margin-top:6px;text-transform:uppercase;letter-spacing:.8px}
-.kpi.ac .n{color:var(--ac)} .kpi.au .n{color:var(--au)} .kpi.ok .n{color:var(--ok)} .kpi.pk .n{color:var(--pk)}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.card{background:var(--pan);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:12px;padding:12px 14px}
-.card .t{font-weight:700;font-size:13px;margin-bottom:4px}
-.card .d{color:var(--tx);font-size:13px;margin:4px 0 8px}
+h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--mut);margin:20px 4px 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}
+.kpi{background:linear-gradient(180deg,#111826,#0b0f18);border:1px solid var(--bd);border-radius:14px;padding:13px}
+.kpi .n{font-size:24px;font-weight:800;line-height:1;transition:color .2s}
+.kpi .l{color:var(--mut);font-size:10.5px;margin-top:6px;text-transform:uppercase;letter-spacing:.7px}
+.kpi.ac .n{color:var(--ac)}.kpi.au .n{color:var(--au)}.kpi.ok .n{color:var(--ok)}.kpi.pk .n{color:var(--pk)}
+.flash{animation:fl .8s}@keyframes fl{0%{color:#fff;text-shadow:0 0 14px #fff}100%{}}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:11px}
+.card{background:var(--pan);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:12px;padding:11px 13px}
+.card .t{font-weight:700;font-size:13px}
+.card .d{font-size:13px;margin:4px 0 8px}
 .card .meta{display:flex;flex-wrap:wrap;gap:6px}
 .tag{font-size:11px;padding:3px 8px;border-radius:20px;background:#0b1220;border:1px solid var(--bd);color:var(--mut)}
-.tag.cx{color:var(--ac);border-color:#123} .tag.mem{color:var(--ok);border-color:#0b3} .tag.lu{color:var(--au)}
-.brainbox{position:relative;margin-top:8px;border:1px solid var(--bd);border-radius:16px;overflow:hidden;background:#04060c}
-#brain{display:block;width:100%;height:480px}
-.legend{position:absolute;left:12px;bottom:10px;font-size:11px;color:var(--mut);background:rgba(4,6,12,.6);padding:6px 10px;border-radius:8px;border:1px solid var(--bd)}
+.tag.cx{color:var(--ac)}.tag.mem{color:var(--ok)}.tag.lu{color:var(--au)}
+.brainbox{position:relative;margin-top:8px;border:1px solid var(--bd);border-radius:16px;overflow:hidden;background:#03050a}
+#brain{display:block;width:100%;height:520px;cursor:crosshair}
+.legend,.hl{position:absolute;font-size:11px;color:var(--mut);background:rgba(3,5,10,.72);padding:7px 10px;border-radius:9px;border:1px solid var(--bd)}
+.legend{left:12px;bottom:10px;max-width:62%}
 .legend b{color:var(--tx)}
-.hl{position:absolute;right:12px;top:10px;text-align:right;font-size:11px;color:var(--mut);background:rgba(4,6,12,.55);padding:6px 10px;border-radius:8px;border:1px solid var(--bd)}
+.hl{right:12px;top:10px;text-align:right}
 .hl .big{font-size:18px;font-weight:800;color:var(--ac)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-.panel{background:var(--pan);border:1px solid var(--bd);border-radius:12px;padding:12px 14px}
+#tip{position:absolute;pointer-events:none;display:none;max-width:340px;background:rgba(6,10,18,.96);border:1px solid var(--ac);border-radius:10px;padding:9px 11px;font-size:12px;z-index:5}
+#tip .w{color:var(--ac);font-weight:800}#tip .c{color:var(--au);font-size:11px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:11px}
+.panel{background:var(--pan);border:1px solid var(--bd);border-radius:12px;padding:11px 13px}
 .panel h3{margin:0 0 8px;font-size:13px;color:var(--ac)}
 .row{display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px dashed #141b28;font-size:13px}
 .row:last-child{border:0}
 .bar{height:6px;background:#0b1220;border-radius:6px;overflow:hidden;margin-top:3px}
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--au))}
-.mut{color:var(--mut)} .ok{color:var(--ok)} .au{color:var(--au)}
-.foot{color:var(--mut);font-size:11px;text-align:center;margin-top:26px}
+.mut{color:var(--mut)}.ok{color:var(--ok)}.au{color:var(--au)}
+.foot{color:var(--mut);font-size:11px;text-align:center;margin-top:24px}
 </style>
 </head>
 <body>
 <header>
-  <span class="dot"></span>
+  <span class="dot" id="live"></span>
   <h1>AETHER · CÉREBRO AO VIVO</h1>
-  <span class="sub" id="clock">sincronizando…</span>
+  <span class="pill">canal: <b id="proto">conectando…</b></span>
+  <span class="pill">latência: <b id="lat">—</b></span>
+  <span class="pill">último push: <b id="clock">—</b></span>
 </header>
 <div class="wrap">
 
@@ -56,142 +65,118 @@ h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--
   <div class="kpis" id="kpis"></div>
 
   <h2 class="sec">Decisões sendo implementadas agora</h2>
-  <div class="cards" id="decisions"><div class="sub" style="padding:8px">carregando decisões…</div></div>
+  <div class="cards" id="decisions"><div class="sub" style="padding:8px">conectando ao cérebro…</div></div>
 
-  <h2 class="sec">Rede neural — pontos das transcrições se cruzando</h2>
+  <h2 class="sec">Rede neural real — frases dos vídeos cruzadas por estatística (PMI)</h2>
   <div class="brainbox">
     <canvas id="brain"></canvas>
-    <div class="legend">
-      <b>Pontos</b> = frases/afirmações das transcrições · <b>Sinapses piscando</b> = cruzamentos ·
-      <span style="color:var(--au)">●</span> nó dourado = decisão comprovada que gera $ / qualidade
+    <div id="tip"></div>
+    <div class="legend" id="leg">
+      <b>Cada ponto</b> = um núcleo de conhecimento real extraído das transcrições (passe o mouse: mostra a
+      <b>frase real</b> e o canal). <b>Cada linha</b> = cruzamento estatístico real (co-ocorrência + PMI) entre milhares de vídeos.
+      <span style="color:var(--au)">●</span> dourado = decisão comprovada.
     </div>
-    <div class="hl"><div class="big" id="fires">0</div>sinapses disparando / s</div>
+    <div class="hl"><div class="big" id="fires">0</div>sinapses disparando / s<br><span id="gstat" class="mut">grafo carregando…</span></div>
   </div>
 
   <h2 class="sec">Detalhes</h2>
   <div class="grid" id="panels"></div>
 
-  <div class="foot" id="foot">AETHER · git-only · IA 100% grátis · nunca move dinheiro · publica só marcas do dono</div>
+  <div class="foot">AETHER · push SSE (sub-segundo) via túnel próprio · grafo pesado na RAM de 16GB do GitHub · IA 100% grátis · nunca move dinheiro</div>
 </div>
 
 <script>
 const RAW="https://raw.githubusercontent.com/jfs195805-alt/aether-brain/main/";
-const J=async(f,d)=>{try{const r=await fetch(RAW+f+"?t="+Date.now());if(!r.ok)throw 0;return await r.json();}catch(e){return d;}};
 const n=x=>(x==null?0:x).toLocaleString('pt-BR');
+let EP=null, S={}, G={nodes:[],edges:[]}, prev={};
 
-let STATE={};
-async function load(){
-  const [stats,dec,ai,ideas,prof,acts,graph,limits]=await Promise.all([
-    J("CANAIS_STATS.json",{}),J("DECISIONS.json",{decisoes:[]}),J("AI_HEALTH.json",{}),
-    J("MASS_IDEAS.json",{}),J("PROFIT_MODEL.json",{}),J("PENDING_ACTIONS.json",{queue:[]}),
-    J("vault/graph.json",{nodes:[],edges:[]}),J("GITHUB_LIMITS.json",{})
-  ]);
-  STATE={stats,dec,ai,ideas,prof,acts,graph,limits};
-  renderKpis(); renderDecisions(); renderPanels(); seedBrain();
-  document.getElementById('clock').textContent="atualizado "+new Date().toLocaleTimeString('pt-BR');
+async function boot(){
+  try{const r=await fetch(RAW+"LIVE_ENDPOINT.json?t="+Date.now());EP=(await r.json()).endpoint;}catch(e){}
+  if(EP){ connectSSE(); loadGraph(); }
+  else { document.getElementById('proto').textContent="fallback raw"; setInterval(pollRaw,4000); pollRaw(); }
+}
+function connectSSE(){
+  const es=new EventSource(EP+"/stream");
+  es.onopen=()=>{document.getElementById('proto').textContent="SSE push (tempo real)";document.getElementById('live').classList.remove('off');};
+  es.onerror=()=>{document.getElementById('proto').textContent="reconectando…";document.getElementById('live').classList.add('off');};
+  es.onmessage=ev=>{
+    const t0=performance.now();
+    try{ S=JSON.parse(ev.data); }catch(e){ return; }
+    render();
+    const ms=Math.round(performance.now()-t0);
+    document.getElementById('lat').textContent=ms+" ms render";
+    document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR');
+  };
+}
+async function pollRaw(){
+  const J=async(f,d)=>{try{const r=await fetch(RAW+f+"?t="+Date.now());return r.ok?await r.json():d;}catch(e){return d;}};
+  const st=await J("CANAIS_STATS.json",{}),dc=await J("DECISIONS.json",{decisoes:[]});
+  S={videos:st.total_videos,canais:st.total_canais,novos_videos:st.novos_videos,novos_canais:st.novos_canais,
+     crescendo:st.canais_que_cresceram||[],top_canais:Object.entries(st.por_canal||{}).map(([canal,videos])=>({canal,videos})).sort((a,b)=>b.videos-a.videos).slice(0,20),
+     decisoes:dc.decisoes||[],total_decisoes:(dc.decisoes||[]).length,cruzamentos:dc.cruzamentos_por_decisao||0,grafo:{}};
+  render(); document.getElementById('clock').textContent=new Date().toLocaleTimeString('pt-BR');
+}
+async function loadGraph(){
+  let g=null;
+  try{ g=await (await fetch(EP+"/graph")).json(); }catch(e){}
+  if(!g||!(g.nodes||[]).length){ try{ g=await (await fetch(RAW+"NEURAL_GRAPH.json?t="+Date.now())).json(); }catch(e){} }
+  if(g&&(g.nodes||[]).length){ G=g; buildLayout(); }
+  document.getElementById('gstat').textContent=(G.nodes.length?
+    n(G.nodes.length)+" pontos reais · "+n(G.edges.length)+" sinapses · "+n(G.pares_avaliados||0)+" pares avaliados":
+    "grafo real sendo calculado no GitHub (16GB)…");
+  setTimeout(loadGraph,60000);
 }
 
-function renderKpis(){
-  const {stats,dec,ideas}=STATE;
-  const cx=(dec.cruzamentos_por_decisao)||ideas.pares_avaliados||0;
-  const impl=(dec.decisoes||[]).length;
-  const k=[
-    ["ac",impl,"Decisões implementadas"],
-    ["au",cx,"Combinações cruzadas / decisão"],
-    ["ok",stats.total_videos||0,"Vídeos transcritos"],
-    ["pk",(stats.canais_que_cresceram||[]).length,"Canais crescendo agora"],
-    ["ac",stats.total_canais||0,"Canais no corpus"],
-    ["au",ideas.pares_avaliados||0,"Cruzamentos totais (massa)"],
-  ];
-  document.getElementById('kpis').innerHTML=k.map(([c,v,l])=>
-    `<div class="kpi ${c}"><div class="n">${n(v)}</div><div class="l">${l}</div></div>`).join('');
-}
+function render(){
+  const k=[["ac",S.total_decisoes||0,"Decisões implementadas"],
+           ["au",S.cruzamentos||0,"Combinações cruzadas / decisão"],
+           ["ok",S.videos||0,"Vídeos transcritos"],
+           ["pk",(S.crescendo||[]).length,"Canais crescendo agora"],
+           ["ac",S.canais||0,"Canais no corpus"],
+           ["au",(S.grafo&&S.grafo.sinapses)||0,"Sinapses reais no grafo"]];
+  document.getElementById('kpis').innerHTML=k.map(([c,v,l])=>{
+    const ch=prev[l]!==undefined&&prev[l]!==v; prev[l]=v;
+    return `<div class="kpi ${c}"><div class="n ${ch?'flash':''}">${n(v)}</div><div class="l">${l}</div></div>`;}).join('');
 
-function renderDecisions(){
-  const d=STATE.dec.decisoes||[]; const el=document.getElementById('decisions');
-  if(!d.length){el.innerHTML=`<div class="sub" style="padding:8px">Nenhuma decisão nova nesta janela. O cérebro está cruzando <b>${n(STATE.dec.cruzamentos_por_decisao||STATE.ideas.pares_avaliados||0)}</b> combinações; assim que uma ideia for comprovada como lucrativa, o card aparece aqui e é gravado na memória eterna.</div>`;return;}
-  el.innerHTML=d.slice().reverse().slice(0,24).map(x=>`
-    <div class="card">
-      <div class="t">${x.tipo||'decisão'} · ${x.nicho||'—'}</div>
-      <div class="d">${x.descricao||x.gancho||''}</div>
-      <div class="meta">
-        <span class="tag cx">cruzou ${n(x.ideias_cruzadas||0)} ideias</span>
-        ${x.lucro_1k?`<span class="tag lu">$${n(x.lucro_1k)}/1k</span>`:''}
-        <span class="tag mem">${x.memoria_escrita?'✓ gravada na memória eterna':'gravando…'}</span>
-      </div>
-    </div>`).join('');
-}
+  const d=S.decisoes||[], el=document.getElementById('decisions');
+  el.innerHTML=d.length? d.slice().reverse().map(x=>`
+    <div class="card"><div class="t">${x.tipo||'decisão'} · ${x.nicho||'—'}</div>
+    <div class="d">${x.descricao||x.gancho||''}</div>
+    <div class="meta"><span class="tag cx">cruzou ${n(x.ideias_cruzadas||0)} ideias</span>
+    ${x.lucro_1k?`<span class="tag lu">$${n(x.lucro_1k)}/1k</span>`:''}
+    <span class="tag mem">${x.memoria_escrita?'✓ gravada na memória eterna':'gravando…'}</span></div></div>`).join('')
+   : `<div class="sub" style="padding:8px">Nenhuma decisão nova nesta janela. O cérebro está cruzando <b>${n(S.cruzamentos||0)}</b> combinações; quando uma ideia se comprovar lucrativa, o card aparece aqui e é gravado na memória eterna.</div>`;
 
-function renderPanels(){
-  const {stats,ai,ideas,prof,acts,limits}=STATE;
   const P=[];
-  const cres=(stats.canais_que_cresceram||[]).slice(0,10).map(c=>`<div class="row"><span>${c.canal||c}</span><span class="ok">+${n(c.novos||0)}</span></div>`).join('')||'<div class="sub">sem novos nesta janela</div>';
-  P.push(`<div class="panel"><h3>Transcrições — corpus (tempo real)</h3>
-    <div class="row"><span>Total vídeos</span><b>${n(stats.total_videos)}</b></div>
-    <div class="row"><span>Total canais</span><b>${n(stats.total_canais)}</b></div>
-    <div class="row"><span>Novos vídeos (Δ)</span><span class="ok">+${n(stats.novos_videos)}</span></div>
-    <div class="row"><span>Novos canais (Δ)</span><span class="ok">+${n(stats.novos_canais)}</span></div>
-    <div style="margin-top:6px" class="sub">Canais crescendo:</div>${cres}</div>`);
-  let top=stats.top_canais||[];
-  if(!top.length && stats.por_canal){top=Object.entries(stats.por_canal).map(([canal,videos])=>({canal,videos:(typeof videos==='object'?(videos.videos||videos.count||0):videos)})).sort((a,b)=>b.videos-a.videos);}
-  top=top.slice(0,20); const mx=top.length?top[0].videos:1;
-  P.push(`<div class="panel"><h3>Vídeos por canal (top)</h3>${
-    top.map(t=>`<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx*100)}%"></i></div></div>`).join('')||'<div class="sub">aguardando CANAIS_STATS</div>'}</div>`);
-  const prov=(ai.ranked||ai.providers||[]).slice(0,6).map(p=>`<div class="row"><span>${p.name||p}</span><span class="${(p.alive)?'ok':'mut'}">${p.alive?('✓ '+(p.latency||'')+'s'):'—'}</span></div>`).join('')||'<div class="sub">probing…</div>';
+  const cres=(S.crescendo||[]).map(c=>`<div class="row"><span>${c.canal||c}</span><span class="ok">+${n(c.novos||0)}</span></div>`).join('')||'<div class="sub">sem novos nesta janela</div>';
+  P.push(`<div class="panel"><h3>Transcrições — corpus (ao vivo)</h3>
+    <div class="row"><span>Total vídeos</span><b>${n(S.videos)}</b></div>
+    <div class="row"><span>Total canais</span><b>${n(S.canais)}</b></div>
+    <div class="row"><span>Novos vídeos (Δ)</span><span class="ok">+${n(S.novos_videos)}</span></div>
+    <div class="row"><span>Novos canais (Δ)</span><span class="ok">+${n(S.novos_canais)}</span></div>
+    <div class="sub" style="margin-top:6px">Canais crescendo:</div>${cres}</div>`);
+  const top=(S.top_canais||[]); const mx=top.length?top[0].videos:1;
+  P.push(`<div class="panel"><h3>Vídeos por canal (top)</h3>${top.map(t=>
+    `<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx*100)}%"></i></div></div>`).join('')||'<div class="sub">—</div>'}</div>`);
+  P.push(`<div class="panel"><h3>Grafo neural (dados reais)</h3>
+    <div class="row"><span>Pontos (frases-núcleo)</span><b>${n((S.grafo||{}).pontos)}</b></div>
+    <div class="row"><span>Sinapses (PMI)</span><b>${n((S.grafo||{}).sinapses)}</b></div>
+    <div class="row"><span>Vídeos processados</span><b>${n((S.grafo||{}).videos)}</b></div>
+    <div class="row"><span>Pares avaliados</span><b class="au">${n((S.grafo||{}).pares)}</b></div>
+    <div class="row"><span>Calculado em</span><span class="mut">GitHub 16GB</span></div></div>`);
+  const prov=(S.ia||[]).map(p=>`<div class="row"><span>${p.name||p}</span><span class="${p.alive?'ok':'mut'}">${p.alive?'✓ '+(p.latency||'')+'s':'—'}</span></div>`).join('')||'<div class="sub">probing…</div>';
   P.push(`<div class="panel"><h3>Melhor IA grátis (loop)</h3>${prov}</div>`);
-  const lp=Object.entries(prof.por_categoria||prof||{}).slice(0,10).map(([k,v])=>`<div class="row"><span>${k}</span><span class="au">$${n(typeof v==='object'?(v.lucro_1k||0):v)}</span></div>`).join('')||'<div class="sub">motor de lucro aquecendo</div>';
+  const lp=Object.entries(S.lucro||{}).slice(0,10).map(([k2,v])=>`<div class="row"><span>${k2}</span><span class="au">$${n(typeof v==='object'?(v.lucro_1k||0):v)}</span></div>`).join('')||'<div class="sub">motor de lucro aquecendo</div>';
   P.push(`<div class="panel"><h3>Lucro estimado / categoria</h3>${lp}</div>`);
-  P.push(`<div class="panel"><h3>GitHub — limites & permissões</h3>
-    <div class="row"><span>REST core</span><b>${n(limits.core_remaining)}/${n(limits.core_limit)}</b></div>
+  P.push(`<div class="panel"><h3>GitHub — limites</h3>
+    <div class="row"><span>REST core</span><b>${n((S.gh||{}).core)}/${n((S.gh||{}).limit)}</b></div>
     <div class="row"><span>Actions públicas</span><b class="ok">ilimitado</b></div>
-    <div class="row"><span>Método</span><span class="mut">git (sem estourar)</span></div>
-    <div class="row"><span>Atualizado</span><span class="mut">${limits.ts||'—'}</span></div></div>`);
+    <div class="row"><span>Transporte de dados</span><span class="mut">túnel próprio (0 quota GitHub)</span></div></div>`);
   document.getElementById('panels').innerHTML=P.join('');
 }
 
-let ctx,W,H,nodes=[],edges=[],pulses=[],fireCount=0,goldIdx=[];
-function seedBrain(){
-  const cv=document.getElementById('brain'); ctx=cv.getContext('2d');
-  const dpr=Math.min(2,window.devicePixelRatio||1);
-  W=cv.clientWidth; H=cv.clientHeight; cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
-  const st=STATE.stats||{}, id=STATE.ideas||{}, dc=STATE.dec||{};
-  const base=Math.min(180,60+(st.total_canais?Math.round(st.total_canais/6):40));
-  nodes=[];edges=[];pulses=[];goldIdx=[];
-  const decs=(dc.decisoes||[]).length;
-  for(let i=0;i<base;i++){
-    const gold=i<decs||(decs===0&&Math.random()<0.04);
-    nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,
-      r:gold?4.5:(1.4+Math.random()*2.2),ph:Math.random()*6.28,gold});
-    if(gold)goldIdx.push(i);
-  }
-  for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){
-    const dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,d=Math.hypot(dx,dy);
-    if(d<120&&Math.random()<0.14)edges.push([i,j,d]);
-  }
-  if(!raf)loop(performance.now());
-}
-let raf=0,fps=performance.now();
-function loop(t){
-  raf=requestAnimationFrame(loop);
-  if(!ctx)return;
-  ctx.clearRect(0,0,W,H);
-  for(const nd of nodes){nd.x+=nd.vx;nd.y+=nd.vy;nd.ph+=0.03;
-    if(nd.x<0||nd.x>W)nd.vx*=-1; if(nd.y<0||nd.y>H)nd.vy*=-1;}
-  ctx.lineWidth=.5;
-  for(const e of edges){const a=nodes[e[0]],b=nodes[e[1]];
-    const al=0.06+0.05*Math.sin((a.ph+b.ph)*.5);
-    ctx.strokeStyle="rgba(57,211,255,"+al+")";ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
-  if(Math.random()<0.6&&edges.length){const e=edges[(Math.random()*edges.length)|0];
-    pulses.push({a:e[0],b:e[1],p:0,gold:nodes[e[0]].gold||nodes[e[1]].gold});fireCount++;}
-  ctx.lineWidth=1.6;
-  for(let k=pulses.length-1;k>=0;k--){const pu=pulses[k];pu.p+=0.05;
-    const a=nodes[pu.a],b=nodes[pu.b];const x=a.x+(b.x-a.x)*pu.p,y=a.y+(b.y-a.y)*pu.p;
-    const col=pu.gold?"255,209,102":"57,211,255";
-    ctx.strokeStyle="rgba("+col+",.5)";ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(x,y);ctx.stroke();
-    ctx.fillStyle="rgba("+col+",.95)";ctx.beginPath();ctx.arc(x,y,pu.gold?3:2,0,6.28);ctx.fill();
-    if(pu.p>=1)pulses.splice(k,1);}
-  for(const nd of nodes){const pulse=0.6+0.4*Math.sin(nd.ph);
-    if(nd.gold){ctx.fillStyle="rgba(255,209,102,"+(0.7+0.3*Math.sin(nd.ph))+")";ctx.shadowColor="#ffd166";ctx.shadowBlur=14;}
-    else{ctx.fillStyle="rgba(120,200,255,"+(0.35+0.5*pulse)+")";ctx.shadowBlur=0;}
-    ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r*(nd.gold?1:pulse+.6),0,6.28);ctx.fill();ctx.shadowBlur=0;}
-  if(t-fps>1000){docum
+/* ===== GRAFO REAL: layout + sinapses disparando ===== */
+const cv=document.getElementById('brain'), ctx=cv.getContext('2d'), tip=document.getElementById('tip');
+let W=0,H=0,NP=[],NE=[],pulses=[],fires=0,fps=performance.now(),raf=0,MX=-1;
+const MAXN=420, MAXE=2600;
+function resize(){const dpr=Math.min(2,devicePixelRatio||1);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)
