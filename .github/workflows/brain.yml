@@ -39,6 +39,8 @@ jobs:
           NG_BUCKET: "1200"
           NG_KEEPK: "6"
           NG_LIM: "0.18"
+          NG_MAXPAIRS: "1500000000"
+          NG_KEEPK: "10"
           NG_NODES: "2000"
           NG_EDGES: "20000"
           NG_RECS: "1000"
