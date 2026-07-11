@@ -133,7 +133,7 @@ function render(){
            ["ok",S.videos||0,"Vídeos transcritos"],
            ["pk",(S.crescendo||[]).length,"Canais crescendo agora"],
            ["ac",S.canais||0,"Canais no corpus"],
-           ["au",(S.grafo&&S.grafo.sinapses)||0,"Sinapses reais no grafo"]];
+           ["au",(S.grafo&&S.grafo.frases_reais)||0,"Frases reais cruzadas"]];
   document.getElementById('kpis').innerHTML=k.map(([c,v,l])=>{
     const ch=prev[l]!==undefined&&prev[l]!==v; prev[l]=v;
     return `<div class="kpi ${c}"><div class="n ${ch?'flash':''}">${n(v)}</div><div class="l">${l}</div></div>`;}).join('');
@@ -158,11 +158,14 @@ function render(){
   const top=(S.top_canais||[]); const mx=top.length?top[0].videos:1;
   P.push(`<div class="panel"><h3>Vídeos por canal (top)</h3>${top.map(t=>
     `<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx*100)}%"></i></div></div>`).join('')||'<div class="sub">—</div>'}</div>`);
-  P.push(`<div class="panel"><h3>Grafo neural (dados reais)</h3>
-    <div class="row"><span>Pontos (frases-núcleo)</span><b>${n((S.grafo||{}).pontos)}</b></div>
-    <div class="row"><span>Sinapses (PMI)</span><b>${n((S.grafo||{}).sinapses)}</b></div>
-    <div class="row"><span>Vídeos processados</span><b>${n((S.grafo||{}).videos)}</b></div>
-    <div class="row"><span>Pares avaliados</span><b class="au">${n((S.grafo||{}).pares)}</b></div>
+  const g=S.grafo||{};
+  P.push(`<div class="panel"><h3>Grafo neural (frase-a-frase, real)</h3>
+    <div class="row"><span>Frases reais no corpus</span><b class="ok">${n(g.frases_reais)}</b></div>
+    <div class="row"><span>Frases cruzadas entre si</span><b>${n(g.frases_cruzadas)}</b></div>
+    <div class="row"><span>Pares de frases avaliados</span><b class="au">${n(g.pares_frases_avaliados)}</b></div>
+    <div class="row"><span>Pares de termos avaliados</span><b class="au">${n(g.pares_termos_avaliados)}</b></div>
+    <div class="row"><span>Frases com timestamp real</span><b>${n(g.frases_com_timestamp)}</b></div>
+    <div class="row"><span>Pontos · sinapses exibidos</span><b>${n(g.pontos)} · ${n(g.sinapses)}</b></div>
     <div class="row"><span>Calculado em</span><span class="mut">GitHub 16GB</span></div></div>`);
   const prov=(S.ia||[]).map(p=>`<div class="row"><span>${p.name||p}</span><span class="${p.alive?'ok':'mut'}">${p.alive?'✓ '+(p.latency||'')+'s':'—'}</span></div>`).join('')||'<div class="sub">probing…</div>';
   P.push(`<div class="panel"><h3>Melhor IA grátis (loop)</h3>${prov}</div>`);
@@ -176,7 +179,4 @@ function render(){
 }
 
 /* ===== GRAFO REAL: layout + sinapses disparando ===== */
-const cv=document.getElementById('brain'), ctx=cv.getContext('2d'), tip=document.getElementById('tip');
-let W=0,H=0,NP=[],NE=[],pulses=[],fires=0,fps=performance.now(),raf=0,MX=-1;
-const MAXN=420, MAXE=2600;
-function resize(){const dpr=Math.min(2,devicePixelRatio||1);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)
+const cv=document.getElementById('brain'), ctx=cv.getContext('2d'), tip=documen
