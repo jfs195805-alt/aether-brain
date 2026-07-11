@@ -1,11 +1,11 @@
 {
- "ts": "2026-07-11T16:30:16Z",
+ "ts": "2026-07-11T16:33:28Z",
  "arquivos": 592,
  "registros": 8155,
  "vocab": 6000,
  "nichos": 16,
  "pares_avaliados": 2098780,
- "segundos": 7.54,
+ "segundos": 7.45,
  "numpy": true,
  "top_ideias": [
   {
