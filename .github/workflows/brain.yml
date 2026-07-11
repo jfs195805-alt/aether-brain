@@ -2,7 +2,7 @@ name: AETHER BRAIN 16GB (trilhoes de combinacoes, git-only, nunca bloqueia)
 on:
   push:
     branches: [ main ]
-    paths-ignore: [ 'GITHUB_LIMITS.json','NEURAL_GRAPH.json','COBERTURA.json','FRASES_CATEGORIAS.json','CANAIS_STATS.json','DECISIONS.json','DECISIONS_ETERNAS.md','LIVE_ENDPOINT.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
+    paths-ignore: [ 'GITHUB_LIMITS.json','NEURAL_GRAPH.json','COBERTURA.json','FRASES_CATEGORIAS.json','SINAPSES.json','KNOWLEDGE_ETERNO.json','CANAIS_STATS.json','DECISIONS.json','DECISIONS_ETERNAS.md','LIVE_ENDPOINT.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
   workflow_dispatch: {}
   schedule:
     - cron: "*/10 * * * *"
@@ -59,6 +59,11 @@ jobs:
           rclone copy transcripts_ts gdrive:AETHER_TRANSCRIPTS/youtube_ts --include "*.jsonl" --transfers 32 || true
       - name: CLASSIFICA CADA FRASE em categoria
         run: python classify_phrases.py || true
+      - name: SINAPSES DE ORDEM SUPERIOR (triangulos, conceitos, memoria eterna, producao)
+        env:
+          SYN_OPP: "12"
+          SYN_LIMIAR: "0.35"
+        run: python synapse_engine.py || true
       - name: escolher melhor IA gratis do momento (tempo real)
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
