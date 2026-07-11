@@ -2,7 +2,7 @@ name: AETHER BRAIN 16GB (trilhoes de combinacoes, git-only, nunca bloqueia)
 on:
   push:
     branches: [ main ]
-    paths-ignore: [ 'GITHUB_LIMITS.json','NEURAL_GRAPH.json','CANAIS_STATS.json','DECISIONS.json','DECISIONS_ETERNAS.md','LIVE_ENDPOINT.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
+    paths-ignore: [ 'GITHUB_LIMITS.json','NEURAL_GRAPH.json','COBERTURA.json','FRASES_CATEGORIAS.json','CANAIS_STATS.json','DECISIONS.json','DECISIONS_ETERNAS.md','LIVE_ENDPOINT.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
   workflow_dispatch: {}
   schedule:
     - cron: "*/10 * * * *"
@@ -45,13 +45,20 @@ jobs:
           git add NEURAL_GRAPH.json 2>/dev/null || true
           git commit -q -m "grafo neural real (entrega rapida)" || true
           git push || true
-      - name: SCRAPE transcricoes NOVAS (infinito) + salva no Drive
+      - name: MONITOR PERPETUO dos canais (descobre o que falta)
+        env:
+          WATCH_BATCH: "60"
+          WATCH_MAXV: "300"
+        run: python channel_watch.py || true
+      - name: BAIXA AUTOMATICO o que falta (ja com timestamp real)
+        env:
+          SCRAPE_BATCH: "120"
         run: |
-          python channel_ranks.py || true
-          python scrape_incremental.py || true
-          python mine_channel.py || true
-          python backfill_desc.py || true
+          python scrape_missing.py || true
           rclone copy transcripts gdrive:AETHER_TRANSCRIPTS/youtube --include "*.jsonl" --transfers 32 || true
+          rclone copy transcripts_ts gdrive:AETHER_TRANSCRIPTS/youtube_ts --include "*.jsonl" --transfers 32 || true
+      - name: CLASSIFICA CADA FRASE em categoria
+        run: python classify_phrases.py || true
       - name: escolher melhor IA gratis do momento (tempo real)
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
