@@ -65,6 +65,15 @@ h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--
 .qres .it{padding:7px 9px;border-bottom:1px dashed #141b28;font-size:12.5px}
 .qres .it:last-child{border:0}
 .qres a{color:var(--ac);text-decoration:none}
+.qres .it{cursor:pointer}
+.qres .it:hover{background:#0d1522}
+.chipbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0 0}
+.chip{background:linear-gradient(90deg,#1b2b45,#122036);border:1px solid var(--ac);color:var(--tx);border-radius:20px;padding:5px 12px;font-size:12px;display:flex;gap:8px;align-items:center}
+.chip b{color:var(--ac)}
+.chip .x{cursor:pointer;color:var(--pk);font-weight:800}
+.row.click{cursor:pointer}
+.row.click:hover span:first-child{color:var(--ac)}
+.dimmed{opacity:.35}
 .scroll::-webkit-scrollbar{width:8px}
 .scroll::-webkit-scrollbar-track{background:#0b1220;border-radius:8px}
 .scroll::-webkit-scrollbar-thumb{background:#22304a;border-radius:8px}
@@ -88,7 +97,9 @@ h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--
       <button id="addbtn">Adicionar ao cérebro</button><span id="addmsg" class="sub"></span></div>
   </div>
 
-  <h2 class="sec">Painel em tempo real</h2>
+  <div class="chipbar" id="chipbar"></div>
+
+  <h2 class="sec" id="sec1">Painel em tempo real</h2>
   <div class="kpis" id="kpis"><div class="sub">carregando…</div></div>
 
   <h2 class="sec">Insights raros — figuras neurais que ninguém cruzou</h2>
@@ -115,6 +126,14 @@ h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--
 const RAW="https://raw.githubusercontent.com/jfs195805-alt/aether-brain/main/";
 const n=x=>(x==null?0:Math.round(x)).toLocaleString('pt-BR');
 let EP=null,S={},G={nodes:[],edges:[]},prev={},es=null,poll=null;
+let F=null;   // filtro global: {tipo:'canal'|'termo', valor}
+function setFiltro(tipo,valor){ F={tipo,valor}; qr.style.display='none'; render(); if(G.nodes.length) buildLayout(); window.scrollTo({top:0,behavior:'smooth'}); }
+function limparFiltro(){ F=null; render(); if(G.nodes.length) buildLayout(); }
+function bate(txt,canal){
+  if(!F) return true;
+  if(F.tipo==='canal') return (canal||'').toLowerCase()===F.valor.toLowerCase();
+  return ((txt||'')+' '+(canal||'')).toLowerCase().includes(F.valor.toLowerCase());
+}
 
 function marca(txt,ok){document.getElementById('proto').textContent=txt;
   document.getElementById('live').classList.toggle('off',!ok);}
@@ -172,6 +191,12 @@ async function loadGraph(){
 
 function render(){
   const g=S.grafo||{}, cb=S.cobertura||{}, sy=S.sinapses||{}, cats=S.categorias||{}, ac=S.acumulado||{};
+  // chip do filtro ativo
+  document.getElementById('chipbar').innerHTML = F
+    ? `<div class="chip">filtrando por ${F.tipo==='canal'?'📺 canal':'🔎 termo'}: <b>${F.valor}</b> <span class="x" onclick="limparFiltro()">✕ limpar</span></div>
+       <span class="sub">tudo abaixo (grafo, canais, categorias, insights, decisões) está filtrado em tempo real</span>` : '';
+  const fnodes = (G.nodes||[]).filter(nd=>bate(nd.frase,nd.canal));
+  document.getElementById('sec1').textContent = F ? `Painel — filtrado (${n(fnodes.length)} pontos do grafo batem)` : 'Painel em tempo real';
   const K=[["ok",g.frases_reais||0,"Frases reais cruzadas"],
            ["au",g.pares_frases_avaliados||0,"Pares avaliados"],
            ["vi",sy.figuras_cliques||0,"Figuras neurais (cliques)"],
@@ -187,12 +212,16 @@ function render(){
            ["vi",(ac.pares_avaliados_total||0).toExponential?Number(ac.pares_avaliados_total||0).toLocaleString('pt-BR'):0,"Pares acumulados (sempre)"],
            ["ok",ac.sinapses_descobertas_total||0,"Sinapses acumuladas"],
            ["ac",ac.ciclos||0,"Ciclos de aprendizado"]];
+  if(F){
+    const canaisF=new Set(fnodes.map(x=>x.canal));
+    K.splice(0,0,["ac",fnodes.length,"Pontos no filtro"],["vi",canaisF.size,"Canais no filtro"]);
+  }
   document.getElementById('kpis').innerHTML=K.map(([c,v,l])=>{
     const val=(typeof v==='string')?v:n(v); const ch=prev[l]!==undefined&&prev[l]!==val; prev[l]=val;
     return `<div class="kpi ${c}"><div class="n ${ch?'flash':''}">${val}</div><div class="l">${l}</div></div>`;}).join('');
 
   // insights raros (figuras)
-  const ins=(sy.top_insights||[]);
+  const ins=(sy.top_insights||[]).filter(f=>!F || (f.pontos||[]).some(p=>bate(p.frase,p.canal)) || (f.categorias||[]).some(c=>bate(c,'')));
   document.getElementById('insights').innerHTML = ins.length ? ins.map(f=>`
     <div class="card ins"><div class="t">figura de ${f.n} pontos · ${f.n_categorias} categorias · ${f.n_canais} canais</div>
       <div class="d">${(f.categorias||[]).join(' × ')} ${f.lucro_1k?`· $${n(f.lucro_1k)}/1k`:''}</div>
@@ -201,7 +230,7 @@ function render(){
     </div>`).join('') : `<div class="sub" style="padding:8px">Nenhuma figura rara nesta janela ainda — o motor de cliques roda a cada ciclo no GitHub.</div>`;
 
   // decisoes
-  const d=S.decisoes||[];
+  const d=(S.decisoes||[]).filter(x=>!F || bate((x.descricao||'')+' '+(x.gancho||'')+' '+(x.descricao_fonte||[]).join(' '), x.nicho));
   document.getElementById('decisions').innerHTML = d.length ? d.slice().reverse().map(x=>`
     <div class="card"><div class="t">${x.tipo||'decisão'} · ${x.nicho||'—'}</div>
       <div class="d">${x.descricao||x.gancho||''}</div>
@@ -229,7 +258,7 @@ function render(){
   const cc=Object.entries(cats.contagem||{}).sort((a,b)=>b[1]-a[1]).slice(0,12);
   const mx=cc.length?cc[0][1]:1;
   P.push(`<div class="panel"><h3>Frases por categoria</h3><div class="scroll">${cc.map(([k,v])=>
-    `<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${k}</span><b>${n(v)}</b></div><div class="bar"><i style="width:${Math.round(v/mx*100)}%"></i></div></div>`).join('')||'<div class="sub">classificando…</div>'}</div></div>`);
+    `<div class="row click" style="display:block" onclick="setFiltro('termo','${k}')"><div style="display:flex;justify-content:space-between"><span>${k}</span><b>${n(v)}</b></div><div class="bar"><i style="width:${Math.round(v/mx*100)}%"></i></div></div>`).join('')||'<div class="sub">classificando…</div>'}</div></div>`);
   P.push(`<div class="panel"><h3>Matemática da rede</h3>
     <div class="row"><span>Triângulos reais</span><b>${n(sy.triangulos_reais)}</b></div>
     <div class="row"><span>Figuras (cliques)</span><b class="vi">${n(sy.figuras_cliques)}</b></div>
@@ -248,9 +277,9 @@ function render(){
     <div class="row"><span>Descrições c/ aviso</span><b>${n(au.descricoes_com_aviso)}</b></div>
     <div class="row"><span>Sem link (revisar)</span><b class="au">${n((au.sem_link_de_produto_revisar||[]).length)}</b></div>
     <div class="sub" style="margin-top:4px">Nunca deleto vídeo — duplicado vira privado (reversível).</div></div>`);
-  const top=(S.top_canais||[]); const mx2=top.length?top[0].videos:1;
+  const top=(S.top_canais||[]).filter(t=>!F||bate('',t.canal)||bate(t.canal,'')); const mx2=top.length?top[0].videos:1;
   P.push(`<div class="panel"><h3>Vídeos por canal (${n(top.length)} canais)</h3><div class="scroll">${top.map(t=>
-    `<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx2*100)}%"></i></div></div>`).join('')||'<div class="sub">—</div>'}</div></div>`);
+    `<div class="row click" style="display:block" onclick="setFiltro('canal','${t.canal}')"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx2*100)}%"></i></div></div>`).join('')||'<div class="sub">nenhum canal bate com o filtro</div>'}</div></div>`);
   const lp=Object.entries(S.lucro||{}).slice(0,10).map(([k,v])=>`<div class="row"><span>${k}</span><span class="au">$${n(typeof v==='object'?(v.lucro_1k||0):v)}</span></div>`).join('');
   P.push(`<div class="panel"><h3>Lucro estimado / categoria</h3>${lp||'<div class="sub">motor aquecendo</div>'}</div>`);
   const prov=(S.ia||[]).map(p=>`<div class="row"><span>${p.name||p}</span><span class="${p.alive?'ok':'mut'}">${p.alive?'✓':'—'}</span></div>`).join('');
@@ -287,17 +316,20 @@ cv.addEventListener('mousemove',ev=>{const r=cv.getBoundingClientRect(),mx=ev.cl
   MX=-1;let best=1e9;
   for(let i=0;i<NP.length;i++){const d=Math.hypot(NP[i].x-mx,NP[i].y-my);if(d<14&&d<best){best=d;MX=i;}}
   if(MX>=0){const p=NP[MX];tip.style.display='block';tip.style.left=Math.min(W-350,p.x+14)+'px';tip.style.top=(p.y+14)+'px';
-    const tm=(p.t!=null)?`⏱ ${Math.floor(p.t/60)}:${String(p.t%60).padStart(2,'0')} — clique p/ abrir`:'⏱ timestamp em backfill';
+    const tm=(p.t!=null)?`⏱ ${Math.floor(p.t/60)}:${String(p.t%60).padStart(2,'0')} · 1 clique = filtrar canal · 2 cliques = abrir vídeo`:'1 clique = filtrar canal';
     tip.innerHTML=`<div class="w">frase real da transcrição</div><div>"${p.frase||''}"</div><div class="c">${p.canal||''} ${p.video?'· '+p.video:''}</div><div class="c">${tm}</div>`;
     cv.style.cursor=p.link?'pointer':'crosshair';
   } else {tip.style.display='none';cv.style.cursor='crosshair';}});
-cv.addEventListener('click',()=>{if(MX>=0&&NP[MX].link)window.open(NP[MX].link,'_blank','noopener');});
+cv.addEventListener('click',()=>{ if(MX>=0) setFiltro('canal', NP[MX].canal||''); });
+cv.addEventListener('dblclick',()=>{ if(MX>=0&&NP[MX].link) window.open(NP[MX].link,'_blank','noopener'); });
 cv.addEventListener('mouseleave',()=>{tip.style.display='none';MX=-1;});
 addEventListener('resize',()=>{if(G.nodes.length)buildLayout();});
 function loop(t){
   raf=requestAnimationFrame(loop);ctx.clearRect(0,0,W,H);
   if(!NP.length){ctx.fillStyle="#7f8ca3";ctx.font="13px system-ui";ctx.fillText("calculando o grafo na RAM de 16GB do GitHub…",20,30);return;}
-  for(const e of NE){const a=NP[e[0]],b=NP[e[1]];ctx.strokeStyle="rgba(57,211,255,"+(0.03+Math.min(.10,e[2]*0.25))+")";ctx.lineWidth=.5;
+  for(const e of NE){const a=NP[e[0]],b=NP[e[1]];
+    const on=(!F)||(bate(a.frase,a.canal)&&bate(b.frase,b.canal));
+    ctx.strokeStyle="rgba(57,211,255,"+((on?0.03:0.006)+Math.min(.10,e[2]*(on?0.25:0.03)))+")";ctx.lineWidth=.5;
     ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
   for(let s=0;s<3;s++){if(NE.length){const e=NE[(Math.random()*NE.length)|0];pulses.push({a:e[0],b:e[1],p:0});fires++;}}
   ctx.lineWidth=1.4;
@@ -307,9 +339,12 @@ function loop(t){
     ctx.fillStyle="rgba(120,225,255,.95)";ctx.beginPath();ctx.arc(x,y,1.8,0,6.28);ctx.fill();
     if(pu.p>=1)pulses.splice(k,1);}
   for(let i=0;i<NP.length;i++){const nd=NP[i];nd.ph+=.035;const pl=.55+.45*Math.sin(nd.ph);
+    const on=bate(nd.frase,nd.canal);
     if(i===MX){ctx.fillStyle="#fff";ctx.shadowColor="#39d3ff";ctx.shadowBlur=18;}
+    else if(F&&on){ctx.fillStyle="rgba(255,209,102,"+(0.65+0.35*pl)+")";ctx.shadowColor="#ffd166";ctx.shadowBlur=12;}
+    else if(F){ctx.fillStyle="rgba(120,200,255,0.07)";ctx.shadowBlur=0;}
     else{ctx.fillStyle="rgba(120,200,255,"+(0.3+0.5*pl)+")";ctx.shadowBlur=0;}
-    ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r,0,6.28);ctx.fill();ctx.shadowBlur=0;}
+    ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r*(F&&on?1.5:1),0,6.28);ctx.fill();ctx.shadowBlur=0;}
   ctx.font="10px system-ui";ctx.fillStyle="rgba(219,228,240,.5)";
   for(let i=0;i<Math.min(20,NP.length);i++){const s=(NP[i].frase||"").split(/\s+/).slice(0,3).join(" ");ctx.fillText(s,NP[i].x+6,NP[i].y-6);}
   if(t-fps>1000){document.getElementById('fires').textContent=n(fires);fires=0;fps=t;}
@@ -317,17 +352,31 @@ function loop(t){
 // ---- busca no cerebro ----
 const qi=document.getElementById('q'), qr=document.getElementById('qres');
 let qt=null;
-qi.addEventListener('input',()=>{clearTimeout(qt);qt=setTimeout(async()=>{
+function buscaLocal(v){
+  const q=v.toLowerCase();
+  const fr=(G.nodes||[]).filter(x=>(x.frase||'').toLowerCase().includes(q)).slice(0,25)
+      .map(x=>({frase:x.frase,canal:x.canal,link:x.link,t:x.t}));
+  const cn=(S.top_canais||[]).filter(c=>c.canal.toLowerCase().includes(q)).slice(0,20);
+  return {frases:fr,canais:cn};
+}
+function pintaBusca(d,v){
+  const cn=(d.canais||[]).map(c=>`<div class="it" onclick="setFiltro('canal','${c.canal}')">📺 <b>${c.canal}</b> <span class="sub">${n(c.videos)} vídeos · clique p/ filtrar tudo</span></div>`).join('');
+  const fr=(d.frases||[]).map(f=>`<div class="it" onclick="setFiltro('termo','${(v||'').replace(/'/g,"")}')">"${f.frase}"<br><span class="sub">${f.canal||''}</span> ${f.link?`<a href="${f.link}" target="_blank" onclick="event.stopPropagation()">▶ abrir${f.t!=null?' @'+Math.floor(f.t/60)+':'+String(f.t%60).padStart(2,'0'):''}</a>`:''}</div>`).join('');
+  const termo=`<div class="it" onclick="setFiltro('termo','${(v||'').replace(/'/g,"")}')">🔎 filtrar TUDO por "<b>${v}</b>" — grafo, canais, categorias, insights e decisões</div>`;
+  qr.innerHTML = termo + cn + fr;
+  qr.style.display='block';
+}
+qi.addEventListener('input',()=>{
   const v=qi.value.trim();
   if(v.length<2){qr.style.display='none';return;}
-  let d=null;
-  if(EP){try{d=await (await fetch(EP+"/search?q="+encodeURIComponent(v))).json();}catch(e){}}
-  if(!d){qr.style.display='block';qr.innerHTML='<div class="it sub">canal ao vivo indisponível</div>';return;}
-  const fr=(d.frases||[]).map(f=>`<div class="it">"${f.frase}"<br><span class="sub">${f.canal||''}</span> ${f.link?`<a href="${f.link}" target="_blank">▶ abrir${f.t!=null?' @'+Math.floor(f.t/60)+':'+String(f.t%60).padStart(2,'0'):''}</a>`:''}</div>`).join('');
-  const cn=(d.canais||[]).map(c=>`<div class="it">📺 <b>${c.canal}</b> <span class="sub">${n(c.videos)} vídeos transcritos</span></div>`).join('');
-  qr.innerHTML=(cn+fr)||'<div class="it sub">nada encontrado</div>';
-  qr.style.display='block';
-},260);});
+  pintaBusca(buscaLocal(v),v);                    // INSTANTANEO (memoria ja carregada)
+  clearTimeout(qt);qt=setTimeout(async()=>{        // depois aprofunda no servidor
+    if(!EP) return;
+    try{const d=await (await fetch(EP+"/search?q="+encodeURIComponent(v))).json();
+      if((d.frases||[]).length||(d.canais||[]).length) pintaBusca(d,v);}catch(e){}
+  },220);
+});
+qi.addEventListener('keydown',e=>{ if(e.key==='Enter'&&qi.value.trim().length>1) setFiltro('termo',qi.value.trim()); });
 document.addEventListener('click',e=>{if(!qi.contains(e.target)&&!qr.contains(e.target))qr.style.display='none';});
 
 // ---- incluir canal novo ----
