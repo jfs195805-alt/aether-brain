@@ -28,6 +28,8 @@
   <div class="card"><h2>Lucro por categoria (Monte Carlo)</h2><div id="profit" class="mut">—</div></div>
   <div class="card"><h2>Ações na fila</h2><div id="acts" class="mut">—</div></div>
   <div class="card"><h2>GitHub — limites &amp; permissões</h2><div id="gh" class="mut">—</div></div>
+  <div class="card"><h2>Transcrições — corpus (tempo real)</h2><div id="corpus" class="mut">—</div></div>
+  <div class="card"><h2>Vídeos por canal (top)</h2><div id="canais" class="mut">—</div></div>
  </div>
 </div>
 <script>
@@ -60,7 +62,7 @@ async function drawGraph(){
 async function tick(){
  document.getElementById('upd').textContent=new Date().toLocaleTimeString();
  await drawGraph();
- const [st,mass,prof,brain,acts,ai,gh]=await Promise.all(["CORE_STATE.json","MASS_IDEAS.json","PROFIT_MODEL.json","BRAIN_MEMORY.json","PENDING_ACTIONS.json","AI_HEALTH.json","GITHUB_LIMITS.json"].map(j));
+ const [st,mass,prof,brain,acts,ai,gh,cs]=await Promise.all(["CORE_STATE.json","MASS_IDEAS.json","PROFIT_MODEL.json","BRAIN_MEMORY.json","PENDING_ACTIONS.json","AI_HEALTH.json","GITHUB_LIMITS.json","CANAIS_STATS.json"].map(j));
  if(brain||st){const nb=(brain&&brain.next_best)||(st&&st.next_best)||'—';
   document.getElementById('state').innerHTML=`<div class="kpi">${nb}</div><div class="mut">NEXT BEST · ciclos ${brain?brain.cycles||0:0}</div>`;}
  if(mass&&mass.top_ideias){document.getElementById('ideas').innerHTML=mass.top_ideias.slice(0,12).map(i=>`<div class="row"><span>${(i.combo||[]).join(' + ')}</span><b>$${Math.round(i.lucro_estimado_por_1000||0)}</b></div>`).join('')+`<div class="mut">${(mass.pares_avaliados||0).toLocaleString()} cruzamentos</div>`;}
@@ -68,7 +70,14 @@ async function tick(){
   document.getElementById('profit').innerHTML=prof.niches.slice(0,10).map(n=>`<div class="row"><span>${n.niche}</span><b>$${Math.round(n.exp_organic_per_1000||0)}/1k</b></div><div class="bar"><i style="width:${Math.round((n.exp_organic_per_1000||0)/mx*100)}%"></i></div>`).join('');}
  if(acts&&acts.queue){document.getElementById('acts').innerHTML=acts.queue.slice(-10).reverse().map(a=>`<div class="row"><span>${a.gancho||a.tipo||a.ideia||''}</span><span class="mut">${a.nicho||''}</span></div>`).join('')||'<span class=mut>vazio</span>';}
 if(gh){const pct=Math.round((gh.core_rem||0)/(gh.core_limit||1)*100);document.getElementById('gh').innerHTML=`<div class="kpi">${gh.core_rem}/${gh.core_limit}</div><div class="mut">REST restante · reset ${gh.core_reset_min}min</div><div class="bar"><i style="width:${pct}%"></i></div><div class="row"><span>modo</span><b>git ilimitado</b></div><div class="row"><span>Actions</span><b>publico = ilimitado</b></div><div class="mut">atualizado ${gh.ts||''}</div>`;}
- if(ai&&ai.best_order){document.getElementById('ai').innerHTML=`<div class="kpi">${ai.best_order[0]}</div>`+ai.best_order.map(n=>`<span class="tag">${n}${ai.health&&ai.health[n]?(ai.health[n].alive?' ✓':' ✕'):''}</span>`).join('');}
+if(cs){const nv=cs.novos_videos||0;const cr=(cs.canais_que_cresceram||[]);
+   document.getElementById('corpus').innerHTML=`<div class="kpi">${(cs.total_videos||0).toLocaleString()}</div><div class="mut">vídeos transcritos · ${cs.total_canais||0} canais</div>`+
+   `<div class="row"><span>novos desde última medição</span><b style="color:${nv>0?'#39d0a8':'#6b7c93'}">+${nv} vídeos${cs.novos_canais?` · +${cs.novos_canais} canais`:''}</b></div>`+
+   (cr.length?`<div class="mut" style="margin-top:6px">crescendo agora:</div>`+cr.slice(0,8).map(x=>`<div class="row"><span>${x[0]}</span><b style="color:#39d0a8">+${x[1]}</b></div>`).join(''):`<div class="mut">nenhum canal novo neste ciclo</div>`)+
+   `<div class="mut" style="margin-top:6px">${cs.ts||''}</div>`;}
+  if(cs&&cs.por_canal){const e=Object.entries(cs.por_canal).slice(0,20);const mx=e.length?e[0][1]:1;
+   document.getElementById('canais').innerHTML=e.map(([ch,n])=>`<div class="row"><span>${ch}</span><b>${n}</b></div><div class="bar"><i style="width:${Math.round(n/mx*100)}%"></i></div>`).join('');}
+   if(ai&&ai.best_order){document.getElementById('ai').innerHTML=`<div class="kpi">${ai.best_order[0]}</div>`+ai.best_order.map(n=>`<span class="tag">${n}${ai.health&&ai.health[n]?(ai.health[n].alive?' ✓':' ✕'):''}</span>`).join('');}
 }
 initGraph();tick();setInterval(tick,4000);
 </script></body></html>
