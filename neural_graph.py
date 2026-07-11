@@ -178,7 +178,8 @@ for i, t in enumerate(toks):
     for w in raros[:8]:                      # 8 termos mais raros da frase (mais cruzamentos reais)
         inv[w].append(i)
 
-# matriz TF-IDF esparsa de TODAS as frases (memoria: ~15 nnz/frase)
+# matriz TF-IDF esparsa de TODAS as frases (scipy)
+import heapq, gc
 from scipy.sparse import csr_matrix
 indptr=[0]; indices=[]; data=[]
 for i in range(NF):
@@ -191,32 +192,56 @@ for i in range(NF):
 X = csr_matrix((np.array(data,dtype=np.float32),
                 np.array(indices,dtype=np.int32),
                 np.array(indptr,dtype=np.int64)), shape=(NF,len(vocab)))
+del data, indices, indptr, toks       # libera RAM: nao precisamos mais
+gc.collect()
 
+MAX_PARES = int(os.environ.get("NG_MAXPAIRS", "400000000"))   # teto por ciclo (rotativo)
 T0 = time.time()
 pares_avaliados = 0
-arestas = {}
-viz = defaultdict(list)
-for w, lst in inv.items():
+viz = defaultdict(list)               # heap limitado a KEEP_K por frase
+
+def guarda(i, s_, j):
+    h = viz[i]
+    if len(h) < KEEP_K:
+        heapq.heappush(h, (s_, j))
+    elif s_ > h[0][0]:
+        heapq.heapreplace(h, (s_, j))
+
+# rotacao: cada ciclo comeca de um ponto diferente da lista de blocos -> cobertura soma sempre
+blocos = [(w, lst) for w, lst in inv.items() if 2 <= len(lst) <= BUCKET_MAX]
+try:
+    off = json.load(open(ACC, encoding="utf-8")).get("offset_blocos", 0)
+except Exception:
+    off = 0
+if blocos:
+    off = off % len(blocos)
+    blocos = blocos[off:] + blocos[:off]
+
+usados_blocos = 0
+for w, lst in blocos:
     L = len(lst)
-    if L < 2 or L > BUCKET_MAX:
-        continue
-    pares_avaliados += L*(L-1)//2
-    Xb = X[lst]                       # bloco
-    S = (Xb @ Xb.T).toarray()         # cruzamento REAL de todos os pares do bloco
-    np.fill_diagonal(S, 0.0)
-    ii, jj = np.where(S >= LIM)
-    for a, b in zip(ii.tolist(), jj.tolist()):
-        if a >= b:
+    p = L * (L - 1) // 2
+    if pares_avaliados + p > MAX_PARES:
+        break
+    pares_avaliados += p
+    usados_blocos += 1
+    Xb = X[lst]
+    S = (Xb @ Xb.T).tocoo()            # cruzamento REAL de todos os pares do bloco (esparso)
+    for a, b, v in zip(S.row, S.col, S.data):
+        if a >= b or v < LIM:
             continue
         i, j = lst[a], lst[b]
-        s_ = float(S[a, b])
-        viz[i].append((s_, j)); viz[j].append((s_, i))
+        guarda(i, float(v), j)
+        guarda(j, float(v), i)
+    del Xb, S
 
-for i, lst in viz.items():
-    lst.sort(reverse=True)
-    for s_, j in lst[:KEEP_K]:
+arestas = {}
+for i, h in viz.items():
+    for s_, j in h:
         a, b = (i, j) if i < j else (j, i)
         arestas[(a, b)] = round(s_, 3)
+del viz
+gc.collect()
 
 DUR = max(0.001, time.time() - T0)
 PPS = int(pares_avaliados / DUR)
@@ -252,6 +277,8 @@ acc["frases_vistas_total"] += NF
 acc["pares_avaliados_total"] += pares_avaliados
 acc["sinapses_descobertas_total"] += len(arestas)
 acc["videos_total"] = nv
+acc["offset_blocos"] = (off + usados_blocos) if blocos else 0
+acc["blocos_total"] = len(inv)
 acc["ts"] = time.strftime("%FT%TZ", time.gmtime())
 json.dump(acc, open(ACC, "w", encoding="utf-8"), ensure_ascii=False)
 
