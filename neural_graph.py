@@ -25,7 +25,7 @@ MAXR = int(os.environ.get("NG_RECS", "1000"))
 V = int(os.environ.get("NG_V", "60000"))          # vocabulario grande
 DF_MIN = int(os.environ.get("NG_DFMIN", "3"))
 DF_MAX = int(os.environ.get("NG_DFMAX", "1200"))  # termo "raro" = df <= isso
-BUCKET_MAX = int(os.environ.get("NG_BUCKET", "1200"))
+BUCKET_MAX = int(os.environ.get("NG_BUCKET", "2500"))
 KEEP_K = int(os.environ.get("NG_KEEPK", "6"))     # melhores vizinhos por frase
 LIM = float(os.environ.get("NG_LIM", "0.18"))     # limiar de sinapse
 NODES = int(os.environ.get("NG_NODES", "2000"))   # pontos exibidos no site
@@ -175,7 +175,7 @@ inv = defaultdict(list)
 for i, t in enumerate(toks):
     raros = [w for w in t if w in vocab and df[w] <= DF_MAX]
     raros.sort(key=lambda w: df[w])
-    for w in raros[:4]:                      # 4 termos mais raros da frase
+    for w in raros[:8]:                      # 8 termos mais raros da frase (mais cruzamentos reais)
         inv[w].append(i)
 
 # matriz TF-IDF esparsa de TODAS as frases (memoria: ~15 nnz/frase)
@@ -192,6 +192,7 @@ X = csr_matrix((np.array(data,dtype=np.float32),
                 np.array(indices,dtype=np.int32),
                 np.array(indptr,dtype=np.int64)), shape=(NF,len(vocab)))
 
+T0 = time.time()
 pares_avaliados = 0
 arestas = {}
 viz = defaultdict(list)
@@ -216,6 +217,9 @@ for i, lst in viz.items():
     for s_, j in lst[:KEEP_K]:
         a, b = (i, j) if i < j else (j, i)
         arestas[(a, b)] = round(s_, 3)
+
+DUR = max(0.001, time.time() - T0)
+PPS = int(pares_avaliados / DUR)
 
 grau = Counter()
 for (a, b) in arestas:
@@ -258,12 +262,14 @@ out = {"ts": acc["ts"], "videos": nv, "canais": len(canais),
        "pares_frases_avaliados": pares_avaliados,
        "espaco_pares_total": espaco,
        "sinapses_descobertas": len(arestas),
+       "pares_por_segundo": PPS,
+       "segundos_de_cruzamento": round(DUR, 1),
        "pares_acumulados": acc["pares_avaliados_total"],
        "sinapses_acumuladas": acc["sinapses_descobertas_total"],
        "ciclos": acc["ciclos"],
        "nodes": nodes, "edges": ed}
 json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False)
-print("GRAFO v3: %d frases reais (%d videos/%d canais) | %d pares REAIS avaliados neste ciclo "
-      "(espaco total %.3e) | %d sinapses descobertas | ACUMULADO: %.3e pares, %d sinapses, ciclo %d"
-      % (NF, nv, len(canais), pares_avaliados, espaco, len(arestas),
+print("GRAFO v3: %d frases reais (%d videos/%d canais) | %d pares REAIS avaliados em %.1fs (%s pares/s, scipy esparso) "
+      "| espaco total %.3e | %d sinapses | ACUMULADO: %.3e pares, %d sinapses, ciclo %d"
+      % (NF, nv, len(canais), pares_avaliados, DUR, format(PPS, ",d"), espaco, len(arestas),
          acc["pares_avaliados_total"], acc["sinapses_descobertas_total"], acc["ciclos"]))

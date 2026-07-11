@@ -8,7 +8,7 @@ on:
     - cron: "*/10 * * * *"
 concurrency:
   group: brain
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   brain:
     runs-on: ubuntu-latest

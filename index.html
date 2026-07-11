@@ -113,13 +113,13 @@ h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--
     <canvas id="brain"></canvas>
     <div id="tip"></div>
     <div class="legend">Cada ponto = afirmação real da transcrição (passe o mouse: frase, canal, timestamp; clique: abre o vídeo). Linhas = cruzamento estatístico real.</div>
-    <div class="hl"><div class="big" id="fires">0</div>sinapses/s<br><span id="gstat" class="mut">—</span></div>
+    <div class="hl"><div class="big" id="pps">—</div>pares/s cruzados (real)<br><span id="gstat" class="mut">—</span><br><span class="sub" style="font-size:10px">a animação é visualização das arestas reais</span></div>
   </div>
 
   <h2 class="sec">Detalhes</h2>
   <div class="grid" id="panels"></div>
 
-  <div class="foot">AETHER · grafo na RAM de 16GB do GitHub · SSE push · memória em git + Supabase · publica só nas suas marcas · nunca move dinheiro</div>
+  <div class="foot">Tudo nos números é medido, nada é simulado: frases, pares, sinapses, cliques e cobertura vêm do cálculo real no GitHub. A animação do grafo é apenas a visualização das arestas reais.<br>AETHER · grafo na RAM de 16GB do GitHub · SSE push · memória em git + Supabase · publica só nas suas marcas · nunca move dinheiro</div>
 </div>
 
 <script>
@@ -184,8 +184,10 @@ async function loadGraph(){
   if(!g||!(g.nodes||[]).length){ try{ g=await (await fetch(RAW+"NEURAL_GRAPH.json?t="+Date.now())).json(); }catch(e){} }
   if(g&&(g.nodes||[]).length){ G=g; buildLayout(); }
   document.getElementById('gstat').textContent = G.nodes.length
-    ? n(G.nodes.length)+" pontos · "+n(G.edges.length)+" sinapses"
+    ? n(G.nodes.length)+" pontos · "+n(G.edges.length)+" sinapses exibidas"
     : "grafo sendo calculado no GitHub…";
+  const pps=(S.grafo||{}).pares_por_segundo;
+  document.getElementById('pps').textContent = pps ? n(pps) : "—";
   setTimeout(loadGraph,60000);
 }
 
@@ -375,7 +377,7 @@ function loop(t){
     ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r*(F&&on?1.5:1),0,6.28);ctx.fill();ctx.shadowBlur=0;}
   ctx.font="10px system-ui";ctx.fillStyle="rgba(219,228,240,.5)";
   for(let i=0;i<Math.min(20,NP.length);i++){const s=(NP[i].frase||"").split(/\s+/).slice(0,3).join(" ");ctx.fillText(s,NP[i].x+6,NP[i].y-6);}
-  if(t-fps>1000){document.getElementById('fires').textContent=n(fires);fires=0;fps=t;}
+  if(t-fps>1000){fires=0;fps=t;}
 }
 // ---- busca no cerebro ----
 const qi=document.getElementById('q'), qr=document.getElementById('qres');
