@@ -33,10 +33,65 @@ jobs:
           python profit_engine.py || true
           python brain_memory.py || true
           python mass_ideas.py || true
-      - name: GRAFO Graphiti + Obsidian (interliga tudo)
+      - name: ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg || true
+      - name: GOVERNADOR + PUBLICAR (marca, QA>=80, cooldowns)
+        env:
+          AETHER_AI_ORDER: ${{ secrets.AETHER_AI_ORDER }}
+          AETHER_AUTONOMY: ${{ secrets.AETHER_AUTONOMY }}
+          AETHER_CONTENT_DIR: ${{ secrets.AETHER_CONTENT_DIR }}
+          AETHER_MODEL: ${{ secrets.AETHER_MODEL }}
+          AMAZON_US_TAG: ${{ secrets.AMAZON_US_TAG }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          AWIN_AFFID: ${{ secrets.AWIN_AFFID }}
+          AWIN_API_TOKEN: ${{ secrets.AWIN_API_TOKEN }}
+          CLICKBANK_ID: ${{ secrets.CLICKBANK_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+          GEMINI_PRO_MODEL: ${{ secrets.GEMINI_PRO_MODEL }}
+          GH_OFFLOAD_PAT: ${{ secrets.GH_OFFLOAD_PAT }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_PAT2: ${{ secrets.GH_PAT2 }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GS_AMAZON_TABLE: ${{ secrets.GS_AMAZON_TABLE }}
+          GS_SUPABASE_ANON_KEY: ${{ secrets.GS_SUPABASE_ANON_KEY }}
+          GS_SUPABASE_URL: ${{ secrets.GS_SUPABASE_URL }}
+          HOST: ${{ secrets.HOST }}
+          IG_TARGET_GMAIL: ${{ secrets.IG_TARGET_GMAIL }}
+          IG_TARGET_HANDLE: ${{ secrets.IG_TARGET_HANDLE }}
+          META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
+          META_APP_ID: ${{ secrets.META_APP_ID }}
+          META_SYSUSER_TOKEN: ${{ secrets.META_SYSUSER_TOKEN }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          NVIDIA_MODEL: ${{ secrets.NVIDIA_MODEL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PORT: ${{ secrets.PORT }}
+          SQLITE_PATH: ${{ secrets.SQLITE_PATH }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_RT_ADHD: ${{ secrets.YOUTUBE_RT_ADHD }}
+          YOUTUBE_RT_BSN: ${{ secrets.YOUTUBE_RT_BSN }}
+          YOUTUBE_RT_DBN: ${{ secrets.YOUTUBE_RT_DBN }}
+          YOUTUBE_RT_PINK: ${{ secrets.YOUTUBE_RT_PINK }}
+          YOUTUBE_RT_RAIN: ${{ secrets.YOUTUBE_RT_RAIN }}
+          YOUTUBE_RT_TINNITUS: ${{ secrets.YOUTUBE_RT_TINNITUS }}
+          YOUTUBE_RT_WNV: ${{ secrets.YOUTUBE_RT_WNV }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_GLOBALSUP_CLIENT_ID: ${{ secrets.YT_GLOBALSUP_CLIENT_ID }}
+          YT_GLOBALSUP_CLIENT_SECRET: ${{ secrets.YT_GLOBALSUP_CLIENT_SECRET }}
+          YT_RT_GLOBALSUP: ${{ secrets.YT_RT_GLOBALSUP }}
         run: |
-          python build_unified.py || true
-          python build_vault.py || true
+          python governor.py || true
+          python publish_products.py || true
+          python publish_shorts.py || true
       - name: commit + push (git, re-dispara o loop, SEM REST)
         run: |
           git config user.name aether-bot
