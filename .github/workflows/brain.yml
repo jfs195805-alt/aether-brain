@@ -2,7 +2,7 @@ name: AETHER BRAIN 16GB (trilhoes de combinacoes, git-only, nunca bloqueia)
 on:
   push:
     branches: [ main ]
-    paths-ignore: [ 'GITHUB_LIMITS.json','NEURAL_GRAPH.json','COBERTURA.json','FRASES_CATEGORIAS.json','SINAPSES.json','AUDITORIA_CANAL.json','KNOWLEDGE_ETERNO.json','CANAIS_STATS.json','DECISIONS.json','DECISIONS_ETERNAS.md','LIVE_ENDPOINT.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
+    paths-ignore: [ 'GITHUB_LIMITS.json','NEURAL_GRAPH.json','ACUMULADO.json','COBERTURA.json','FRASES_CATEGORIAS.json','SINAPSES.json','AUDITORIA_CANAL.json','KNOWLEDGE_ETERNO.json','CANAIS_STATS.json','DECISIONS.json','DECISIONS_ETERNAS.md','LIVE_ENDPOINT.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
   workflow_dispatch: {}
   schedule:
     - cron: "*/10 * * * *"
@@ -34,8 +34,11 @@ jobs:
           rclone copy transcripts_ts gdrive:AETHER_TRANSCRIPTS/youtube_ts --include "*.jsonl" --transfers 32 || true
       - name: GRAFO NEURAL REAL (frases + pre-juncao + subagrupamento, 16GB)
         env:
-          NG_V: "4000"
-          NG_CAND: "6000"
+          NG_V: "60000"
+          NG_DFMAX: "1200"
+          NG_BUCKET: "1200"
+          NG_KEEPK: "6"
+          NG_LIM: "0.18"
           NG_NODES: "2000"
           NG_EDGES: "20000"
           NG_RECS: "1000"
