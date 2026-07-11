@@ -132,7 +132,9 @@ function renderPanels(){
     <div class="row"><span>Novos vídeos (Δ)</span><span class="ok">+${n(stats.novos_videos)}</span></div>
     <div class="row"><span>Novos canais (Δ)</span><span class="ok">+${n(stats.novos_canais)}</span></div>
     <div style="margin-top:6px" class="sub">Canais crescendo:</div>${cres}</div>`);
-  const top=(stats.top_canais||[]).slice(0,20); const mx=top.length?top[0].videos:1;
+  let top=stats.top_canais||[];
+  if(!top.length && stats.por_canal){top=Object.entries(stats.por_canal).map(([canal,videos])=>({canal,videos:(typeof videos==='object'?(videos.videos||videos.count||0):videos)})).sort((a,b)=>b.videos-a.videos);}
+  top=top.slice(0,20); const mx=top.length?top[0].videos:1;
   P.push(`<div class="panel"><h3>Vídeos por canal (top)</h3>${
     top.map(t=>`<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx*100)}%"></i></div></div>`).join('')||'<div class="sub">aguardando CANAIS_STATS</div>'}</div>`);
   const prov=(ai.ranked||ai.providers||[]).slice(0,6).map(p=>`<div class="row"><span>${p.name||p}</span><span class="${(p.alive)?'ok':'mut'}">${p.alive?('✓ '+(p.latency||'')+'s'):'—'}</span></div>`).join('')||'<div class="sub">probing…</div>';
@@ -192,11 +194,4 @@ function loop(t){
     if(nd.gold){ctx.fillStyle="rgba(255,209,102,"+(0.7+0.3*Math.sin(nd.ph))+")";ctx.shadowColor="#ffd166";ctx.shadowBlur=14;}
     else{ctx.fillStyle="rgba(120,200,255,"+(0.35+0.5*pulse)+")";ctx.shadowBlur=0;}
     ctx.beginPath();ctx.arc(nd.x,nd.y,nd.r*(nd.gold?1:pulse+.6),0,6.28);ctx.fill();ctx.shadowBlur=0;}
-  if(t-fps>1000){document.getElementById('fires').textContent=n(fireCount);fireCount=0;fps=t;}
-}
-window.addEventListener('resize',()=>{cancelAnimationFrame(raf);raf=0;seedBrain();});
-
-load(); setInterval(load,5000);
-</script>
-</body>
-</html>
+  if(t-fps>1000){docum
