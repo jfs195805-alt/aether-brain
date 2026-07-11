@@ -33,6 +33,10 @@ jobs:
           python profit_engine.py || true
           python brain_memory.py || true
           python mass_ideas.py || true
+      - name: GRAFO Graphiti + Obsidian (interliga tudo)
+        run: |
+          python build_unified.py || true
+          python build_vault.py || true
       - name: commit + push (git, re-dispara o loop, SEM REST)
         run: |
           git config user.name aether-bot
