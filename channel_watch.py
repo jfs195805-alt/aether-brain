@@ -38,8 +38,18 @@ for f in sorted(glob.glob(os.path.join(SRC, "*.jsonl"))):
             pass
     tenho[canal] = ids
 
-# rotacao: revisa primeiro quem esta ha mais tempo sem revisao
-canais = sorted(tenho.keys(), key=lambda c: cov.get(c, {}).get("ultima_revisao", ""))
+# CANAIS NOVOS incluidos manualmente pelo site (NOVOS_CANAIS.json) entram na fila com prioridade
+try:
+    novos_manuais = json.load(open("NOVOS_CANAIS.json", encoding="utf-8")).get("canais", [])
+except Exception:
+    novos_manuais = []
+for c in novos_manuais:
+    if c not in tenho:
+        tenho[c] = set()          # canal virgem: tudo dele esta "faltando"
+
+# rotacao: canais novos primeiro, depois quem esta ha mais tempo sem revisao
+canais = sorted(tenho.keys(), key=lambda c: (c not in novos_manuais or c in cov,
+                                             cov.get(c, {}).get("ultima_revisao", "")))
 alvo = canais[:BATCH]
 
 novos_total = 0

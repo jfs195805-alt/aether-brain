@@ -52,6 +52,16 @@ h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--
 .mut{color:var(--mut)}.ok{color:var(--ok)}.au{color:var(--au)}.vi{color:var(--vi)}
 .foot{color:var(--mut);font-size:11px;text-align:center;margin-top:24px}
 .scroll{max-height:330px;overflow-y:auto;padding-right:6px}
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:14px 0 4px}
+@media(max-width:800px){.tools{grid-template-columns:1fr}}
+.tool{position:relative;background:var(--pan);border:1px solid var(--bd);border-radius:12px;padding:9px 11px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.tool input{flex:1;min-width:180px;background:#080c14;border:1px solid var(--bd);color:var(--tx);border-radius:8px;padding:8px 10px;font-size:13px;outline:none}
+.tool input:focus{border-color:var(--ac)}
+.tool button{background:linear-gradient(90deg,var(--ac),#4f8cff);color:#04070d;border:0;border-radius:8px;padding:8px 12px;font-weight:700;font-size:12px;cursor:pointer}
+.qres{position:absolute;top:52px;left:0;right:0;background:#070b12;border:1px solid var(--bd);border-radius:10px;max-height:340px;overflow-y:auto;display:none;z-index:20;padding:6px}
+.qres .it{padding:7px 9px;border-bottom:1px dashed #141b28;font-size:12.5px}
+.qres .it:last-child{border:0}
+.qres a{color:var(--ac);text-decoration:none}
 .scroll::-webkit-scrollbar{width:8px}
 .scroll::-webkit-scrollbar-track{background:#0b1220;border-radius:8px}
 .scroll::-webkit-scrollbar-thumb{background:#22304a;border-radius:8px}
@@ -66,6 +76,13 @@ h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--
   <span class="pill">último dado: <b id="clock">—</b></span>
 </header>
 <div class="wrap">
+
+  <div class="tools">
+    <div class="tool"><input id="q" placeholder="🔎 Buscar frase, conhecimento ou canal no cérebro…" autocomplete="off">
+      <div id="qres" class="qres"></div></div>
+    <div class="tool"><input id="novo" placeholder="➕ Incluir canal (@handle ou URL do YouTube)" autocomplete="off">
+      <button id="addbtn">Adicionar ao cérebro</button><span id="addmsg" class="sub"></span></div>
+  </div>
 
   <h2 class="sec">Painel em tempo real</h2>
   <div class="kpis" id="kpis"><div class="sub">carregando…</div></div>
@@ -286,6 +303,37 @@ function loop(t){
   for(let i=0;i<Math.min(20,NP.length);i++){const s=(NP[i].frase||"").split(/\s+/).slice(0,3).join(" ");ctx.fillText(s,NP[i].x+6,NP[i].y-6);}
   if(t-fps>1000){document.getElementById('fires').textContent=n(fires);fires=0;fps=t;}
 }
+// ---- busca no cerebro ----
+const qi=document.getElementById('q'), qr=document.getElementById('qres');
+let qt=null;
+qi.addEventListener('input',()=>{clearTimeout(qt);qt=setTimeout(async()=>{
+  const v=qi.value.trim();
+  if(v.length<2){qr.style.display='none';return;}
+  let d=null;
+  if(EP){try{d=await (await fetch(EP+"/search?q="+encodeURIComponent(v))).json();}catch(e){}}
+  if(!d){qr.style.display='block';qr.innerHTML='<div class="it sub">canal ao vivo indisponível</div>';return;}
+  const fr=(d.frases||[]).map(f=>`<div class="it">"${f.frase}"<br><span class="sub">${f.canal||''}</span> ${f.link?`<a href="${f.link}" target="_blank">▶ abrir${f.t!=null?' @'+Math.floor(f.t/60)+':'+String(f.t%60).padStart(2,'0'):''}</a>`:''}</div>`).join('');
+  const cn=(d.canais||[]).map(c=>`<div class="it">📺 <b>${c.canal}</b> <span class="sub">${n(c.videos)} vídeos transcritos</span></div>`).join('');
+  qr.innerHTML=(cn+fr)||'<div class="it sub">nada encontrado</div>';
+  qr.style.display='block';
+},260);});
+document.addEventListener('click',e=>{if(!qi.contains(e.target)&&!qr.contains(e.target))qr.style.display='none';});
+
+// ---- incluir canal novo ----
+const ni=document.getElementById('novo'), nb=document.getElementById('addbtn'), nm=document.getElementById('addmsg');
+async function addCanal(){
+  const v=ni.value.trim(); if(!v) return;
+  nm.textContent='enviando…';
+  try{
+    const r=await fetch(EP+"/add_channel",{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({handle:v})});
+    const d=await r.json();
+    nm.textContent = d.ok ? `✓ @${d.canal} na fila — o cérebro vai buscar todos os vídeos, transcrever e integrar sozinho` : ('✗ '+(d.erro||'falhou'));
+    if(d.ok) ni.value='';
+  }catch(e){ nm.textContent='✗ canal ao vivo indisponível'; }
+}
+nb.addEventListener('click',addCanal);
+ni.addEventListener('keydown',e=>{if(e.key==='Enter')addCanal();});
+
 resize();loop(performance.now());boot();
 </script>
 </body>
