@@ -30,6 +30,14 @@ jobs:
           python mine_channel.py || true
           python backfill_desc.py || true
           rclone copy transcripts gdrive:AETHER_TRANSCRIPTS/youtube --include "*.jsonl" --transfers 32 || true
+      - name: escolher melhor IA gratis do momento (tempo real)
+        env:
+          NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          BEST=$(AI_ONCE=1 python ai_health.py 2>/dev/null | tail -1)
+          [ -n "$BEST" ] && echo "AETHER_AI_ORDER=$BEST" >> $GITHUB_ENV
+          echo "melhor IA agora: $BEST"
       - name: RECLASSIFICAR todos os canais
         run: python reclassify.py || true
       - name: CRUZAMENTO EM MASSA (16GB, vocab 6000 = milhoes de combinacoes)
