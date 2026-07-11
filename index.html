@@ -145,7 +145,7 @@ async function loadGraph(){
 }
 
 function render(){
-  const g=S.grafo||{}, cb=S.cobertura||{}, sy=S.sinapses||{}, cats=S.categorias||{};
+  const g=S.grafo||{}, cb=S.cobertura||{}, sy=S.sinapses||{}, cats=S.categorias||{}, ac=S.acumulado||{};
   const K=[["ok",g.frases_reais||0,"Frases reais cruzadas"],
            ["au",g.pares_frases_avaliados||0,"Pares avaliados"],
            ["vi",sy.figuras_cliques||0,"Figuras neurais (cliques)"],
@@ -157,7 +157,10 @@ function render(){
            ["pk",cb.faltando||0,"Vídeos faltando"],
            ["ok",(cb.pct||0)+"%","Cobertura dos canais"],
            ["vi",cats.classificadas||0,"Frases classificadas"],
-           ["au",g.frases_com_timestamp||0,"Frases com timestamp"]];
+           ["au",g.frases_com_timestamp||0,"Frases com timestamp"],
+           ["vi",(ac.pares_avaliados_total||0).toExponential?Number(ac.pares_avaliados_total||0).toLocaleString('pt-BR'):0,"Pares acumulados (sempre)"],
+           ["ok",ac.sinapses_descobertas_total||0,"Sinapses acumuladas"],
+           ["ac",ac.ciclos||0,"Ciclos de aprendizado"]];
   document.getElementById('kpis').innerHTML=K.map(([c,v,l])=>{
     const val=(typeof v==='string')?v:n(v); const ch=prev[l]!==undefined&&prev[l]!==val; prev[l]=val;
     return `<div class="kpi ${c}"><div class="n ${ch?'flash':''}">${val}</div><div class="l">${l}</div></div>`;}).join('');
@@ -200,7 +203,9 @@ function render(){
     <div class="row"><span>Maior figura</span><b>${n(sy.maior_figura)} pontos</b></div>
     <div class="row"><span>Pontes entre categorias</span><b>${n(sy.pontes_entre_categorias)}</b></div>
     <div class="row"><span>Espaço de trios do corpus</span><b class="au">${(sy.espaco_trios_corpus||0).toExponential(2)}</b></div>
-    <div class="row"><span>Ciclos de memória</span><b>${n(sy.memoria_ciclos)}</b></div></div>`);
+    <div class="row"><span>Ciclos de memória</span><b>${n(sy.memoria_ciclos)}</b></div>
+    <div class="row"><span>Pares avaliados (acumulado)</span><b class="vi">${n(ac.pares_avaliados_total)}</b></div>
+    <div class="row"><span>Sinapses descobertas (acumulado)</span><b class="ok">${n(ac.sinapses_descobertas_total)}</b></div></div>`);
   const au=S.auditoria||{};
   P.push(`<div class="panel"><h3>Autochecagem do seu canal</h3>
     <div class="row"><span>Vídeos no canal</span><b>${n(au.videos)}</b></div>
