@@ -1,0 +1,7 @@
+*.env
+.env
+*token*
+*.conf
+*.gh_token
+aether_session.json
+rclone.conf

@@ -1,0 +1,42 @@
+name: AETHER BRAIN publico (Actions ilimitado, loop continuo)
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+  schedule:
+    - cron: "*/5 * * * *"
+concurrency:
+  group: brain
+  cancel-in-progress: false
+jobs:
+  brain:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AETHER_PAT }}
+      - name: deps
+        run: pip install --quiet numpy scipy yt-dlp youtube-transcript-api edge-tts || true
+      - name: corpus do Drive (rclone)
+        run: |
+          curl -s https://rclone.org/install.sh | sudo bash || true
+          mkdir -p ~/.config/rclone transcripts
+          echo "${{ secrets.RCLONE_CONF_B64 }}" | base64 -d > ~/.config/rclone/rclone.conf || true
+          rclone copy gdrive:AETHER_TRANSCRIPTS/youtube transcripts --include "*.jsonl" --transfers 12 --fast-list || true
+      - name: motores pesados (cruzamento em massa + lucro + memoria)
+        run: |
+          python fast_interlink.py || true
+          python mass_ideas.py || true
+          python profit_engine.py || true
+          python brain_memory.py || true
+      - name: governador decide + fila
+        env:
+          AETHER_PAT: ${{ secrets.AETHER_PAT }}
+        run: python governor.py || true
+      - name: commit + push (re-dispara o loop, ilimitado)
+        run: |
+          git config user.name aether-bot
+          git config user.email bot@aether
+          git add -A
+          git commit -m "brain cycle $(date -u +%H:%M:%S)" || echo nochange
+          git push || echo nopush

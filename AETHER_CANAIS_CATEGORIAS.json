@@ -1,0 +1,4977 @@
+{
+ "canais": {
+  "-TechGear": {
+   "cat": "Culinaria / Receitas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "100xEngineers": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 20
+  },
+  "3DPrintAcademy": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 15
+  },
+  "9monthcollegegrad": {
+   "cat": "Educacao / Concursos",
+   "focos": [],
+   "kw_score": 3
+  },
+  "AI_Uncovered": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "AdehTech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 11
+  },
+  "AdminerPro": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "AdrianoGianiniAds": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 23
+  },
+  "AirtonLeal": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "AjudaVitor": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "AlbertoGomesFBA": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 26
+  },
+  "Alemdanuvem": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 18
+  },
+  "AlexBestDigital": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 15
+  },
+  "Alissonrenger": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "AlmiroChaves-k9p1d": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 11
+  },
+  "AlphaMenteOFICIAL": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "AmandaAgostinho": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "Andarilhas": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 4
+  },
+  "AndreRodriOfc": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 27
+  },
+  "AndrezaViana": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "AnikSingal": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "ApoiandoEmpreendedores": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "AreaBitcoin": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 44
+  },
+  "Argonalyst": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 32
+  },
+  "AstroKJ": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 12
+  },
+  "BestFuturisticGadgets": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 9
+  },
+  "BodybuildingWorldpro": {
+   "cat": "Fitness / Musculacao",
+   "focos": [],
+   "kw_score": 0
+  },
+  "Bolsonaromito26": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "BrasileiroSemFronteiras": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "Brunoemariaslayman": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 10
+  },
+  "Bubows": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 36
+  },
+  "CaduGamer": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 1
+  },
+  "Caktocanal": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 20
+  },
+  "Chase-H-AI": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 18
+  },
+  "Chris-Rawlings": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "Cientistadosalimento": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 23
+  },
+  "CortesSabedoria1": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 12
+  },
+  "CortesdoNada-t5b": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "CuritibaPinturaseReformas": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 4
+  },
+  "Cymye": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "DPPodcastOficial": {
+   "cat": "Educacao / Concursos",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 19
+  },
+  "DaniAzeredo": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 29
+  },
+  "DarlanEvandro": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 4
+  },
+  "DataSlayerMedia": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 1
+  },
+  "DaveAspreyBPR": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Suplementos/Saude"
+   ],
+   "kw_score": 3
+  },
+  "DevAprender": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 31
+  },
+  "DhiegoRosa": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 9
+  },
+  "DicaTopDmais": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 19
+  },
+  "DicasDoConstrutor": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 6
+  },
+  "DigitalDiscoveries-u9m": {
+   "cat": "Curiosidades / Entretenimento",
+   "focos": [],
+   "kw_score": 0
+  },
+  "DigitaltecRS": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 21
+  },
+  "DireitoAlemdasFronteiras": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 24
+  },
+  "DoBrasilaoCanada": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 23
+  },
+  "Douglasoliveira_b": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 26
+  },
+  "DrAlainDutra": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 37
+  },
+  "DrAndyStapleton": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 6
+  },
+  "DrAntonioCascelli": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 17
+  },
+  "DrCorassaSaudeFrugal": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 35
+  },
+  "DrJonesDC": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Suplementos/Saude"
+   ],
+   "kw_score": 1
+  },
+  "DrMoacirRosa": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 38
+  },
+  "DrPauloPortodeMelo": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 42
+  },
+  "DrRenanBotelho": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 29
+  },
+  "Dr_Cripto": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "Dr_JonesDCHighlights": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Suplementos/Saude"
+   ],
+   "kw_score": 9
+  },
+  "DraAndreiaTorres": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 25
+  },
+  "DraSarina": {
+   "cat": "Emagrecimento",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 23
+  },
+  "E4EnergiasRenovaveis": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "EJIMIntelligence": {
+   "cat": "Outros",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 10
+  },
+  "EcommercePuro": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 7
+  },
+  "EdHillAI": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "EdmarksonFerreira": {
+   "cat": "Educacao / Concursos",
+   "focos": [
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 47
+  },
+  "EliRigobeliAI": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "EmpreendaSolar": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "EricWTech": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 13
+  },
+  "Erivelton": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "EscoladeVocacionados": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 31
+  },
+  "EuGustavodeCastro": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 33
+  },
+  "Europando": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 7
+  },
+  "ExcelenteJoao": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "Fala-Lu": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 18
+  },
+  "FalaTaleco": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 9
+  },
+  "FernandoMirandaMarketing": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 20
+  },
+  "Finclass": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 44
+  },
+  "FloripaCalistenia_": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 20
+  },
+  "Foccaemmim": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "FocoNoRoteiro_Oficial": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 16
+  },
+  "FoconaViagem": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax"
+   ],
+   "kw_score": 18
+  },
+  "FranciscoFull": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 32
+  },
+  "GabrielAdamuchi": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 32
+  },
+  "GabrielRabeloIA": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 29
+  },
+  "GabrielTejadaOFC": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 23
+  },
+  "GanhardinheiromaisBr": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "GardenLab-q3b": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "GhTechHubHQ": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 5
+  },
+  "GiCezar": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 2
+  },
+  "GreenMenMaking": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "GulbaharTechnical": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 13
+  },
+  "GustavoCamposIA": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 6
+  },
+  "HamburguerPerfeitoOficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "Henriquehova": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 20
+  },
+  "Hesselbroekstra": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "HighlightTruth": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "HormoScan": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 47
+  },
+  "HowMuchTech": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 1
+  },
+  "HumbertoVolts": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 29
+  },
+  "IA_PRIME": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 3
+  },
+  "IlhaGrandeLive": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 3
+  },
+  "InventecomIA": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 37
+  },
+  "Investe1tempo": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 61
+  },
+  "Ironstudiostv": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 7
+  },
+  "JefDicasTech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 12
+  },
+  "JonFortunaIA": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "JonataRibasTV": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "JonyLan": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "JornadaDeDados": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 20
+  },
+  "JornadaTop": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "JoshMadakor": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 14
+  },
+  "JulianGoldieSEO": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 5
+  },
+  "KL_TALKS_TELUGU": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 9
+  },
+  "KalebKarnowYouTubeGrowth": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 2
+  },
+  "KiwifyBrasil": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 11
+  },
+  "LBConsultoria369": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 12
+  },
+  "Laertejrmkt": {
+   "cat": "Beleza / Skincare",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "LeilaoComVictor": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "LeonardoAmoyr": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "Leonardoecomm": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "LiderConsultoriaEAD": {
+   "cat": "Educacao / Concursos",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 6
+  },
+  "LifeWorkBalance": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 2
+  },
+  "LigadonoDesconhecido": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 23
+  },
+  "LiliFreitass": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "LincolnFracari": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 7
+  },
+  "LionlabvideosIA": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "LucasFialhoPenseComoRico": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "LucianodoVallepelaEuropa": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "MHTech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 21
+  },
+  "ManualdaLabia_oficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 25
+  },
+  "MarcoLang": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "MaskedKoda": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "MateusCastroIA": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "MatheusBattisti": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 26
+  },
+  "MatheusBorgesOficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "MatheusCarson": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 20
+  },
+  "MatheusFernandesRodrigues-u8z": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 24
+  },
+  "MaviGadgets": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 2
+  },
+  "MePoupe": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 37
+  },
+  "MeticsMedia": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "MeuTechMundo": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 14
+  },
+  "MindAmend": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "MyResearchSupport": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 13
+  },
+  "NarrativaExposta": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "Nespol": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 24
+  },
+  "NetoBessaGo": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "NewsNation": {
+   "cat": "Educacao / Concursos",
+   "focos": [],
+   "kw_score": 1
+  },
+  "NicholasPuru": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 11
+  },
+  "NicolasNeuro": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 36
+  },
+  "NidhiNagori29": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "NovaAcropole": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "NovaRiquezaIA": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "OPPOglobal": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "Oleg-Melnikov": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 2
+  },
+  "OlhadaTec": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "Opoder_da_ment3": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 14
+  },
+  "Orafavoss": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 40
+  },
+  "PatricioCarvalho": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 3
+  },
+  "PaulaBernardes": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 43
+  },
+  "PetruceliTrips": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "Phil_Experience": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "Planetanatureza_": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 30
+  },
+  "ProfessorHOC": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "Programadorbr": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 18
+  },
+  "QlupyStudios": {
+   "cat": "Beleza / Skincare",
+   "focos": [],
+   "kw_score": 1
+  },
+  "REFLITAcomDenao": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 3
+  },
+  "RadardaPoliticaOf": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 31
+  },
+  "RafaelLimaDigital": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 25
+  },
+  "RafaelNevesTricologista": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "RanqueadoPro": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "RenatoAsse": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "ReporterSaude": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 17
+  },
+  "RobsoliveiraDesign": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 24
+  },
+  "Rodrigo-Pimentel": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 9
+  },
+  "RomeuZemaOficial": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "RoyalCarbon": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 46
+  },
+  "SOSBRAS": {
+   "cat": "Beleza / Skincare",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 6
+  },
+  "SaminYasar_": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 6
+  },
+  "SandeepSwadia": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 10
+  },
+  "SatChit": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "ScudelerVidaInternacional": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 29
+  },
+  "SebastianHardyAI": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 15
+  },
+  "ShaneHummus": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 2
+  },
+  "SimonMuline": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 8
+  },
+  "SimplilearnOfficial": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 3
+  },
+  "Snapmaker": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 1
+  },
+  "SocialMediadeElite": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 13
+  },
+  "SuperPiping": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "SuperTireoide": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 59
+  },
+  "TARCISIOSIMONE": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 3
+  },
+  "TEDx": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 12
+  },
+  "THEECOMKING": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 8
+  },
+  "TVCidadeVerdePI": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 10
+  },
+  "TalkFlow": {
+   "cat": "Educacao / Concursos",
+   "focos": [
+    "Investimentos/Financas"
+   ],
+   "kw_score": 2
+  },
+  "TechBRCanal": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 31
+  },
+  "TechRapport": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "TechVali1": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 5
+  },
+  "Terra": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "TerraTrendofc": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 6
+  },
+  "ThalissonTtTech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 7
+  },
+  "TheDiaryOfACEO": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 6
+  },
+  "TheLite": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "The_TechTrends": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 19
+  },
+  "The_Universe_4": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "TicaracaticastCortes": {
+   "cat": "Outros",
+   "focos": [
+    "Investimentos/Financas"
+   ],
+   "kw_score": 2
+  },
+  "TimSEOGuru": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 11
+  },
+  "TocaCultural": {
+   "cat": "Outros",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 15
+  },
+  "ToguritoCortes": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 6
+  },
+  "TomeMarcos": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 23
+  },
+  "UGREENbr": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 11
+  },
+  "UmBrpeloMundo": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 17
+  },
+  "UniversidadeEcommerce": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 18
+  },
+  "UniversoMisteriosoToday": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 7
+  },
+  "UpFlip": {
+   "cat": "Culinaria / Receitas",
+   "focos": [],
+   "kw_score": 1
+  },
+  "UrandirResponde": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "VS_VALTERDOSSANTOS": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "VanessaAlthman": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 15
+  },
+  "Visafranchise": {
+   "cat": "Fitness / Musculacao",
+   "focos": [],
+   "kw_score": 1
+  },
+  "VistaP": {
+   "cat": "Outros",
+   "focos": [
+    "Suplementos/Saude"
+   ],
+   "kw_score": 1
+  },
+  "VivaMaisVoce": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 38
+  },
+  "WislonTuber": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "Worldostats1": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 1
+  },
+  "Yury_AI": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "ZacktheAIGuy": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 13
+  },
+  "Zattenai": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "abelhandomundoafora": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 11
+  },
+  "achedentista2921": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 12
+  },
+  "addisonjarman": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "adoradoresnanet": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 18
+  },
+  "advitoriaemcristooficial": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 42
+  },
+  "affiliatemarketinghowto4711": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 1
+  },
+  "afiliadadeouro": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "aiTrends-channel": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 2
+  },
+  "ai_makemoneytools": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 1
+  },
+  "alexhenriquepro": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 24
+  },
+  "alongadaotech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 8
+  },
+  "ambitious1z": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 5
+  },
+  "anajords": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 25
+  },
+  "andergavineski": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 38
+  },
+  "andrecostasemfronteiras": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 8
+  },
+  "andyfrasure": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 13
+  },
+  "anelebragante-vendedoraon": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "angelicaleitao": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 10
+  },
+  "antiotariaoficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 36
+  },
+  "antiotariopro": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 7
+  },
+  "aprendendofatos": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "aprendiztech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "asyatravels": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "atkdconnect": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 26
+  },
+  "attekitadev": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 33
+  },
+  "augustobackes": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 39
+  },
+  "aurelioalfieri": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "barbarafranccisco": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 3
+  },
+  "benfelixcsi": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Investimentos/Financas"
+   ],
+   "kw_score": 2
+  },
+  "benjjjaamiinn": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 1
+  },
+  "biggerpockets": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "billionairesmiami": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 3
+  },
+  "bloom_with_bea": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "bmcnewstv": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 21
+  },
+  "bossmilionariaa": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 20
+  },
+  "brasziw": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 5
+  },
+  "brenoazevedoconsultoriaonline": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 17
+  },
+  "brenopfistercuriosidades": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 26
+  },
+  "brunacarneirou": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 4
+  },
+  "brunogabarra": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 19
+  },
+  "brunokrauss": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 20
+  },
+  "brunopicinini": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "bunkercapitalista": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "cafecominovacao": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 31
+  },
+  "caio_ekandrade": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "caiomartinsofc": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "camilacarvalho_id": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "canadamaisqueumsonho": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 26
+  },
+  "canaldoxermar": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "canalmatheuskise": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 25
+  },
+  "canalsandeco": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 26
+  },
+  "canaltech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 20
+  },
+  "carlosribeiro_carlosribeiro": {
+   "cat": "Educacao / Concursos",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 9
+  },
+  "catracalivre": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "cavallini": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "cheddar": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "christian_balian": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 13
+  },
+  "clipadasdobodybuilding": {
+   "cat": "Emagrecimento",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 9
+  },
+  "closertech1": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 3
+  },
+  "clubedosinconformados": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "codigofontetv": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 30
+  },
+  "comerrezarviajar": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 12
+  },
+  "comerrezarviajarvlog": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax"
+   ],
+   "kw_score": 18
+  },
+  "construcaocelular": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 8
+  },
+  "cortesdaniellopezoficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 3
+  },
+  "cotrim13d": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 2
+  },
+  "cpgclickpetroleoegas": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "cpodigitalinternational": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "cursoeletricaecia": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "curtoecuriosomundo": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "danielmastral_oficial": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "danielstavale": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 23
+  },
+  "danieltechonday278": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 2
+  },
+  "danmartell": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 6
+  },
+  "danny_why": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 10
+  },
+  "davidgusmao": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 10
+  },
+  "ddiasmatt": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 32
+  },
+  "deborahfolloni": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 29
+  },
+  "descomplicads": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "dia23": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 1
+  },
+  "dicadodiajustj": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 3
+  },
+  "dicasdeenfermagemcomjosine3741": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 6
+  },
+  "diego_cidade": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 19
+  },
+  "diretoaopontomkd82": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 24
+  },
+  "dr_jonatasfernandez": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 15
+  },
+  "dr_riqmonteiro": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 9
+  },
+  "dra_andreiamombach": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 4
+  },
+  "dralexalves": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 20
+  },
+  "dralumascarenhas": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 12
+  },
+  "drdavirodrigues": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 4
+  },
+  "drdiegotareszkiewicz": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 11
+  },
+  "dreduardogrohs": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 58
+  },
+  "dricarosamuel": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 17
+  },
+  "drintegrativa": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 12
+  },
+  "drjoaomigowski": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 26
+  },
+  "drjulianoplastina": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 31
+  },
+  "drkelwinjuan": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 19
+  },
+  "drmanoelquintino": {
+   "cat": "Emagrecimento",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 21
+  },
+  "drterciorocha": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 17
+  },
+  "duncanrogoff": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 8
+  },
+  "ecoflow_timber_br": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "ecommercefree": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "eduardoaquino": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 27
+  },
+  "emmiescalm": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 1
+  },
+  "empreendedorserial": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "empresaemacao": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "endocrinologiaemdia": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 25
+  },
+  "energiasolaroffgrid": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "enzzopanarotto": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "erickcastilio": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 23
+  },
+  "escolaparaimigrantes9105": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 13
+  },
+  "escritamestra": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 9
+  },
+  "espacosemlimites365": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "especialistautilitario": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 9
+  },
+  "estudaremportugal": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 5
+  },
+  "eubrunoleite": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 11
+  },
+  "eudanielantunes": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "eureka_tech_oficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 7
+  },
+  "eusoubaroneshorts": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "eusoukelvincleto": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "f_fontoura": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 6
+  },
+  "fabianocarvalhojr": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "fabriciolopesconduta": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 6
+  },
+  "factograph": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "falatuh_podcast": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 4
+  },
+  "familiagorlanaespanha": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "fbcuriosidades": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 6
+  },
+  "felipebridges": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 13
+  },
+  "felipesavassi": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "felipestefanoni": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 1
+  },
+  "fernandobeteti": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "filhosdassombras": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 15
+  },
+  "financewithsharan": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 1
+  },
+  "fisiocomdavid": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 9
+  },
+  "fitlifetv": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 2
+  },
+  "flaviobittencourtrosa": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 13
+  },
+  "floridaexplores": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "fluenciasemsegredo": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "franciscodicas": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "franklimgui": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "fullyfundedscholarships": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "gabrieladoctor": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "garra_valdomiro": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 1
+  },
+  "gentequefazviraliza": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 9
+  },
+  "geralpod": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "grow_thtoday": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "guiapaulistinha": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "guiasaudemedbr": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 13
+  },
+  "guilherme_laz": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 25
+  },
+  "guptasayujya": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 12
+  },
+  "gustavobettoni485": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 27
+  },
+  "gxdevv": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "harshhhgautam": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 4
+  },
+  "hashtagsal": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "helioarreche": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "higgsfieldai": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "hipertrofiamuscularhub": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 46
+  },
+  "horadenegocios": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "hubdemilhas": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "iagor": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "iconparkorlando": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "imKamalchhetry": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "influencyme": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 23
+  },
+  "institutofazendodiferenca": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 13
+  },
+  "insuranceexamqueen": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "inteligenciamilgrau": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 3
+  },
+  "investidormatuto": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 56
+  },
+  "ipyramids": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "islamsousa": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "izabela_anholett": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "jacobnach": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 6
+  },
+  "jasoncooperson": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "jasonleefinance": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 10
+  },
+  "jessicafreireff": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 23
+  },
+  "jfelipecardozo": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "jhonatassilvai": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 25
+  },
+  "joaoecodrop": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 11
+  },
+  "johnwickexperience": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "jonjon_o_super_pai_oficial": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 4
+  },
+  "jonnyasia": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "jonocatliff": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 6
+  },
+  "josiellyr_": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 11
+  },
+  "jovenpanflamengo": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 14
+  },
+  "julioandradeia": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 53
+  },
+  "juridicoagil": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 7
+  },
+  "justingluska-tv": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "kaiquegabrieltv": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "kasaustin": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 27
+  },
+  "kelvinlopoo": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "keullerlima5777": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 24
+  },
+  "klausglicemia": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 53
+  },
+  "klebsonqueirozmicrosaas": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 36
+  },
+  "kravmagacaveira": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "l3gi0n666": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "laracanro": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 6
+  },
+  "lauraegocheaga": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 1
+  },
+  "leticiarossih": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 31
+  },
+  "lucaotech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "lucasflame_ai02": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 26
+  },
+  "lucaslopesnutri": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 25
+  },
+  "lucasmantovani_11": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 4
+  },
+  "lucassiqueiradev": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "luizzsalles": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 31
+  },
+  "mackswendhell": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 17
+  },
+  "maestrosdaia": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 28
+  },
+  "magalhaesemoreno": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 19
+  },
+  "maiconrissi": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 12
+  },
+  "makemoneywithaipro": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "mamba_digital": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 1
+  },
+  "manodeyvin": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "manuela_lana": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 50
+  },
+  "marceladegusta": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 1
+  },
+  "marceloprandienglish": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 7
+  },
+  "marcosserranow": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 22
+  },
+  "maric_": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "marktilbury": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 1
+  },
+  "marlonwlourenco": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 4
+  },
+  "marombabrazilian": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 2
+  },
+  "maryanamoro": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "mateusshop69": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 11
+  },
+  "matheusfonseca_ia": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 17
+  },
+  "mattcamara": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 18
+  },
+  "mattloui": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 14
+  },
+  "mentthora": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 8
+  },
+  "metodoshortsdark": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 29
+  },
+  "meupaisparaguai": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "mgtincexe": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 9
+  },
+  "milhascomatheus": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "mmowithaitools": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "momentoviagemoficial": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "moneyhomeofficejorge": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 27
+  },
+  "moneywithai_01": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "moonasmagicka": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "motoristadesucesso2": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "mr_aicash": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 3
+  },
+  "mundodapelota": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 6
+  },
+  "murilodiasbr": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 4
+  },
+  "mvmcreators": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 13
+  },
+  "natanah963": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 3
+  },
+  "negociosemmente": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 28
+  },
+  "nerdsdenegocios": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 26
+  },
+  "nikolassfaria": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "nossouniverso00oficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "nune_magisterium": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 3
+  },
+  "o_economista": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "obrunookamoto": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "oclassico_": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 4
+  },
+  "odanilogato": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 4
+  },
+  "odiariodeteresopolis": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 14
+  },
+  "ojoao_carvalho": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 22
+  },
+  "ojuniorvieira": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "okxaustralia": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "olaciencia": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 14
+  },
+  "olavoedocarvalho": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 25
+  },
+  "omarcioeugeniooficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 5
+  },
+  "omestredaenergia": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 4
+  },
+  "ondavisual12": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 21
+  },
+  "ondeeuclico": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "opedrolotz": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 32
+  },
+  "oracaoda_manha": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "orlandodiferente": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax"
+   ],
+   "kw_score": 6
+  },
+  "oroneiabreu": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 11
+  },
+  "oyanpedro": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 24
+  },
+  "palestrante_alimenticio": {
+   "cat": "Emagrecimento",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 24
+  },
+  "papodeenergia": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "papodemaconaria": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "partiuintercambio": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "pativlogssss": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 14
+  },
+  "pauloaguiarx": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 32
+  },
+  "pcdofafa": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 16
+  },
+  "pelagestao": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 6
+  },
+  "pereiraodastintas": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 3
+  },
+  "personalburn": {
+   "cat": "Suplementos / Saude",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 13
+  },
+  "podcastdoladeira": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 4
+  },
+  "portofrederico": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 8
+  },
+  "pptreta": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "prefiroviajartv": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "primobilingue": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 3
+  },
+  "primorico": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax"
+   ],
+   "kw_score": 5
+  },
+  "prjoshuabayer": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 48
+  },
+  "profpardal-g1f": {
+   "cat": "Educacao / Concursos",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "quanticdespert": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 17
+  },
+  "radiocorredor1mi": {
+   "cat": "Educacao / Concursos",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 11
+  },
+  "raquelmendes_financas": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 25
+  },
+  "ratosdeia": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 20
+  },
+  "rayanefilgueiraa": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 5
+  },
+  "raycfu": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 12
+  },
+  "realidademilitartv": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "researchandanalysis1": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 4
+  },
+  "resgatescommilhas": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 7
+  },
+  "reviewsporsp": {
+   "cat": "Culinaria / Receitas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 8
+  },
+  "richardfain": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "rip_esquerda": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 13
+  },
+  "rob_boliver": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 14
+  },
+  "rob_correa": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 8
+  },
+  "robertaabreuconexaoquantica": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 3
+  },
+  "robsmancuso": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "sabrina_ramonov": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 40
+  },
+  "safesrc": {
+   "cat": "Noticias / Politica",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 12
+  },
+  "samarachecon": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 7
+  },
+  "samuel1989": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 64
+  },
+  "saopaulointerior": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "seanjpan": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "shanehummus": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 5
+  },
+  "sirpaulocarvalho": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "soulbm_oficial": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [],
+   "kw_score": 1
+  },
+  "soyjosemasanchez": {
+   "cat": "Educacao / Concursos",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 3
+  },
+  "splanoseacao": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 2
+  },
+  "spokesmayne": {
+   "cat": "Fitness / Musculacao",
+   "focos": [],
+   "kw_score": 1
+  },
+  "suprabike_": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 12
+  },
+  "tadhgblommerde": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 3
+  },
+  "tech_rank": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 14
+  },
+  "techbymidas": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "techjobberpod": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 1
+  },
+  "technatela": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 2
+  },
+  "techzone3887": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "tecmundo": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 15
+  },
+  "temdetutto": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 11
+  },
+  "tempoagil": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 3
+  },
+  "tesesofia": {
+   "cat": "Emagrecimento",
+   "focos": [],
+   "kw_score": 1
+  },
+  "thalena-lima": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 19
+  },
+  "thaysknight": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 7
+  },
+  "theecomking": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 18
+  },
+  "thekoerneroffice": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 8
+  },
+  "themontmag": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "theschooloflifetv": {
+   "cat": "Educacao / Concursos",
+   "focos": [],
+   "kw_score": 1
+  },
+  "thezinnystudio": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 10
+  },
+  "thiagoboeiras": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 48
+  },
+  "thiagoincorporador": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "thiagosantosoinvestidor": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 40
+  },
+  "tiagocesarpf": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 6
+  },
+  "tiagomatosweb": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 23
+  },
+  "toptech_oficial": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 36
+  },
+  "torrestransportes": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 12
+  },
+  "tripjuntosporai": {
+   "cat": "Beleza / Skincare",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 5
+  },
+  "trippartiu": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 8
+  },
+  "turistorlando": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 4
+  },
+  "universidadedoporto": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 15
+  },
+  "universotrezoitao": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 14
+  },
+  "ursafilm": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "vaibhavsisinty": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Afiliados/Dinheiro Online"
+   ],
+   "kw_score": 28
+  },
+  "vaicombruno": {
+   "cat": "Viagem / Lifestyle",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 7
+  },
+  "vascodagama2108": {
+   "cat": "Espiritualidade / Religiao",
+   "focos": [],
+   "kw_score": 2
+  },
+  "vegasstarfish": {
+   "cat": "Fitness / Musculacao",
+   "focos": [],
+   "kw_score": 1
+  },
+  "viajareacura": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 3
+  },
+  "viajarmelhoremedio": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 17
+  },
+  "vilaverdemurilo": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 26
+  },
+  "vitaoalimentos": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "vlogdajujusalimeni": {
+   "cat": "Fitness / Musculacao",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 16
+  },
+  "vocemaistech_": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 18
+  },
+  "vturb": {
+   "cat": "Afiliados / Marketing Digital",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Afiliados/Dinheiro Online",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 34
+  },
+  "wanderess_priyanka": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 6
+  },
+  "wassenger": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "wbenergiasolar": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 14
+  },
+  "wemakemoneywithai": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao"
+   ],
+   "kw_score": 1
+  },
+  "wh1spers_of_truth": {
+   "cat": "Outros",
+   "focos": [],
+   "kw_score": 0
+  },
+  "willgrazioli": {
+   "cat": "Investimentos / Financas",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 11
+  },
+  "xerifetech": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento",
+    "Investimentos/Financas"
+   ],
+   "kw_score": 54
+  },
+  "xucomx": {
+   "cat": "IA / Tecnologia / Automacao",
+   "focos": [
+    "IA/Tecnologia/Automacao",
+    "Psicologia/Mente/Desenvolvimento"
+   ],
+   "kw_score": 7
+  },
+  "yoga_abhyasa": {
+   "cat": "Psicologia / Desenvolvimento Pessoal",
+   "focos": [
+    "Psicologia/Mente/Desenvolvimento",
+    "Sono/Noise/Relax",
+    "Investimentos/Financas",
+    "Suplementos/Saude"
+   ],
+   "kw_score": 6
+  }
+ },
+ "categorias": [
+  "Afiliados / Marketing Digital",
+  "Investimentos / Financas",
+  "Suplementos / Saude",
+  "Emagrecimento",
+  "Fitness / Musculacao",
+  "Beleza / Skincare",
+  "Psicologia / Desenvolvimento Pessoal",
+  "Sono / Relax / ASMR",
+  "IA / Tecnologia / Automacao",
+  "Educacao / Concursos",
+  "Culinaria / Receitas",
+  "Noticias / Politica",
+  "Viagem / Lifestyle",
+  "Espiritualidade / Religiao",
+  "Curiosidades / Entretenimento",
+  "Outros"
+ ],
+ "focos": [
+  "IA/Tecnologia/Automacao",
+  "Psicologia/Mente/Desenvolvimento",
+  "Afiliados/Dinheiro Online",
+  "Sono/Noise/Relax",
+  "Investimentos/Financas",
+  "Suplementos/Saude"
+ ]
+}
