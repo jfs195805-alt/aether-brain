@@ -2,6 +2,7 @@ name: AETHER BRAIN 16GB (trilhoes de combinacoes, git-only, nunca bloqueia)
 on:
   push:
     branches: [ main ]
+    paths-ignore: [ 'GITHUB_LIMITS.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
   workflow_dispatch: {}
   schedule:
     - cron: "*/10 * * * *"
