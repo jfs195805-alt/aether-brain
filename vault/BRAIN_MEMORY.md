@@ -1,6 +1,6 @@
 # BRAIN MEMORY — aprendizado acumulado (offline, cresce sozinho)
 
-Ciclos: 1 | atualizado: 2026-07-11T16:11:51Z | NEXT BEST: **noticias / politica** (score 3140.9)
+Ciclos: 2 | atualizado: 2026-07-11T16:13:19Z | NEXT BEST: **noticias / politica** (score 3140.9)
 
 ## Hipoteses por nicho (score = lucro x confianca x views)
 
