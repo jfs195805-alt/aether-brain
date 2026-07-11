@@ -16,13 +16,20 @@ jobs:
         with:
           token: ${{ secrets.AETHER_PAT }}
       - name: deps
-        run: pip install --quiet numpy scipy || true
+        run: pip install --quiet numpy scipy yt-dlp youtube-transcript-api || true
       - name: corpus do Drive (591+ canais)
         run: |
           curl -s https://rclone.org/install.sh | sudo bash || true
           mkdir -p ~/.config/rclone transcripts
           echo "${{ secrets.RCLONE_CONF_B64 }}" | base64 -d > ~/.config/rclone/rclone.conf || true
           rclone copy gdrive:AETHER_TRANSCRIPTS/youtube transcripts --include "*.jsonl" --transfers 32 --fast-list || true
+      - name: SCRAPE transcricoes NOVAS (infinito) + salva no Drive
+        run: |
+          python channel_ranks.py || true
+          python scrape_incremental.py || true
+          python mine_channel.py || true
+          python backfill_desc.py || true
+          rclone copy transcripts gdrive:AETHER_TRANSCRIPTS/youtube --include "*.jsonl" --transfers 32 || true
       - name: RECLASSIFICAR todos os canais
         run: python reclassify.py || true
       - name: CRUZAMENTO EM MASSA (16GB, vocab 6000 = milhoes de combinacoes)
