@@ -24,6 +24,8 @@ jobs:
           mkdir -p ~/.config/rclone transcripts
           echo "${{ secrets.RCLONE_CONF_B64 }}" | base64 -d > ~/.config/rclone/rclone.conf || true
           rclone copy gdrive:AETHER_TRANSCRIPTS/youtube transcripts --include "*.jsonl" --transfers 32 --fast-list || true
+          mkdir -p transcripts_ts
+          rclone copy gdrive:AETHER_TRANSCRIPTS/youtube_ts transcripts_ts --include "*.jsonl" --transfers 32 --fast-list || true
       - name: SCRAPE transcricoes NOVAS (infinito) + salva no Drive
         run: |
           python channel_ranks.py || true
@@ -39,6 +41,12 @@ jobs:
           BEST=$(AI_ONCE=1 python ai_health.py 2>/dev/null | tail -1)
           [ -n "$BEST" ] && echo "AETHER_AI_ORDER=$BEST" >> $GITHUB_ENV
           echo "melhor IA agora: $BEST"
+      - name: TIMESTAMPS REAIS de cada fala (backfill incremental)
+        env:
+          TS_BATCH: "250"
+        run: |
+          python backfill_ts.py || true
+          rclone copy transcripts_ts gdrive:AETHER_TRANSCRIPTS/youtube_ts --include "*.jsonl" --transfers 32 || true
       - name: RECLASSIFICAR todos os canais
         run: python reclassify.py || true
       - name: CRUZAMENTO EM MASSA (16GB, vocab 6000 = milhoes de combinacoes)
@@ -52,10 +60,11 @@ jobs:
           python mass_ideas.py || true
       - name: GRAFO NEURAL REAL (frases reais + PMI, 16GB)
         env:
-          NG_V: "1500"
-          NG_NODES: "700"
+          NG_V: "4000"
+          NG_NODES: "800"
+          NG_CAND: "3000"
           NG_EDGES: "6000"
-          NG_RECS: "250"
+          NG_RECS: "400"
         run: python neural_graph.py || true
       - name: ffmpeg
         run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg || true
