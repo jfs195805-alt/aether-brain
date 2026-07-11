@@ -37,7 +37,6 @@ jobs:
           NG_V: "60000"
           NG_DFMAX: "1200"
           NG_BUCKET: "1200"
-          NG_KEEPK: "6"
           NG_LIM: "0.18"
           NG_MAXPAIRS: "1500000000"
           NG_KEEPK: "10"
