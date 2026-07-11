@@ -97,6 +97,21 @@ def _pollinations_text(prompt, timeout=35):
         return None
 
 
+
+# --- ordem DINAMICA: usa a melhor IA gratis do momento (ai_health / AETHER_AI_ORDER) ---
+import os as _os
+def _reorder():
+    o=_os.environ.get("AETHER_AI_ORDER","")
+    if not o:
+        try: o=open(_os.path.expanduser("~/aether/AETHER_AI_ORDER.txt")).read().strip()
+        except Exception: o=""
+    if o:
+        pref=[x.strip().lower() for x in o.split(",") if x.strip()]
+        try:
+            globals()["PROVIDERS"]=sorted(PROVIDERS,key=lambda p:(pref.index(p[0].lower()) if p[0].lower() in pref else 99))
+        except Exception: pass
+_reorder()
+
 def ask(prompt, max_tokens=300, max_cycles=3):
     for cycle in range(max_cycles):
         alive = _ensure(force=(cycle > 0))
