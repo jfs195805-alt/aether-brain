@@ -51,6 +51,11 @@ h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;color:var(--
 .bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--ac),var(--au))}
 .mut{color:var(--mut)}.ok{color:var(--ok)}.au{color:var(--au)}.vi{color:var(--vi)}
 .foot{color:var(--mut);font-size:11px;text-align:center;margin-top:24px}
+.scroll{max-height:330px;overflow-y:auto;padding-right:6px}
+.scroll::-webkit-scrollbar{width:8px}
+.scroll::-webkit-scrollbar-track{background:#0b1220;border-radius:8px}
+.scroll::-webkit-scrollbar-thumb{background:#22304a;border-radius:8px}
+.scroll::-webkit-scrollbar-thumb:hover{background:var(--ac)}
 </style>
 </head>
 <body>
@@ -195,8 +200,8 @@ function render(){
     <div class="bar"><i style="width:${cb.pct||0}%"></i></div></div>`);
   const cc=Object.entries(cats.contagem||{}).sort((a,b)=>b[1]-a[1]).slice(0,12);
   const mx=cc.length?cc[0][1]:1;
-  P.push(`<div class="panel"><h3>Frases por categoria</h3>${cc.map(([k,v])=>
-    `<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${k}</span><b>${n(v)}</b></div><div class="bar"><i style="width:${Math.round(v/mx*100)}%"></i></div></div>`).join('')||'<div class="sub">classificando…</div>'}</div>`);
+  P.push(`<div class="panel"><h3>Frases por categoria</h3><div class="scroll">${cc.map(([k,v])=>
+    `<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${k}</span><b>${n(v)}</b></div><div class="bar"><i style="width:${Math.round(v/mx*100)}%"></i></div></div>`).join('')||'<div class="sub">classificando…</div>'}</div></div>`);
   P.push(`<div class="panel"><h3>Matemática da rede</h3>
     <div class="row"><span>Triângulos reais</span><b>${n(sy.triangulos_reais)}</b></div>
     <div class="row"><span>Figuras (cliques)</span><b class="vi">${n(sy.figuras_cliques)}</b></div>
@@ -216,8 +221,8 @@ function render(){
     <div class="row"><span>Sem link (revisar)</span><b class="au">${n((au.sem_link_de_produto_revisar||[]).length)}</b></div>
     <div class="sub" style="margin-top:4px">Nunca deleto vídeo — duplicado vira privado (reversível).</div></div>`);
   const top=(S.top_canais||[]); const mx2=top.length?top[0].videos:1;
-  P.push(`<div class="panel"><h3>Vídeos por canal (top)</h3>${top.slice(0,15).map(t=>
-    `<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx2*100)}%"></i></div></div>`).join('')||'<div class="sub">—</div>'}</div>`);
+  P.push(`<div class="panel"><h3>Vídeos por canal (${n(top.length)} canais)</h3><div class="scroll">${top.map(t=>
+    `<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><span>${t.canal}</span><b>${n(t.videos)}</b></div><div class="bar"><i style="width:${Math.round(t.videos/mx2*100)}%"></i></div></div>`).join('')||'<div class="sub">—</div>'}</div></div>`);
   const lp=Object.entries(S.lucro||{}).slice(0,10).map(([k,v])=>`<div class="row"><span>${k}</span><span class="au">$${n(typeof v==='object'?(v.lucro_1k||0):v)}</span></div>`).join('');
   P.push(`<div class="panel"><h3>Lucro estimado / categoria</h3>${lp||'<div class="sub">motor aquecendo</div>'}</div>`);
   const prov=(S.ia||[]).map(p=>`<div class="row"><span>${p.name||p}</span><span class="${p.alive?'ok':'mut'}">${p.alive?'✓':'—'}</span></div>`).join('');
