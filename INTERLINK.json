@@ -1,53 +1,496 @@
 {
- "ts": "2026-07-11T16:21:30Z",
+ "ts": "2026-07-11T16:23:38Z",
  "arquivos": 592,
  "registros": 8155,
- "segundos": 3.6,
+ "segundos": 3.7,
  "nucleos": 4,
  "por_nicho_registros": {
-  "geral": 8155
+  "Financas / Investimentos": 2580,
+  "Afiliados / Marketing Digital": 2063,
+  "IA / Tecnologia / Automacao": 1591,
+  "geral": 855,
+  "Suplementos / Saude": 789,
+  "Psicologia / Desenvolvimento Pessoal": 153,
+  "Noticias / Politica": 107,
+  "Emagrecimento": 17
  },
  "termos_por_nicho": {
+  "Afiliados / Marketing Digital": [
+   "aqui",
+   "going",
+   "like",
+   "then",
+   "want",
+   "gente",
+   "here",
+   "product",
+   "because",
+   "people",
+   "video",
+   "really"
+  ],
   "geral": [
    "aqui",
-   "gente",
    "like",
-   "going",
+   "gente",
+   "right",
    "here",
-   "fazer",
+   "going",
    "then",
-   "tamb",
    "want",
+   "tamb",
    "pode",
+   "okay",
+   "fazer"
+  ],
+  "IA / Tecnologia / Automacao": [
+   "aqui",
+   "gente",
+   "here",
+   "like",
+   "fazer",
+   "tamb",
+   "pode",
+   "going",
+   "cara",
+   "tudo",
+   "cloud",
+   "right"
+  ],
+  "Financas / Investimentos": [
+   "aqui",
+   "gente",
+   "fazer",
+   "tamb",
    "assim",
-   "cara"
+   "pode",
+   "cara",
+   "here",
+   "tudo",
+   "vamos",
+   "pessoas",
+   "come"
+  ],
+  "Suplementos / Saude": [
+   "gente",
+   "aqui",
+   "like",
+   "music",
+   "tamb",
+   "fazer",
+   "know",
+   "assim",
+   "pode",
+   "right",
+   "going",
+   "ncia"
+  ],
+  "Noticias / Politica": [
+   "gente",
+   "aqui",
+   "going",
+   "know",
+   "people",
+   "want",
+   "think",
+   "right",
+   "like",
+   "when",
+   "here",
+   "because"
+  ],
+  "Emagrecimento": [
+   "aqui",
+   "here",
+   "music",
+   "vamos",
+   "gente",
+   "sica",
+   "nosso",
+   "fazer",
+   "tamb",
+   "instant",
+   "noodles",
+   "pode"
+  ],
+  "Psicologia / Desenvolvimento Pessoal": [
+   "gente",
+   "aqui",
+   "like",
+   "sica",
+   "ncia",
+   "tamb",
+   "assim",
+   "fazer",
+   "vida",
+   "mulher",
+   "nbsp",
+   "come"
   ]
  },
  "sinais_economicos_por_nicho": {
+  "Afiliados / Marketing Digital": {
+   "venda": 376,
+   "ads": 1071,
+   "viral": 410,
+   "convers": 719,
+   "weight": 173,
+   "health": 308,
+   "supplement": 56,
+   "nicho": 152,
+   "crypto": 35,
+   "nft": 8,
+   "afili": 312,
+   "afiliado": 308,
+   "cliqu": 293,
+   "lucro": 166,
+   "renda": 190,
+   "comiss": 247,
+   "curiosidad": 72,
+   "arbitrag": 6,
+   "psicolog": 17,
+   "dolar": 2
+  },
   "geral": {
-   "venda": 1450,
-   "supplement": 158,
-   "health": 752,
-   "weight": 562,
-   "cliqu": 821,
-   "curiosidad": 387,
-   "ads": 2232,
-   "convers": 2883,
-   "renda": 900,
-   "nicho": 595,
-   "viral": 858,
-   "lucro": 601,
-   "crypto": 115,
-   "comiss": 550,
-   "afili": 533,
-   "afiliado": 499,
-   "nft": 17,
-   "psicolog": 88,
-   "arbitrag": 16,
-   "dolar": 14,
-   "trafego": 3
+   "supplement": 10,
+   "health": 86,
+   "weight": 68,
+   "comiss": 18,
+   "convers": 248,
+   "venda": 75,
+   "afili": 9,
+   "afiliado": 7,
+   "lucro": 29,
+   "cliqu": 45,
+   "nicho": 21,
+   "ads": 179,
+   "curiosidad": 25,
+   "renda": 67,
+   "psicolog": 16,
+   "viral": 31,
+   "dolar": 2,
+   "crypto": 8
+  },
+  "IA / Tecnologia / Automacao": {
+   "cliqu": 198,
+   "curiosidad": 87,
+   "ads": 433,
+   "convers": 648,
+   "nicho": 136,
+   "venda": 261,
+   "viral": 154,
+   "lucro": 56,
+   "renda": 114,
+   "health": 57,
+   "crypto": 14,
+   "weight": 59,
+   "supplement": 3,
+   "afili": 30,
+   "afiliado": 26,
+   "comiss": 46,
+   "psicolog": 9,
+   "arbitrag": 3,
+   "nft": 2,
+   "dolar": 1
+  },
+  "Financas / Investimentos": {
+   "health": 125,
+   "convers": 946,
+   "renda": 503,
+   "curiosidad": 174,
+   "comiss": 233,
+   "venda": 708,
+   "nicho": 273,
+   "lucro": 338,
+   "cliqu": 248,
+   "ads": 433,
+   "weight": 86,
+   "psicolog": 38,
+   "afili": 182,
+   "afiliado": 158,
+   "viral": 237,
+   "crypto": 54,
+   "arbitrag": 6,
+   "dolar": 9,
+   "supplement": 16,
+   "trafego": 3,
+   "nft": 6
+  },
+  "Suplementos / Saude": {
+   "lucro": 10,
+   "venda": 20,
+   "convers": 267,
+   "ads": 99,
+   "viral": 20,
+   "curiosidad": 18,
+   "renda": 20,
+   "weight": 167,
+   "health": 158,
+   "nicho": 12,
+   "supplement": 72,
+   "crypto": 2,
+   "arbitrag": 1,
+   "cliqu": 37,
+   "psicolog": 6,
+   "comiss": 3,
+   "nft": 1
+  },
+  "Noticias / Politica": {
+   "convers": 24,
+   "renda": 5,
+   "comiss": 3,
+   "nicho": 1,
+   "venda": 5,
+   "viral": 4,
+   "health": 13,
+   "curiosidad": 2,
+   "weight": 6,
+   "ads": 7,
+   "crypto": 2,
+   "lucro": 1
+  },
+  "Emagrecimento": {},
+  "Psicologia / Desenvolvimento Pessoal": {
+   "convers": 31,
+   "venda": 5,
+   "lucro": 1,
+   "ads": 10,
+   "renda": 1,
+   "viral": 2,
+   "supplement": 1,
+   "health": 5,
+   "weight": 3,
+   "psicolog": 2,
+   "curiosidad": 9
   }
  },
- "pontes_entre_nichos": [],
+ "pontes_entre_nichos": [
+  {
+   "a": "Afiliados / Marketing Digital",
+   "b": "Noticias / Politica",
+   "shared": [
+    "because",
+    "gente",
+    "going",
+    "people",
+    "these"
+   ]
+  },
+  {
+   "a": "geral",
+   "b": "Noticias / Politica",
+   "shared": [
+    "because",
+    "gente",
+    "going",
+    "right",
+    "these"
+   ]
+  },
+  {
+   "a": "IA / Tecnologia / Automacao",
+   "b": "Financas / Investimentos",
+   "shared": [
+    "assim",
+    "fazer",
+    "gente",
+    "right",
+    "vamos"
+   ]
+  },
+  {
+   "a": "IA / Tecnologia / Automacao",
+   "b": "Suplementos / Saude",
+   "shared": [
+    "assim",
+    "fazer",
+    "gente",
+    "going",
+    "right"
+   ]
+  },
+  {
+   "a": "Afiliados / Marketing Digital",
+   "b": "geral",
+   "shared": [
+    "because",
+    "gente",
+    "going",
+    "these"
+   ]
+  },
+  {
+   "a": "geral",
+   "b": "IA / Tecnologia / Automacao",
+   "shared": [
+    "fazer",
+    "gente",
+    "going",
+    "right"
+   ]
+  },
+  {
+   "a": "geral",
+   "b": "Suplementos / Saude",
+   "shared": [
+    "fazer",
+    "gente",
+    "going",
+    "right"
+   ]
+  },
+  {
+   "a": "IA / Tecnologia / Automacao",
+   "b": "Psicologia / Desenvolvimento Pessoal",
+   "shared": [
+    "assim",
+    "fazer",
+    "gente",
+    "vamos"
+   ]
+  },
+  {
+   "a": "Financas / Investimentos",
+   "b": "Suplementos / Saude",
+   "shared": [
+    "assim",
+    "fazer",
+    "gente",
+    "right"
+   ]
+  },
+  {
+   "a": "Financas / Investimentos",
+   "b": "Psicologia / Desenvolvimento Pessoal",
+   "shared": [
+    "assim",
+    "fazer",
+    "gente",
+    "vamos"
+   ]
+  },
+  {
+   "a": "Suplementos / Saude",
+   "b": "Noticias / Politica",
+   "shared": [
+    "gente",
+    "going",
+    "people",
+    "right"
+   ]
+  },
+  {
+   "a": "Afiliados / Marketing Digital",
+   "b": "Suplementos / Saude",
+   "shared": [
+    "gente",
+    "going",
+    "people"
+   ]
+  },
+  {
+   "a": "geral",
+   "b": "Financas / Investimentos",
+   "shared": [
+    "fazer",
+    "gente",
+    "right"
+   ]
+  },
+  {
+   "a": "IA / Tecnologia / Automacao",
+   "b": "Noticias / Politica",
+   "shared": [
+    "gente",
+    "going",
+    "right"
+   ]
+  },
+  {
+   "a": "IA / Tecnologia / Automacao",
+   "b": "Emagrecimento",
+   "shared": [
+    "fazer",
+    "gente",
+    "vamos"
+   ]
+  },
+  {
+   "a": "Financas / Investimentos",
+   "b": "Emagrecimento",
+   "shared": [
+    "fazer",
+    "gente",
+    "vamos"
+   ]
+  },
+  {
+   "a": "Suplementos / Saude",
+   "b": "Emagrecimento",
+   "shared": [
+    "fazer",
+    "gente",
+    "music"
+   ]
+  },
+  {
+   "a": "Suplementos / Saude",
+   "b": "Psicologia / Desenvolvimento Pessoal",
+   "shared": [
+    "assim",
+    "fazer",
+    "gente"
+   ]
+  },
+  {
+   "a": "Emagrecimento",
+   "b": "Psicologia / Desenvolvimento Pessoal",
+   "shared": [
+    "fazer",
+    "gente",
+    "vamos"
+   ]
+  },
+  {
+   "a": "Afiliados / Marketing Digital",
+   "b": "IA / Tecnologia / Automacao",
+   "shared": [
+    "gente",
+    "going"
+   ]
+  },
+  {
+   "a": "Afiliados / Marketing Digital",
+   "b": "Emagrecimento",
+   "shared": [
+    "gente",
+    "video"
+   ]
+  },
+  {
+   "a": "geral",
+   "b": "Emagrecimento",
+   "shared": [
+    "fazer",
+    "gente"
+   ]
+  },
+  {
+   "a": "geral",
+   "b": "Psicologia / Desenvolvimento Pessoal",
+   "shared": [
+    "fazer",
+    "gente"
+   ]
+  },
+  {
+   "a": "Financas / Investimentos",
+   "b": "Noticias / Politica",
+   "shared": [
+    "gente",
+    "right"
+   ]
+  }
+ ],
  "ideias_previas": 0
 }

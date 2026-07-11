@@ -1,6 +1,6 @@
 # BRAIN MEMORY — aprendizado acumulado (offline, cresce sozinho)
 
-Ciclos: 10 | atualizado: 2026-07-11T16:21:44Z | NEXT BEST: **noticias / politica** (score 3140.9)
+Ciclos: 11 | atualizado: 2026-07-11T16:23:46Z | NEXT BEST: **noticias / politica** (score 3140.9)
 
 ## Hipoteses por nicho (score = lucro x confianca x views)
 
@@ -12,7 +12,7 @@ Ciclos: 10 | atualizado: 2026-07-11T16:21:44Z | NEXT BEST: **noticias / politica
 - **psicologia / desenvolvimento pessoal** — score 1251.3 | lucro/1k $2503 | views 0 | ideias 0
 - **investimentos / financas** — score 1238.5 | lucro/1k $2477 | views 0 | ideias 0
 - **curiosidades / entretenimento** — score 1220.1 | lucro/1k $2440 | views 0 | ideias 0
-- **outros** — score 928.8 | lucro/1k $1858 | views 0 | ideias 0
+- **outros** — score 1191.6 | lucro/1k $2383 | views 0 | ideias 0
 - **culinaria / receitas** — score 820.8 | lucro/1k $1642 | views 0 | ideias 0
 - **espiritualidade / religiao** — score 627.7 | lucro/1k $1255 | views 0 | ideias 0
 - **educacao / concursos** — score 503.8 | lucro/1k $1008 | views 0 | ideias 0
@@ -34,3 +34,11 @@ Ciclos: 10 | atualizado: 2026-07-11T16:21:44Z | NEXT BEST: **noticias / politica
 - curiosity-gap hook -> aplicar em afiliados / marketing digital
 - price-shock POV -> aplicar em afiliados / marketing digital
 - '3 things nobody tells you' -> aplicar em afiliados / marketing digital
+- ponte Afiliados / Marketing Digital x Noticias / Politica via because, gente, going
+- ponte geral x Noticias / Politica via because, gente, going
+- ponte IA / Tecnologia / Automacao x Financas / Investimentos via assim, fazer, gente
+- ponte IA / Tecnologia / Automacao x Suplementos / Saude via assim, fazer, gente
+- ponte Afiliados / Marketing Digital x geral via because, gente, going
+- ponte geral x IA / Tecnologia / Automacao via fazer, gente, going
+- ponte geral x Suplementos / Saude via fazer, gente, going
+- ponte IA / Tecnologia / Automacao x Psicologia / Desenvolvimento Pessoal via assim, fazer, gente

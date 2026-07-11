@@ -1,11 +1,11 @@
 {
- "ts": "2026-07-11T16:21:36Z",
+ "ts": "2026-07-11T16:23:54Z",
  "arquivos": 592,
  "registros": 8155,
- "vocab": 1600,
- "nichos": 1,
- "pares_avaliados": 698412,
- "segundos": 6.31,
+ "vocab": 6000,
+ "nichos": 8,
+ "pares_avaliados": 2098780,
+ "segundos": 7.4,
  "numpy": true,
  "top_ideias": [
   {
@@ -15,8 +15,8 @@
    ],
    "score": 499.61,
    "ideia": "Conteudo cruzando 'aqui' + 'gente' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -25,8 +25,8 @@
    ],
    "score": 405.65,
    "ideia": "Conteudo cruzando 'aqui' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -35,8 +35,8 @@
    ],
    "score": 143.03,
    "ideia": "Conteudo cruzando 'gente' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -45,8 +45,8 @@
    ],
    "score": 140.67,
    "ideia": "Conteudo cruzando 'aqui' + 'fazer' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -55,8 +55,8 @@
    ],
    "score": 86.79,
    "ideia": "Conteudo cruzando 'aqui' + 'hoje' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -65,8 +65,8 @@
    ],
    "score": 82.22,
    "ideia": "Conteudo cruzando 'aqui' + 'handle' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -75,18 +75,8 @@
    ],
    "score": 76.75,
    "ideia": "Conteudo cruzando 'aqui' + 'transcript' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "aqui",
-    "tudo"
-   ],
-   "score": 76.2,
-   "ideia": "Conteudo cruzando 'aqui' + 'tudo' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -95,28 +85,28 @@
    ],
    "score": 73.39,
    "ideia": "Conteudo cruzando 'aqui' + 'chars' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "aqui",
+    "tudo"
+   ],
+   "score": 71.87,
+   "ideia": "Conteudo cruzando 'aqui' + 'tudo' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "aqui",
     "tamb"
    ],
-   "score": 71.92,
+   "score": 67.84,
    "ideia": "Conteudo cruzando 'aqui' + 'tamb' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "aqui",
-    "pode"
-   ],
-   "score": 69.88,
-   "ideia": "Conteudo cruzando 'aqui' + 'pode' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -125,8 +115,18 @@
    ],
    "score": 66.93,
    "ideia": "Conteudo cruzando 'going' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "aqui",
+    "pode"
+   ],
+   "score": 65.91,
+   "ideia": "Conteudo cruzando 'aqui' + 'pode' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -135,8 +135,8 @@
    ],
    "score": 57.83,
    "ideia": "Conteudo cruzando 'aqui' + 'come' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -145,8 +145,8 @@
    ],
    "score": 56.01,
    "ideia": "Conteudo cruzando 'aqui' + 'vamos' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -155,8 +155,8 @@
    ],
    "score": 49.34,
    "ideia": "Conteudo cruzando 'aqui' + 'cara' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -165,8 +165,8 @@
    ],
    "score": 46.09,
    "ideia": "Conteudo cruzando 'gente' + 'fazer' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -175,8 +175,8 @@
    ],
    "score": 45.62,
    "ideia": "Conteudo cruzando 'video' + 'handle' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -185,18 +185,8 @@
    ],
    "score": 44.2,
    "ideia": "Conteudo cruzando 'fazer' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "aqui",
-    "assim"
-   ],
-   "score": 43.93,
-   "ideia": "Conteudo cruzando 'aqui' + 'assim' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -205,8 +195,18 @@
    ],
    "score": 42.58,
    "ideia": "Conteudo cruzando 'video' + 'transcript' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "aqui",
+    "assim"
+   ],
+   "score": 41.44,
+   "ideia": "Conteudo cruzando 'aqui' + 'assim' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -215,48 +215,38 @@
    ],
    "score": 40.72,
    "ideia": "Conteudo cruzando 'video' + 'chars' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "aqui",
     "nesse"
    ],
-   "score": 38.81,
+   "score": 36.6,
    "ideia": "Conteudo cruzando 'aqui' + 'nesse' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "aqui",
     "ncia"
    ],
-   "score": 38.78,
+   "score": 36.58,
    "ideia": "Conteudo cruzando 'aqui' + 'ncia' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "like",
     "video"
    ],
-   "score": 36.52,
+   "score": 34.45,
    "ideia": "Conteudo cruzando 'like' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "aqui",
-    "mostrar"
-   ],
-   "score": 35.22,
-   "ideia": "Conteudo cruzando 'aqui' + 'mostrar' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -265,8 +255,8 @@
    ],
    "score": 31.2,
    "ideia": "Conteudo cruzando 'aqui' + 'coisa' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -275,18 +265,28 @@
    ],
    "score": 31.01,
    "ideia": "Conteudo cruzando 'gente' + 'hoje' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "aqui",
+    "mostrar"
+   ],
+   "score": 29.22,
+   "ideia": "Conteudo cruzando 'aqui' + 'mostrar' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "here",
     "video"
    ],
-   "score": 30.84,
+   "score": 29.09,
    "ideia": "Conteudo cruzando 'here' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -295,18 +295,8 @@
    ],
    "score": 28.99,
    "ideia": "Conteudo cruzando 'gente' + 'handle' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "aqui",
-    "olha"
-   ],
-   "score": 28.28,
-   "ideia": "Conteudo cruzando 'aqui' + 'olha' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -315,48 +305,18 @@
    ],
    "score": 27.06,
    "ideia": "Conteudo cruzando 'gente' + 'transcript' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "pode",
-    "video"
-   ],
-   "score": 26.52,
-   "ideia": "Conteudo cruzando 'pode' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "aqui",
-    "mesmo"
+    "olha"
    ],
-   "score": 26.23,
-   "ideia": "Conteudo cruzando 'aqui' + 'mesmo' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "gente",
-    "tudo"
-   ],
-   "score": 26.11,
-   "ideia": "Conteudo cruzando 'gente' + 'tudo' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "going",
-    "here"
-   ],
-   "score": 26.0,
-   "ideia": "Conteudo cruzando 'going' + 'here' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "score": 26.68,
+   "ideia": "Conteudo cruzando 'aqui' + 'olha' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -365,8 +325,8 @@
    ],
    "score": 25.94,
    "ideia": "Conteudo cruzando 'video' + 'hoje' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -375,48 +335,68 @@
    ],
    "score": 25.88,
    "ideia": "Conteudo cruzando 'gente' + 'chars' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "pode",
+    "video"
+   ],
+   "score": 25.02,
+   "ideia": "Conteudo cruzando 'pode' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "aqui",
+    "mesmo"
+   ],
+   "score": 24.74,
+   "ideia": "Conteudo cruzando 'aqui' + 'mesmo' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "gente",
+    "tudo"
+   ],
+   "score": 24.63,
+   "ideia": "Conteudo cruzando 'gente' + 'tudo' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "going",
+    "here"
+   ],
+   "score": 24.52,
+   "ideia": "Conteudo cruzando 'going' + 'here' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "like",
     "going"
    ],
-   "score": 25.04,
+   "score": 23.62,
    "ideia": "Conteudo cruzando 'like' + 'going' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "video",
     "tudo"
    ],
-   "score": 24.51,
+   "score": 23.11,
    "ideia": "Conteudo cruzando 'video' + 'tudo' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "aqui",
-    "falar"
-   ],
-   "score": 23.72,
-   "ideia": "Conteudo cruzando 'aqui' + 'falar' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
-  },
-  {
-   "combo": [
-    "gente",
-    "tamb"
-   ],
-   "score": 23.26,
-   "ideia": "Conteudo cruzando 'gente' + 'tamb' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -425,18 +405,18 @@
    ],
    "score": 22.9,
    "ideia": "Conteudo cruzando 'gente' + 'come' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "aqui",
-    "canal"
+    "falar"
    ],
-   "score": 22.4,
-   "ideia": "Conteudo cruzando 'aqui' + 'canal' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "score": 22.37,
+   "ideia": "Conteudo cruzando 'aqui' + 'falar' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -445,18 +425,18 @@
    ],
    "score": 22.33,
    "ideia": "Conteudo cruzando 'come' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
-    "tamb",
-    "video"
+    "gente",
+    "tamb"
    ],
-   "score": 22.3,
-   "ideia": "Conteudo cruzando 'tamb' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "score": 21.93,
+   "ideia": "Conteudo cruzando 'gente' + 'tamb' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
@@ -465,48 +445,68 @@
    ],
    "score": 21.55,
    "ideia": "Conteudo cruzando 'right' + 'video' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "aqui",
+    "canal"
+   ],
+   "score": 21.12,
+   "ideia": "Conteudo cruzando 'aqui' + 'canal' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
+  },
+  {
+   "combo": [
+    "tamb",
+    "video"
+   ],
+   "score": 21.03,
+   "ideia": "Conteudo cruzando 'tamb' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "gente",
     "pode"
    ],
-   "score": 21.42,
+   "score": 20.2,
    "ideia": "Conteudo cruzando 'gente' + 'pode' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "aqui",
     "sobre"
    ],
-   "score": 21.41,
+   "score": 20.2,
    "ideia": "Conteudo cruzando 'aqui' + 'sobre' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "aqui",
-    "pessoal"
+    "fala"
    ],
-   "score": 20.89,
-   "ideia": "Conteudo cruzando 'aqui' + 'pessoal' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "score": 19.95,
+   "ideia": "Conteudo cruzando 'aqui' + 'fala' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   },
   {
    "combo": [
     "aqui",
     "pessoas"
    ],
-   "score": 20.52,
+   "score": 19.36,
    "ideia": "Conteudo cruzando 'aqui' + 'pessoas' (gancho -> oferta afiliado)",
-   "lucro_estimado_por_1000": 6282.0,
-   "ancora_nicho": "noticias / politica"
+   "lucro_estimado_por_1000": 3172.0,
+   "ancora_nicho": "outros"
   }
  ]
 }
