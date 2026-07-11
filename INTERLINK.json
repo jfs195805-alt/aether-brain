@@ -1,0 +1,53 @@
+{
+ "ts": "2026-07-11T16:11:36Z",
+ "arquivos": 592,
+ "registros": 8155,
+ "segundos": 3.7,
+ "nucleos": 4,
+ "por_nicho_registros": {
+  "geral": 8155
+ },
+ "termos_por_nicho": {
+  "geral": [
+   "aqui",
+   "gente",
+   "like",
+   "going",
+   "here",
+   "fazer",
+   "then",
+   "tamb",
+   "want",
+   "pode",
+   "assim",
+   "cara"
+  ]
+ },
+ "sinais_economicos_por_nicho": {
+  "geral": {
+   "venda": 1450,
+   "supplement": 158,
+   "health": 752,
+   "weight": 562,
+   "cliqu": 821,
+   "curiosidad": 387,
+   "ads": 2232,
+   "convers": 2883,
+   "renda": 900,
+   "nicho": 595,
+   "viral": 858,
+   "lucro": 601,
+   "crypto": 115,
+   "comiss": 550,
+   "afili": 533,
+   "afiliado": 499,
+   "nft": 17,
+   "psicolog": 88,
+   "arbitrag": 16,
+   "dolar": 14,
+   "trafego": 3
+  }
+ },
+ "pontes_entre_nichos": [],
+ "ideias_previas": 0
+}

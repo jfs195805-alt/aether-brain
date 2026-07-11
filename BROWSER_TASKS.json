@@ -1,0 +1,16 @@
+{
+ "queue": [
+  {
+   "id": "audit_yt_202607111611",
+   "action": "screenshot",
+   "url": "https://studio.youtube.com",
+   "note": "auditar canal apos publicar (leitura)"
+  },
+  {
+   "id": "nb_202607111611",
+   "action": "screenshot",
+   "url": "https://studio.youtube.com",
+   "note": "checar performance p/ NEXT BEST: noticias / politica"
+  }
+ ]
+}

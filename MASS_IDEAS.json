@@ -1,0 +1,512 @@
+{
+ "ts": "2026-07-11T16:11:43Z",
+ "arquivos": 592,
+ "registros": 8155,
+ "vocab": 1600,
+ "nichos": 1,
+ "pares_avaliados": 698412,
+ "segundos": 6.23,
+ "numpy": true,
+ "top_ideias": [
+  {
+   "combo": [
+    "aqui",
+    "gente"
+   ],
+   "score": 499.61,
+   "ideia": "Conteudo cruzando 'aqui' + 'gente' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "video"
+   ],
+   "score": 405.65,
+   "ideia": "Conteudo cruzando 'aqui' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "video"
+   ],
+   "score": 143.03,
+   "ideia": "Conteudo cruzando 'gente' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "fazer"
+   ],
+   "score": 140.67,
+   "ideia": "Conteudo cruzando 'aqui' + 'fazer' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "hoje"
+   ],
+   "score": 86.79,
+   "ideia": "Conteudo cruzando 'aqui' + 'hoje' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "handle"
+   ],
+   "score": 82.22,
+   "ideia": "Conteudo cruzando 'aqui' + 'handle' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "transcript"
+   ],
+   "score": 76.75,
+   "ideia": "Conteudo cruzando 'aqui' + 'transcript' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "tudo"
+   ],
+   "score": 76.2,
+   "ideia": "Conteudo cruzando 'aqui' + 'tudo' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "chars"
+   ],
+   "score": 73.39,
+   "ideia": "Conteudo cruzando 'aqui' + 'chars' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "tamb"
+   ],
+   "score": 71.92,
+   "ideia": "Conteudo cruzando 'aqui' + 'tamb' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "pode"
+   ],
+   "score": 69.88,
+   "ideia": "Conteudo cruzando 'aqui' + 'pode' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "going",
+    "video"
+   ],
+   "score": 66.93,
+   "ideia": "Conteudo cruzando 'going' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "come"
+   ],
+   "score": 57.83,
+   "ideia": "Conteudo cruzando 'aqui' + 'come' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "vamos"
+   ],
+   "score": 56.01,
+   "ideia": "Conteudo cruzando 'aqui' + 'vamos' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "cara"
+   ],
+   "score": 49.34,
+   "ideia": "Conteudo cruzando 'aqui' + 'cara' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "fazer"
+   ],
+   "score": 46.09,
+   "ideia": "Conteudo cruzando 'gente' + 'fazer' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "video",
+    "handle"
+   ],
+   "score": 45.62,
+   "ideia": "Conteudo cruzando 'video' + 'handle' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "fazer",
+    "video"
+   ],
+   "score": 44.2,
+   "ideia": "Conteudo cruzando 'fazer' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "assim"
+   ],
+   "score": 43.93,
+   "ideia": "Conteudo cruzando 'aqui' + 'assim' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "video",
+    "transcript"
+   ],
+   "score": 42.58,
+   "ideia": "Conteudo cruzando 'video' + 'transcript' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "video",
+    "chars"
+   ],
+   "score": 40.72,
+   "ideia": "Conteudo cruzando 'video' + 'chars' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "nesse"
+   ],
+   "score": 38.81,
+   "ideia": "Conteudo cruzando 'aqui' + 'nesse' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "ncia"
+   ],
+   "score": 38.78,
+   "ideia": "Conteudo cruzando 'aqui' + 'ncia' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "like",
+    "video"
+   ],
+   "score": 36.52,
+   "ideia": "Conteudo cruzando 'like' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "mostrar"
+   ],
+   "score": 35.22,
+   "ideia": "Conteudo cruzando 'aqui' + 'mostrar' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "coisa"
+   ],
+   "score": 31.2,
+   "ideia": "Conteudo cruzando 'aqui' + 'coisa' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "hoje"
+   ],
+   "score": 31.01,
+   "ideia": "Conteudo cruzando 'gente' + 'hoje' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "here",
+    "video"
+   ],
+   "score": 30.84,
+   "ideia": "Conteudo cruzando 'here' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "handle"
+   ],
+   "score": 28.99,
+   "ideia": "Conteudo cruzando 'gente' + 'handle' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "olha"
+   ],
+   "score": 28.28,
+   "ideia": "Conteudo cruzando 'aqui' + 'olha' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "transcript"
+   ],
+   "score": 27.06,
+   "ideia": "Conteudo cruzando 'gente' + 'transcript' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "pode",
+    "video"
+   ],
+   "score": 26.52,
+   "ideia": "Conteudo cruzando 'pode' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "mesmo"
+   ],
+   "score": 26.23,
+   "ideia": "Conteudo cruzando 'aqui' + 'mesmo' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "tudo"
+   ],
+   "score": 26.11,
+   "ideia": "Conteudo cruzando 'gente' + 'tudo' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "going",
+    "here"
+   ],
+   "score": 26.0,
+   "ideia": "Conteudo cruzando 'going' + 'here' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "video",
+    "hoje"
+   ],
+   "score": 25.94,
+   "ideia": "Conteudo cruzando 'video' + 'hoje' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "chars"
+   ],
+   "score": 25.88,
+   "ideia": "Conteudo cruzando 'gente' + 'chars' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "like",
+    "going"
+   ],
+   "score": 25.04,
+   "ideia": "Conteudo cruzando 'like' + 'going' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "video",
+    "tudo"
+   ],
+   "score": 24.51,
+   "ideia": "Conteudo cruzando 'video' + 'tudo' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "falar"
+   ],
+   "score": 23.72,
+   "ideia": "Conteudo cruzando 'aqui' + 'falar' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "tamb"
+   ],
+   "score": 23.26,
+   "ideia": "Conteudo cruzando 'gente' + 'tamb' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "come"
+   ],
+   "score": 22.9,
+   "ideia": "Conteudo cruzando 'gente' + 'come' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "canal"
+   ],
+   "score": 22.4,
+   "ideia": "Conteudo cruzando 'aqui' + 'canal' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "come",
+    "video"
+   ],
+   "score": 22.33,
+   "ideia": "Conteudo cruzando 'come' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "tamb",
+    "video"
+   ],
+   "score": 22.3,
+   "ideia": "Conteudo cruzando 'tamb' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "right",
+    "video"
+   ],
+   "score": 21.55,
+   "ideia": "Conteudo cruzando 'right' + 'video' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "gente",
+    "pode"
+   ],
+   "score": 21.42,
+   "ideia": "Conteudo cruzando 'gente' + 'pode' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "sobre"
+   ],
+   "score": 21.41,
+   "ideia": "Conteudo cruzando 'aqui' + 'sobre' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "pessoal"
+   ],
+   "score": 20.89,
+   "ideia": "Conteudo cruzando 'aqui' + 'pessoal' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  },
+  {
+   "combo": [
+    "aqui",
+    "pessoas"
+   ],
+   "score": 20.52,
+   "ideia": "Conteudo cruzando 'aqui' + 'pessoas' (gancho -> oferta afiliado)",
+   "lucro_estimado_por_1000": 0,
+   "ancora_nicho": "geral"
+  }
+ ]
+}
