@@ -45,9 +45,10 @@ jobs:
         run: |
           python neural_graph.py || true
           git config user.email aether@local; git config user.name aether
-          git add NEURAL_GRAPH.json 2>/dev/null || true
-          git commit -q -m "grafo neural real (entrega rapida)" || true
-          git push || true
+          git add NEURAL_GRAPH.json ACUMULADO.json 2>/dev/null || true
+          git commit -q -m "grafo neural v3 (scipy, pares reais)" || echo "nada a commitar"
+          git pull --rebase -q origin main || git rebase --abort || true
+          git push origin main && echo "GRAFO PUBLICADO" || echo "PUSH DO GRAFO FALHOU"
       - name: MONITOR PERPETUO dos canais (descobre o que falta)
         env:
           WATCH_BATCH: "60"

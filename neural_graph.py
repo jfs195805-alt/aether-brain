@@ -15,7 +15,20 @@ Saidas: NEURAL_GRAPH.json (grafo detalhado p/ o site) e ACUMULADO.json (memoria 
 """
 import os, re, json, glob, time, math
 import numpy as np
+import resource
 from collections import Counter, defaultdict
+
+def ram_pico_mb():
+    return int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024)
+
+def ram_total_mb():
+    try:
+        for ln in open("/proc/meminfo"):
+            if ln.startswith("MemTotal"):
+                return int(int(ln.split()[1]) / 1024)
+    except Exception:
+        pass
+    return 0
 
 SRC = os.environ.get("NG_SRC", "transcripts")
 TSDIR = os.environ.get("NG_TS", "transcripts_ts")
@@ -290,13 +303,18 @@ out = {"ts": acc["ts"], "videos": nv, "canais": len(canais),
        "espaco_pares_total": espaco,
        "sinapses_descobertas": len(arestas),
        "pares_por_segundo": PPS,
+       "ram_pico_mb": ram_pico_mb(),
+       "ram_total_mb": ram_total_mb(),
+       "ram_pct": round(100.0 * ram_pico_mb() / max(1, ram_total_mb()), 1),
+       "cpus": os.cpu_count(),
        "segundos_de_cruzamento": round(DUR, 1),
        "pares_acumulados": acc["pares_avaliados_total"],
        "sinapses_acumuladas": acc["sinapses_descobertas_total"],
        "ciclos": acc["ciclos"],
        "nodes": nodes, "edges": ed}
 json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False)
-print("GRAFO v3: %d frases reais (%d videos/%d canais) | %d pares REAIS avaliados em %.1fs (%s pares/s, scipy esparso) "
-      "| espaco total %.3e | %d sinapses | ACUMULADO: %.3e pares, %d sinapses, ciclo %d"
-      % (NF, nv, len(canais), pares_avaliados, DUR, format(PPS, ",d"), espaco, len(arestas),
-         acc["pares_avaliados_total"], acc["sinapses_descobertas_total"], acc["ciclos"]))
+print("GRAFO v3: %d frases | %s pares REAIS em %.1fs (%s pares/s, scipy esparso) | %d sinapses | "
+      "RAM: %d MB de %d MB (%.1f%%) em %d CPUs | ACUMULADO: %s pares, %d sinapses, ciclo %d"
+      % (NF, format(pares_avaliados, ",d"), DUR, format(PPS, ",d"), len(arestas),
+         ram_pico_mb(), ram_total_mb(), 100.0*ram_pico_mb()/max(1,ram_total_mb()), os.cpu_count(),
+         format(acc["pares_avaliados_total"], ",d"), acc["sinapses_descobertas_total"], acc["ciclos"]))
