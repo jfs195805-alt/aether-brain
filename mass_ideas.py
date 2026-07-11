@@ -21,7 +21,7 @@ STOP = set("that this with have your from they what will just there their about 
 ECON = ["afili","comiss","convers","venda","lucro","dolar","ads","cliqu","trafego","funil","oferta",
         "desconto","preco","cupom","checkout","upsell","recorren","assinatura","curiosid","gatilho",
         "dopamin","escassez","urgenc","prova","depoim","garantia","nicho","viral","retenc","reels","short"]
-V = 1600          # tamanho do vocabulario (termos mais relevantes)
+V = int(__import__("os").environ.get("MASS_V","1600"))          # tamanho do vocabulario (termos mais relevantes)
 TOPK = 14         # termos-chave por registro (contexto de cruzamento)
 
 def niche_of(fname):
