@@ -2,7 +2,7 @@ name: AETHER BRAIN 16GB (trilhoes de combinacoes, git-only, nunca bloqueia)
 on:
   push:
     branches: [ main ]
-    paths-ignore: [ 'GITHUB_LIMITS.json','NEURAL_GRAPH.json','COBERTURA.json','FRASES_CATEGORIAS.json','SINAPSES.json','KNOWLEDGE_ETERNO.json','CANAIS_STATS.json','DECISIONS.json','DECISIONS_ETERNAS.md','LIVE_ENDPOINT.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
+    paths-ignore: [ 'GITHUB_LIMITS.json','NEURAL_GRAPH.json','COBERTURA.json','FRASES_CATEGORIAS.json','SINAPSES.json','AUDITORIA_CANAL.json','KNOWLEDGE_ETERNO.json','CANAIS_STATS.json','DECISIONS.json','DECISIONS_ETERNAS.md','LIVE_ENDPOINT.json', 'AI_HEALTH.json', '**.md', 'index.html' ]
   workflow_dispatch: {}
   schedule:
     - cron: "*/10 * * * *"
@@ -83,6 +83,13 @@ jobs:
           python results_collector.py || true
           python brain_memory.py || true
           python mass_ideas.py || true
+      - name: AUTOCHECAGEM DO CANAL (duplicados, playlists, comentario com link, aviso)
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_RT_GLOBALSUP: ${{ secrets.YT_RT_GLOBALSUP }}
+          AUDIT_APPLY: "1"
+        run: python channel_audit.py || true
       - name: ffmpeg
         run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg || true
       - name: GOVERNADOR + PUBLICAR (marca, QA>=80, cooldowns)
