@@ -35,9 +35,9 @@ jobs:
       - name: GRAFO NEURAL REAL (frases + pre-juncao + subagrupamento, 16GB)
         env:
           NG_V: "4000"
-          NG_CAND: "3000"
-          NG_NODES: "800"
-          NG_EDGES: "6000"
+          NG_CAND: "6000"
+          NG_NODES: "2000"
+          NG_EDGES: "20000"
           NG_RECS: "1000"
         run: |
           python neural_graph.py || true
