@@ -224,7 +224,7 @@ def main():
 
     iu = np.triu_indices(len(cand), 1)
     vals = SIM[iu]
-    mask = np.where(vals > 0.12)[0]
+    mask = np.where(vals > 0.08)[0]
     top = mask[np.argsort(-vals[mask])][:EDGES]
     raw = [(int(iu[0][t]), int(iu[1][t]), float(vals[t])) for t in top]
 
