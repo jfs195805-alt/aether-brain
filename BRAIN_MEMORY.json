@@ -57,11 +57,11 @@
    "score": 1220.1
   },
   "outros": {
-   "n": 14,
-   "profit_ewma": 3001.4,
+   "n": 15,
+   "profit_ewma": 3069.5,
    "views": 0,
    "support": 0,
-   "score": 1500.7
+   "score": 1534.8
   },
   "culinaria / receitas": {
    "n": 10,
@@ -246,9 +246,19 @@
    ],
    "next_best": "noticias / politica",
    "score": 3140.9
+  },
+  {
+   "ts": "2026-07-11T16:29:05Z",
+   "top": [
+    "noticias / politica",
+    "suplementos / saude",
+    "ia / tecnologia / automacao"
+   ],
+   "next_best": "noticias / politica",
+   "score": 3140.9
   }
  ],
- "cycles": 14,
+ "cycles": 15,
  "compostas": [
   "curiosity-gap hook -> aplicar em noticias / politica",
   "price-shock POV -> aplicar em noticias / politica",
@@ -262,16 +272,16 @@
   "curiosity-gap hook -> aplicar em outros",
   "price-shock POV -> aplicar em outros",
   "'3 things nobody tells you' -> aplicar em outros",
-  "ponte Afiliados / Marketing Digital x Noticias / Politica via because, gente, going",
-  "ponte geral x Noticias / Politica via because, gente, going",
-  "ponte IA / Tecnologia / Automacao x Financas / Investimentos via assim, fazer, gente",
-  "ponte IA / Tecnologia / Automacao x Suplementos / Saude via assim, fazer, gente",
-  "ponte Afiliados / Marketing Digital x geral via because, gente, going",
-  "ponte geral x IA / Tecnologia / Automacao via fazer, gente, going",
-  "ponte geral x Suplementos / Saude via fazer, gente, going",
-  "ponte IA / Tecnologia / Automacao x Psicologia / Desenvolvimento Pessoal via assim, fazer, gente"
+  "ponte Games / Entretenimento x Beleza / Skincare via assim, coisa, fazer",
+  "ponte Games / Entretenimento x Financas / Investimentos via assim, coisa, fazer",
+  "ponte Games / Entretenimento x Culinaria / Receitas via assim, coisa, fazer",
+  "ponte Games / Entretenimento x Emagrecimento via assim, coisa, fazer",
+  "ponte Games / Entretenimento x Fitness / Musculacao via assim, coisa, fazer",
+  "ponte geral x Negocios / Empreendedorismo via because, fazer, gente",
+  "ponte geral x Cripto / NFT / Web3 via fazer, gente, going",
+  "ponte Beleza / Skincare x Financas / Investimentos via assim, coisa, fazer"
  ],
  "next_best": "noticias / politica",
  "next_best_score": 3140.9,
- "ts": "2026-07-11T16:26:56Z"
+ "ts": "2026-07-11T16:29:05Z"
 }

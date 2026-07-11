@@ -1,0 +1,2 @@
+# Ideias acionaveis (ideia -> [[canal]])
+
