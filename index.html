@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="pt"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AETHER — Cérebro ao Vivo</title>
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+<style>
+:root{--bg:#0a0e14;--card:#111a24;--bd:#1f2c3a;--tx:#dfe7ef;--mut:#6b7c93;--ac:#39d0a8;--b:#7fb0ff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px system-ui,Segoe UI,Arial}
+.top{padding:12px 18px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.top h1{font-size:18px;margin:0}.live{width:9px;height:9px;border-radius:50%;background:var(--ac);display:inline-block;animation:p 1.3s infinite}
+@keyframes p{0%,100%{opacity:.3}50%{opacity:1}}.mut{color:var(--mut);font-size:12px}
+.wrap{display:grid;grid-template-columns:1fr 360px;gap:12px;padding:12px;height:calc(100vh - 58px)}
+#graph{background:var(--card);border:1px solid var(--bd);border-radius:12px;height:100%}
+.side{display:flex;flex-direction:column;gap:12px;overflow:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px}
+.card h2{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--b);margin:0 0 8px}
+.kpi{font-size:22px;font-weight:700}.row{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid #172230;font-size:13px;gap:8px}
+.bar{height:7px;background:#1f2c3a;border-radius:5px;overflow:hidden;margin:3px 0 7px}.bar>i{display:block;height:100%;background:linear-gradient(90deg,#2f6bff,#39d0a8)}
+.tag{display:inline-block;background:#17324a;color:#8fd0ff;border-radius:6px;padding:1px 7px;margin:2px;font-size:12px}
+@media(max-width:800px){.wrap{grid-template-columns:1fr;height:auto}#graph{height:60vh}}
+</style></head><body>
+<div class="top"><span class="live"></span><h1>AETHER — Cérebro ao Vivo</h1>
+<span class="mut">grafo de canais · categorias · ideias · combinações — atualiza a cada 4s · <span id="upd">—</span></span></div>
+<div class="wrap">
+ <div id="graph"></div>
+ <div class="side">
+  <div class="card"><h2>Estado</h2><div id="state" class="mut">carregando…</div></div>
+  <div class="card"><h2>Melhor IA grátis agora</h2><div id="ai" class="mut">—</div></div>
+  <div class="card"><h2>Top ideias cruzadas</h2><div id="ideas" class="mut">—</div></div>
+  <div class="card"><h2>Lucro por categoria (Monte Carlo)</h2><div id="profit" class="mut">—</div></div>
+  <div class="card"><h2>Ações na fila</h2><div id="acts" class="mut">—</div></div>
+ </div>
+</div>
+<script>
+const RAW="https://raw.githubusercontent.com/jfs195805-alt/aether-brain/main/";
+const j=async f=>{try{const r=await fetch(RAW+f+"?t="+Date.now());return r.ok?await r.json():null}catch(e){return null}};
+let network,nodes,edges;
+function initGraph(){nodes=new vis.DataSet();edges=new vis.DataSet();
+ network=new vis.Network(document.getElementById('graph'),{nodes,edges},{
+  nodes:{shape:'dot',font:{color:'#dfe7ef',size:12},borderWidth:0},
+  edges:{color:{color:'#25384a'},smooth:{type:'continuous'},width:.5},
+  physics:{stabilization:false,barnesHut:{gravitationalConstant:-3000,springLength:90}},
+  interaction:{hover:true,tooltipDelay:120}});}
+const col={category:'#39d0a8',channel:'#7fb0ff',idea:'#ffb454',term:'#c78bff',foco:'#ff6b81',product:'#5ad1ff',exec:'#9aa7b5',hypothesis:'#ffd166'};
+async function drawGraph(){
+ let g=await j("vault/graph.json")||await j("INTERLINK.json");
+ if(!g)return;
+ // graphiti graph.json {nodes:[{id,type,label}],edges:[{src,rel,dst}]}
+ if(g.nodes){const N=g.nodes.slice(0,400),E=(g.edges||[]).slice(0,900);
+  const ex=new Set(nodes.getIds());const ids=new Set(N.map(n=>n.id));
+  N.forEach(n=>{if(!ex.has(n.id))nodes.add({id:n.id,label:(n.label||n.id).slice(0,22),color:col[n.type]||'#4a5b6d',value:(n.score||3)});});
+  nodes.getIds().forEach(id=>{if(!ids.has(id))nodes.remove(id);});
+  edges.clear();E.forEach((e,i)=>{if(ids.has(e.src)&&ids.has(e.dst))edges.add({id:i,from:e.src,to:e.dst});});
+ } else if(g.pontes_entre_nichos){ // fallback: bridges
+  nodes.clear();edges.clear();const seen=new Set();let i=0;
+  (g.pontes_entre_nichos||[]).slice(0,60).forEach(p=>{
+   [p.a,p.b].forEach(x=>{if(!seen.has(x)){seen.add(x);nodes.add({id:x,label:x.slice(0,20),color:col.category});}});
+   edges.add({id:i++,from:p.a,to:p.b,label:(p.shared||[]).slice(0,2).join(',')});});
+ }
+}
+async function tick(){
+ document.getElementById('upd').textContent=new Date().toLocaleTimeString();
+ await drawGraph();
+ const [st,mass,prof,brain,acts,ai]=await Promise.all(["CORE_STATE.json","MASS_IDEAS.json","PROFIT_MODEL.json","BRAIN_MEMORY.json","PENDING_ACTIONS.json","AI_HEALTH.json"].map(j));
+ if(brain||st){const nb=(brain&&brain.next_best)||(st&&st.next_best)||'—';
+  document.getElementById('state').innerHTML=`<div class="kpi">${nb}</div><div class="mut">NEXT BEST · ciclos ${brain?brain.cycles||0:0}</div>`;}
+ if(mass&&mass.top_ideias){document.getElementById('ideas').innerHTML=mass.top_ideias.slice(0,12).map(i=>`<div class="row"><span>${(i.combo||[]).join(' + ')}</span><b>$${Math.round(i.lucro_estimado_por_1000||0)}</b></div>`).join('')+`<div class="mut">${(mass.pares_avaliados||0).toLocaleString()} cruzamentos</div>`;}
+ if(prof&&prof.niches){const mx=Math.max(...prof.niches.map(n=>n.exp_organic_per_1000||0))||1;
+  document.getElementById('profit').innerHTML=prof.niches.slice(0,10).map(n=>`<div class="row"><span>${n.niche}</span><b>$${Math.round(n.exp_organic_per_1000||0)}/1k</b></div><div class="bar"><i style="width:${Math.round((n.exp_organic_per_1000||0)/mx*100)}%"></i></div>`).join('');}
+ if(acts&&acts.queue){document.getElementById('acts').innerHTML=acts.queue.slice(-10).reverse().map(a=>`<div class="row"><span>${a.gancho||a.tipo||a.ideia||''}</span><span class="mut">${a.nicho||''}</span></div>`).join('')||'<span class=mut>vazio</span>';}
+ if(ai&&ai.best_order){document.getElementById('ai').innerHTML=`<div class="kpi">${ai.best_order[0]}</div>`+ai.best_order.map(n=>`<span class="tag">${n}${ai.health&&ai.health[n]?(ai.health[n].alive?' ✓':' ✕'):''}</span>`).join('');}
+}
+initGraph();tick();setInterval(tick,4000);
+</script></body></html>
