@@ -1,13 +1,13 @@
 # BRAIN MEMORY — aprendizado acumulado (offline, cresce sozinho)
 
-Ciclos: 18 | atualizado: 2026-07-11T16:34:57Z | NEXT BEST: **noticias / politica** (score 3140.9)
+Ciclos: 19 | atualizado: 2026-07-11T16:36:00Z | NEXT BEST: **noticias / politica** (score 3140.9)
 
 ## Hipoteses por nicho (score = lucro x confianca x views)
 
 - **noticias / politica** — score 3140.9 | lucro/1k $6282 | views 0 | ideias 0
 - **suplementos / saude** — score 2160.6 | lucro/1k $4321 | views 0 | ideias 0
 - **ia / tecnologia / automacao** — score 1752.7 | lucro/1k $3505 | views 0 | ideias 0
-- **outros** — score 1574.8 | lucro/1k $3150 | views 0 | ideias 0
+- **outros** — score 1579.2 | lucro/1k $3158 | views 0 | ideias 0
 - **afiliados / marketing digital** — score 1440.5 | lucro/1k $2881 | views 0 | ideias 0
 - **emagrecimento** — score 1268.0 | lucro/1k $2536 | views 0 | ideias 0
 - **psicologia / desenvolvimento pessoal** — score 1251.3 | lucro/1k $2503 | views 0 | ideias 0
