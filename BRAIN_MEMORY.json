@@ -57,11 +57,11 @@
    "score": 1220.1
   },
   "outros": {
-   "n": 21,
-   "profit_ewma": 3167.0,
+   "n": 22,
+   "profit_ewma": 3168.9,
    "views": 0,
    "support": 0,
-   "score": 1583.5
+   "score": 1584.5
   },
   "culinaria / receitas": {
    "n": 10,
@@ -316,9 +316,19 @@
    ],
    "next_best": "noticias / politica",
    "score": 3140.9
+  },
+  {
+   "ts": "2026-07-11T16:39:20Z",
+   "top": [
+    "noticias / politica",
+    "suplementos / saude",
+    "ia / tecnologia / automacao"
+   ],
+   "next_best": "noticias / politica",
+   "score": 3140.9
   }
  ],
- "cycles": 21,
+ "cycles": 22,
  "compostas": [
   "curiosity-gap hook -> aplicar em noticias / politica",
   "price-shock POV -> aplicar em noticias / politica",
@@ -343,5 +353,5 @@
  ],
  "next_best": "noticias / politica",
  "next_best_score": 3140.9,
- "ts": "2026-07-11T16:38:10Z"
+ "ts": "2026-07-11T16:39:20Z"
 }
