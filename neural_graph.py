@@ -54,6 +54,41 @@ def limpa_inicio(fr):
     return " ".join(w)
 
 
+MAXB = 3          # ate 3 frases por bloco de ideia
+MAXBW = 70        # ate ~70 palavras por bloco
+COESAO = 0.12     # sobreposicao minima de termos p/ considerar continuacao da mesma ideia
+
+
+def subagrupa(frases_video):
+    """[(frase, start)] do MESMO video -> [(bloco_de_ideia, start_do_bloco)]
+
+    Junta frases consecutivas que falam da mesma coisa (sobreposicao de termos de conteudo),
+    formando uma ideia completa e autocontida. Frase isolada e um bloco de 1.
+    """
+    blocos = []
+    cur = []
+    curset = set()
+    start = None
+    for fr, st in frases_video:
+        t = set(conteudo(fr))
+        if not cur:
+            cur, curset, start = [fr], set(t), st
+            continue
+        inter = len(curset & t)
+        uni = len(curset | t) or 1
+        jac = inter / uni
+        palavras = sum(len(x.split()) for x in cur) + len(fr.split())
+        if jac >= COESAO and len(cur) < MAXB and palavras <= MAXBW:
+            cur.append(fr)
+            curset |= t
+        else:
+            blocos.append((" ".join(cur), start))
+            cur, curset, start = [fr], set(t), st
+    if cur:
+        blocos.append((" ".join(cur), start))
+    return blocos
+
+
 def coerentiza(unidades):
     """[(texto, start|None)] -> [(afirmacao_completa, start|None)]"""
     out = []
@@ -134,7 +169,8 @@ def main():
                     continue
                 unid = [(txt, None)]
             nv += 1
-            for fr, st in coerentiza(unid):
+            fv = coerentiza(unid)
+            for fr, st in subagrupa(fv):
                 frases.append((fr, vid, canal, int(st) if st is not None else None))
 
     if not frases:
@@ -223,9 +259,10 @@ def main():
            "pares_termos_avaliados": pares_termos,
            "vocab": len(vocab),
            "pre_juncao": {"min_palavras": MINW, "max_palavras": MAXW, "min_conteudo": MINC},
+           "subagrupamento": {"max_frases_por_bloco": MAXB, "max_palavras": MAXBW, "coesao_min": COESAO},
            "nodes": nodes, "edges": edges}
     json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False)
-    print("GRAFO: %d afirmacoes (pre-juncao) de %d videos / %d canais | %d cruzadas (%d pares) "
+    print("GRAFO: %d blocos de ideia (pre-juncao + subagrupamento por video) de %d videos / %d canais | %d cruzadas (%d pares) "
           "| %d pontos, %d sinapses | %d com timestamp real"
           % (len(frases), nv, len(canais), len(cand), pares_frases, len(nodes), len(edges), com_ts))
 
