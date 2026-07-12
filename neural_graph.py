@@ -58,6 +58,29 @@ DANGLE = set(("e ou mas que porque pois se de da do para com por em na no ao as 
 LIXO = re.compile(r"\[(music|musica|applause|aplausos|risos|laughter)[^\]]*\]", re.I)
 TERM = re.compile(r"[a-zA-ZÀ-ÿ]{4,}")
 
+# --- LIMPEZA: HTML cru, censura, marcadores de legenda ---
+import html as _html
+CENSURA = re.compile(r"\[\s*(&nbsp;)?\s*_+\s*(&nbsp;)?\s*\]")
+SETAS   = re.compile(r"^\s*(>>|&gt;&gt;)+\s*")
+ESPACOS = re.compile(r"\s+")
+
+def limpa_texto(t):
+    t = _html.unescape(t or "")          # &gt; &nbsp; &amp; -> texto real
+    t = CENSURA.sub(" ", t)              # [ __ ] censura de palavrao
+    t = SETAS.sub("", t)                 # >> marcador de falante
+    t = t.replace(">>", " ")
+    return ESPACOS.sub(" ", t).strip()
+
+# --- BOILERPLATE: frase-clichê que aparece em MUITOS canais diferentes ---
+# "espero que tenha ajudado", "se inscreva no canal", "ate o proximo video"...
+# Nao e insight: e formula. Detectada por ASSINATURA que se repete entre canais.
+BOILER_MIN_CANAIS = int(os.environ.get("NG_BOILER", "4"))
+
+def assinatura(fr):
+    """normaliza a frase para detectar quase-duplicatas entre canais"""
+    w = [x for x in TERM.findall(fr.lower()) if x not in STOP]
+    return " ".join(sorted(set(w))[:8])
+
 
 def conteudo(fr):
     return [w for w in TERM.findall(fr.lower()) if w not in STOP]
@@ -154,11 +177,12 @@ for f in sorted(glob.glob(os.path.join(SRC, "**", "*.jsonl"), recursive=True)):
         vid = r.get("video_id", "")
         segs = TS.get(vid)
         if segs:
-            unid = [(s[1], float(s[0])) for s in segs if len(s) >= 2]
+            unid = [(limpa_texto(s[1]), float(s[0])) for s in segs if len(s) >= 2]
         else:
             txt = r.get("transcript") or r.get("text") or ""
             if isinstance(txt, list):
                 txt = " ".join(str(x) for x in txt)
+            txt = limpa_texto(txt)
             if len(txt) < 80:
                 continue
             unid = [(txt, None)]
@@ -169,6 +193,17 @@ for f in sorted(glob.glob(os.path.join(SRC, "**", "*.jsonl"), recursive=True)):
 if not frases:
     json.dump({"nodes": [], "edges": [], "erro": "sem corpus"}, open(OUT, "w"))
     raise SystemExit
+
+# ---------- FILTRA BOILERPLATE (o clichê que aparece em N canais) ----------
+sig_canais = defaultdict(set)
+for fr, vid, canal, st in frases:
+    sig_canais[assinatura(fr)].add(canal)
+boiler = {sg for sg, cs in sig_canais.items() if len(cs) >= BOILER_MIN_CANAIS}
+antes = len(frases)
+frases = [f for f in frases if assinatura(f[0]) not in boiler]
+n_boiler = antes - len(frases)
+print("BOILERPLATE removido: %s frases-clichê (apareciam em >=%d canais diferentes)"
+      % (format(n_boiler, ",d"), BOILER_MIN_CANAIS))
 
 NF = len(frases)
 # ---------- vocabulario + TF-IDF esparso de TODAS as frases ----------
@@ -393,7 +428,8 @@ json.dump(acc, open(ACC, "w", encoding="utf-8"), ensure_ascii=False)
 
 espaco = int(NF * (NF - 1) / 2)
 out = {"ts": acc["ts"], "videos": nv, "canais": len(canais),
-       "frases_reais": NF, "frases_com_timestamp": com_ts,
+       "frases_reais": NF,
+       "boilerplate_removido": n_boiler, "frases_com_timestamp": com_ts,
        "vocab": len(vocab),
        "pares_frases_avaliados": pares_avaliados,
        "espaco_pares_total": espaco,

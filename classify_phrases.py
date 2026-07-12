@@ -24,7 +24,7 @@ NG = "NEURAL_GRAPH.json"
 OUT = "FRASES_CATEGORIAS.json"
 MAXR = int(os.environ.get("CLS_RECS", "1000"))     # todos os videos
 EXP = int(os.environ.get("CLS_EXPAND", "150"))     # termos por categoria apos expansao
-LIM = float(os.environ.get("CLS_LIM", "0.10"))     # limiar de pertencimento
+LIM = float(os.environ.get("CLS_LIM", "0.06"))     # limiar de pertencimento
 
 SEM = {
  "Suplementos": "suplemento suplementos whey creatina proteina proteinas vitamina vitaminas colageno omega magnesio zinco multivitaminico dosagem miligramas supplement protein creatine vitamin capsula",
@@ -54,6 +54,15 @@ MAXB, MAXBW, COESAO = 3, 70, 0.12
 DANGLE = set(("e ou mas que porque pois se de da do para com por em na no ao as os um uma the a an and or but "
               "that because if of to for with in on at is are was were be been as by from than then so").split())
 LIXO = re.compile(r"\[(music|musica|applause|aplausos|risos|laughter)[^\]]*\]", re.I)
+import html as _html
+CENSURA = re.compile(r"\[\s*(&nbsp;)?\s*_+\s*(&nbsp;)?\s*\]")
+SETAS = re.compile(r"^\s*(>>|&gt;&gt;)+\s*")
+ESPACOS = re.compile(r"\s+")
+def limpa_texto(t):
+    t = _html.unescape(t or "")
+    t = CENSURA.sub(" ", t)
+    t = SETAS.sub("", t).replace(">>", " ")
+    return ESPACOS.sub(" ", t).strip()
 
 
 def conteudo(fr):
@@ -132,7 +141,7 @@ for f in sorted(glob.glob(os.path.join(SRC, "*.jsonl"))):
             r = json.loads(ln)
         except Exception:
             continue
-        txt = r.get("transcript") or ""
+        txt = limpa_texto(r.get("transcript") or "")
         if len(txt) < 80:
             continue
         vid = r.get("video_id", "")

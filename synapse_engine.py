@@ -186,8 +186,24 @@ def figura(c):
 cliques.sort(key=len, reverse=True)
 figs = [figura(c) for c in cliques[:400]]
 figs.sort(key=lambda x: -x["score"])
-insights = [f for f in figs if f["n"] >= 4 and f["n_categorias"] >= 3 and f["n_canais"] >= 3]
-pontes = [f for f in figs if f["n_categorias"] >= 2 and f["n_canais"] >= 2]
+def diverso(f):
+    """rejeita figura feita de frases quase-identicas (clichê que sobrou) —
+    exige que os pontos tenham vocabulario DIFERENTE entre si"""
+    ps = [(p.get("frase") or "").lower() for p in f["pontos"]]
+    if len(ps) < 2:
+        return False
+    import re as _re
+    sets = [set(w for w in _re.findall(r"[a-zA-ZÀ-ÿ]{4,}", x)) for x in ps]
+    jac = []
+    for a in range(len(sets)):
+        for b in range(a + 1, len(sets)):
+            u = len(sets[a] | sets[b]) or 1
+            jac.append(len(sets[a] & sets[b]) / u)
+    return (sum(jac) / len(jac)) < 0.55 if jac else False
+
+insights = [f for f in figs
+            if f["n"] >= 4 and f["n_categorias"] >= 3 and f["n_canais"] >= 3 and diverso(f)]
+pontes = [f for f in figs if f["n_categorias"] >= 2 and f["n_canais"] >= 2 and diverso(f)]
 
 # ---------- 4) COMUNIDADES (propagacao de rotulos, vetorizada) ----------
 lab = np.arange(N)
