@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 14
+VERSAO = 15
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -323,35 +323,40 @@ BLOCO {bloco}/{total}:
 
 
 # ---------- AGENTE 2: SINTETIZADOR (le o VIDEO INTEIRO via os topicos) ----------
-PROMPT2 = """Abaixo esta um MODELO DE ANALISE (a IDEIA, o metodo). Ele foi feito sobre OUTRO
-video - o conteudo dele nao pertence ao video de agora. Use so a IDEIA.
+PROMPT2 = """Voce ja leu este video em pedacos e listou o que ele ensina. Agora leia o video
+INTEIRO, de uma vez, e olhe para ele como um todo.
 
---------------------------------- MODELO (a ideia) ---------------------------------
+MODELO (a ideia do que procurar - feito sobre OUTRO video; o conteudo dele nao e deste video):
 {modelo}
-------------------------------------------------------------------------------------
-
-Agora aplique essa MESMA IDEIA ao video abaixo.
 
 {projeto}
 
 O QUE MEU PROJETO JA TEM (nao repita):
 {ja_tenho}
 
-VIDEO: {link} | {canal} | {ntop} topicos, lidos de 100% da transcricao
+=================== A TRANSCRICAO BRUTA COMPLETA DO VIDEO ===================
+{transcricao}
+=============================================================================
 
---------------------------------- OS TOPICOS DESTE VIDEO ---------------------------------
+O QUE VOCE JA TIROU DELE:
 {topicos}
-------------------------------------------------------------------------------------------
+
+Agora, olhando o VIDEO INTEIRO:
+
+- Como ele comeca? Como ele termina? O que ele faz no meio?
+- Existe um MOLDE que ele repete? (nao olhe a lista acima - olhe a transcricao)
+- Onde entra o produto/venda? Logo no comeco, ou depois de entregar valor de graca?
+- O que faz ESTE video funcionar?
 
 Responda SO com JSON puro:
 
 {{"entendimento_do_video": "o que ESTE video e e por que funciona",
- "padrao_que_se_repete": "o molde que se repete NESTE video e em quantos topicos aparece; \"\" se nao houver",
+ "padrao_que_se_repete": "o molde que ele repete NA TRANSCRICAO (nao na lista); \"\" se nao houver",
  "agregar": [
-   {{"o_que": "a tatica nova para o meu projeto",
+   {{"o_que": "a tatica concreta que eu devo copiar para o meu projeto",
      "como_aplicar": "o passo a passo pratico",
      "tipo": "estrutura_roteiro|gancho|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
-     "evidencia": "qual topico DESTE video prova isso",
+     "evidencia": "o trecho do video que prova isso",
      "ja_tenho_parecido": "sim/nao"}}
  ],
  "nada_novo": "se nao houver nada a agregar, o motivo; senao \"\""}}
@@ -590,16 +595,16 @@ for f in arquivos:
         # o padrao que se repete - coisa impossivel de ver olhando um bloco isolado.
         sintese = {}
         if v_top and blocos_ok == len(parts):
+            # PROSA, sem rotulos repetidos: o modelo antes olhava "ENSINA:/COMO:/COPIAR:"
+            # repetido N vezes e dizia "o padrao e ENSINA/COMO/COPIAR". Padrao falso, criado
+            # por mim no proprio input. Agora vai como texto corrido.
             resumo_top = "\n".join(
-                "%d. %s | ENSINA: %s | COMO: %s%s"
-                % (t["n"], t["topico"], t["ensina_a_fazer"], t["como"],
-                   (" | COPIAR: " + t["deve_ser_copiado"]) if t.get("deve_ser_copiado") else "")
+                "%d. %s - %s (%s)" % (t["n"], t["topico"], t["ensina_a_fazer"], t["como"])
                 for t in v_top)
             try:
                 r2 = ask_forte(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
-                                              link=link, canal=canal,
-                                              nblocos=len(parts), ntop=len(v_top),
-                                              topicos=resumo_top[:9000]), max_tokens=1600)
+                                              transcricao=txt[:14000],   # <<< O VIDEO INTEIRO
+                                              topicos=resumo_top[:6000]), max_tokens=1600)
                 chamadas += 1
                 if eh_nicho:
                     ch_nicho += 1
@@ -617,9 +622,8 @@ for f in arquivos:
                     else:
                         print("      AGENTE 2 REJEITADO: %s -> refazendo" % motivo, flush=True)
                         r2b = ask_forte(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
-                                                       link=link, canal=canal,
-                                                       nblocos=len(parts), ntop=len(v_top),
-                                                       topicos=resumo_top[:9000]) +
+                                                       transcricao=txt[:14000],
+                                                       topicos=resumo_top[:6000]) +
                                         "\n\nATENCAO: sua resposta anterior foi REJEITADA porque %s. "
                                         "Olhe SO os topicos acima. Nao invente nada." % motivo,
                                         max_tokens=1600)
