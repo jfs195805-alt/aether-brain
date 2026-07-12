@@ -8,8 +8,12 @@ import os, json, time, urllib.request, urllib.error
 PROVIDERS = [
  ("groq", "openai", "https://api.groq.com/openai/v1/chat/completions", "GROQ_API_KEY",
    ["llama-3.3-70b-versatile", "openai/gpt-oss-120b", "openai/gpt-oss-20b", "llama-3.1-8b-instant", "gemma2-9b-it"]),
+ # MEDIDO 2026-07-12 na API do OpenRouter: os deepseek :free FORAM REMOVIDOS.
+ # Lista abaixo = modelos :free que EXISTEM hoje, do maior/mais capaz para o menor.
  ("openrouter", "openai", "https://openrouter.ai/api/v1/chat/completions", "OPENROUTER_API_KEY",
-   ["deepseek/deepseek-r1:free", "deepseek/deepseek-chat-v3.1:free", "qwen/qwen-2.5-72b-instruct:free", "meta-llama/llama-3.3-70b-instruct:free"]),
+   ["nvidia/nemotron-3-ultra-550b-a55b:free", "openai/gpt-oss-120b:free",
+    "nvidia/nemotron-3-super-120b-a12b:free", "nousresearch/hermes-3-llama-3.1-405b:free",
+    "qwen/qwen3-next-80b-a3b-instruct:free", "meta-llama/llama-3.3-70b-instruct:free"]),
  ("deepseek", "openai", "https://api.deepseek.com/v1/chat/completions", "DEEPSEEK_API_KEY",
    ["deepseek-chat", "deepseek-reasoner"]),
  ("hf", "openai", "https://router.huggingface.co/v1/chat/completions", "HF_TOKEN",

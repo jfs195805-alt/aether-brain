@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 22
+VERSAO = 23
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -79,8 +79,13 @@ OR_URL = "https://openrouter.ai/api/v1/chat/completions"
 #   4) ordem normal (llama-3.1-70b) - so se tudo acima morrer
 # MEDIDO: o llama-3.1-70b NAO faz a abstracao. Ele devolve o ASSUNTO do video, e quando
 # nao sabe, PREENCHE O FORMULARIO com o texto do proprio formulario. Por isso o R1 vem 1o.
-OR_FORTES = ["deepseek/deepseek-r1:free", "deepseek/deepseek-chat-v3.1:free",
-             "qwen/qwen-2.5-72b-instruct:free"]
+# ATENCAO: os deepseek :free FORAM REMOVIDOS do OpenRouter (conferido na API em 2026-07-12).
+# Estes existem hoje, do mais capaz para o menos. O 550B e o gpt-oss-120b sao os que raciocinam.
+OR_FORTES = ["nvidia/nemotron-3-ultra-550b-a55b:free",
+             "openai/gpt-oss-120b:free",
+             "nvidia/nemotron-3-super-120b-a12b:free",
+             "nousresearch/hermes-3-llama-3.1-405b:free",
+             "qwen/qwen3-next-80b-a3b-instruct:free"]
 MODELOS_FORTES = [m for m in (os.environ.get("GEMINI_PRO_MODEL", ""),
                               os.environ.get("AI_MODELO_FORTE", ""),
                               "gemini-2.5-pro", "gemini-2.0-flash") if m]
