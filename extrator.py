@@ -24,7 +24,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 5
+VERSAO = 6
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -33,6 +33,12 @@ PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
   link de afiliado, argumento de venda com prova, titulo/SEO, CTA, e taticas replicaveis.
 - REGRA: conteudo ORIGINAL nosso (nunca copiar a fala do criador), foto REAL do produto,
   link de afiliado rastreavel. Nada de conselho de investimento nem promessa de cura.""")
+JA_TENHO_FILE = os.environ.get("EXTRAI_JA_TENHO", "PROJETO_ATUAL.md")
+try:
+    JA_TENHO = open(JA_TENHO_FILE, encoding="utf-8").read()[:3000]
+except Exception:
+    JA_TENHO = "(ainda nao ha registro do que o projeto ja tem - considere tudo como novo)"
+
 OUT = "CONHECIMENTO_PRODUCAO.json"
 PAUTA = "PAUTA.json"
 
@@ -94,40 +100,67 @@ base["versao"] = VERSAO
 
 feitos = {v for c in base["canais"].values() for v in c.get("videos_processados", [])}
 
-PROMPT = """Voce e o analista do meu projeto. Abaixo esta o BLOCO {bloco} de {total} da
-transcricao bruta de UM video do YouTube. Voce vera TODOS os blocos, um por vez - este e um deles.
+PROMPT = """AGENTE 1 - TOPICADOR. Voce le UM BLOCO da transcricao bruta de um video e o
+transforma em TOPICOS. Voce NAO opina sobre projeto nenhum - outro agente fara isso depois.
 
-{projeto}
+Este e o BLOCO {bloco} de {total}. Voce (ou outra instancia sua) vera TODOS os blocos.
 
-=== TAREFA 1: TOPICOS - O QUE ESTE BLOCO ENSINA A FAZER ===
-Transforme ESTE BLOCO em TOPICOS. Cada coisa que o video ensina a fazer = 1 topico.
-NAO RESUMA. NAO PULE NADA. Se o bloco ensina 7 coisas, devolva 7 topicos.
-Cada topico precisa do DETALHE EXATO como ele falou: numero, dose, prazo, preco, spec, ordem,
-criterio. Nunca troque numero por "pouco" ou "algum tempo".
-Se o bloco for so introducao/despedida/enrolacao, devolva "topicos": [] - sem inventar.
-
-=== TAREFA 2: O QUE EU FACO COM ISSO NO MEU PROJETO ===
-So o que REALMENTE serve para o meu projeto. Se nao servir, devolva [] - sem enchimento.
+REGRA: cada coisa que o video ENSINA A FAZER ou RECOMENDA = 1 topico.
+NAO RESUMA. NAO PULE NADA. Se o bloco tem 7 coisas, devolva 7 topicos.
+Guarde o DETALHE EXATO como ele falou: numero, dose, prazo, preco, spec, ordem, criterio.
+Nunca troque numero por "pouco" ou "algum tempo".
+Se o bloco for so vinheta/despedida/enrolacao, devolva "topicos": [] - sem inventar.
 
 Responda SO com JSON puro, sem markdown:
 
 {{"topicos": [
    {{"topico": "titulo curto do topico (4-8 palavras)",
-     "ensina_a_fazer": "a acao que ele ensina a fazer, em 1 frase",
-     "como": "o passo a passo / o detalhe EXATO: numeros, valores, ordem, configuracao, criterio",
+     "ensina_a_fazer": "a acao/recomendacao que ele passa, em 1 frase",
+     "como": "o detalhe EXATO: numeros, valores, ordem, configuracao, criterio, specs",
+     "deve_ser_copiado": "o que exatamente daqui merece ser copiado como TATICA (formato, gancho, argumento, estrutura, prova); vazio se nada",
      "produtos": ["produtos/marcas/ferramentas citados NESTE topico; [] se nenhum"],
      "numeros": ["numeros/valores/prazos/doses/precos/specs citados NESTE topico, com contexto"]}}
- ],
- "aplicacao_no_meu_projeto": [
-   {{"acao": "o que EU faco (imperativo + objeto concreto)",
-     "como": "o passo a passo pratico",
-     "tipo": "pauta_de_video|produto_afiliado|gancho|estrutura_roteiro|argumento_de_venda|titulo_seo|cta|objecao|automacao",
-     "por_que_funciona": "a evidencia deste bloco"}}
  ],
  "nicho": "Suplementos|Emagrecimento|Fitness|Saude|Afiliados|IA e Tech|Financas|Negocios|Beleza|Educacao|Automoveis|Outro"}}
 
 BLOCO {bloco}/{total}:
 {txt}
+"""
+
+
+# ---------- AGENTE 2: SINTETIZADOR (le o VIDEO INTEIRO via os topicos) ----------
+PROMPT2 = """AGENTE 2 - SINTETIZADOR. O AGENTE 1 leu a transcricao bruta INTEIRA deste video e a
+transformou nos TOPICOS abaixo. Voce agora ve o VIDEO COMO UM TODO - coisa que o Agente 1,
+que lia bloco a bloco, nao conseguia enxergar.
+
+{projeto}
+
+O QUE JA EXISTE NO MEU PROJETO (nao repetir - eu ja tenho isto):
+{ja_tenho}
+
+VIDEO: {link} | canal: {canal} | {nblocos} blocos lidos (100% da transcricao) | {ntop} topicos
+
+TOPICOS DO VIDEO INTEIRO:
+{topicos}
+
+Sua tarefa:
+1) ENTENDER O VIDEO COMO UM TODO: qual o PADRAO que se repete? qual a ESTRUTURA que ele usa do
+   inicio ao fim? o que faz esse video funcionar? (isso so se ve olhando todos os topicos juntos)
+2) DIZER O QUE AGREGAR AO MEU PROJETO EXISTENTE: conhecimento NOVO, que eu ainda NAO tenho.
+   Se o video nao agrega nada novo, devolva "agregar": [] - e diga por que em "nada_novo".
+
+Responda SO com JSON puro, sem markdown:
+
+{{"entendimento_do_video": "o que este video E e por que ele funciona, em 2-3 frases, olhando o todo",
+ "padrao_que_se_repete": "o molde/estrutura que ele repete do inicio ao fim (ex: 'mesmo formato 16 vezes: nome -> 1 frase -> 3 numeros -> preco'); vazio se nao houver",
+ "agregar": [
+   {{"o_que": "o conhecimento/tatica NOVA que eu devo agregar ao meu projeto",
+     "como_aplicar": "o passo a passo pratico no MEU projeto",
+     "tipo": "estrutura_roteiro|gancho|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
+     "evidencia": "o que NESTE video prova que funciona (cite o topico/numero)",
+     "ja_tenho_parecido": "sim/nao - e se sim, o que muda em relacao ao que ja tenho"}}
+ ],
+ "nada_novo": "se nao houver nada a agregar, explique por que; senao vazio"}}
 """
 
 if ask is None:
@@ -228,7 +261,8 @@ for f in arquivos:
 
         ok_ia = False       # so marca o video como FEITO se a IA respondeu de verdade
         blocos_ok = 0       # quantos blocos deste video a IA leu com sucesso
-        v_top, v_apl, v_prod, v_num = [], [], [], []
+        v_top, v_prod, v_num = [], [], []
+        v_apl = []   # preenchido pelo AGENTE 2
         blocos_com_topico = set()
         v_nicho = Counter()
         seen_t, seen_a, seen_pr, seen_n = set(), set(), set(), set()
@@ -272,6 +306,7 @@ for f in arquivos:
                                   "topico": t["topico"].strip(),
                                   "ensina_a_fazer": (t.get("ensina_a_fazer") or "").strip(),
                                   "como": (t.get("como") or "").strip(),
+                                  "deve_ser_copiado": (t.get("deve_ser_copiado") or "").strip(),
                                   "produtos": [str(x).strip() for x in (t.get("produtos") or [])],
                                   "numeros": [str(x).strip() for x in (t.get("numeros") or [])],
                                   "bloco": bi + 1, "de_blocos": len(parts)})
@@ -285,17 +320,6 @@ for f in arquivos:
                         if kk and kk not in seen_n:
                             seen_n.add(kk)
                             v_num.append(str(x).strip())
-            for a in (d.get("aplicacao_no_meu_projeto") or []):
-                if not isinstance(a, dict) or not (a.get("acao") or "").strip():
-                    continue
-                k = norm(a.get("acao", ""))[:70]
-                if k and k not in seen_a:
-                    seen_a.add(k)
-                    v_apl.append({"acao": a["acao"].strip(),
-                                  "como": (a.get("como") or "").strip(),
-                                  "tipo": (a.get("tipo") or "").strip(),
-                                  "por_que_funciona": (a.get("por_que_funciona") or "").strip(),
-                                  "bloco": bi + 1})
 
         # NAO DEIXAR PASSAR NADA: o video so e dado como MAPEADO se TODOS os blocos foram lidos.
         # Se algum bloco falhou, o video volta para a fila (ate MAXTENT tentativas).
@@ -334,20 +358,57 @@ for f in arquivos:
                                "blocos_do_video": len(parts), "blocos_lidos_ok": blocos_ok,
                                "chars_transcricao": len(txt),
                                "cobertura": round(100.0 * blocos_ok / max(1, len(parts)), 1)})
-        if not v_top and not v_apl:
+        if not v_top:
             videos_vazios += 1
             continue
+
+        # ================= AGENTE 2: SINTETIZADOR (le o VIDEO INTEIRO) =================
+        # O Agente 1 leu bloco a bloco. Agora o Agente 2 ve TODOS os topicos juntos e enxerga
+        # o padrao que se repete - coisa impossivel de ver olhando um bloco isolado.
+        sintese = {}
+        if v_top:
+            resumo_top = "\n".join(
+                "%d. %s | ENSINA: %s | COMO: %s%s"
+                % (t["n"], t["topico"], t["ensina_a_fazer"], t["como"],
+                   (" | COPIAR: " + t["deve_ser_copiado"]) if t.get("deve_ser_copiado") else "")
+                for t in v_top)
+            try:
+                r2 = ask(PROMPT2.format(projeto=PROJETO, ja_tenho=JA_TENHO, link=link, canal=canal,
+                                        nblocos=len(parts), ntop=len(v_top),
+                                        topicos=resumo_top[:9000]), max_tokens=1600)
+                chamadas += 1
+                if eh_nicho:
+                    ch_nicho += 1
+                else:
+                    ch_resto += 1
+                m2 = re.search(r"\{.*\}", r2 or "", re.S)
+                if m2:
+                    sintese = json.loads(m2.group(0))
+            except Exception:
+                sintese = {}
+
+        for a in (sintese.get("agregar") or []):
+            if not isinstance(a, dict) or not (a.get("o_que") or "").strip():
+                continue
+            v_apl.append({"o_que": a["o_que"].strip(),
+                          "como_aplicar": (a.get("como_aplicar") or "").strip(),
+                          "tipo": (a.get("tipo") or "").strip(),
+                          "evidencia": (a.get("evidencia") or "").strip(),
+                          "ja_tenho_parecido": (a.get("ja_tenho_parecido") or "").strip()})
+
         c.setdefault("videos", []).append({
             "video": vid, "link": link, "nicho": nicho, "canal": canal,
             "chars": len(txt), "blocos": len(parts), "blocos_lidos": blocos_ok,
             "cobertura_pct": round(100.0 * blocos_ok / max(1, len(parts)), 1),
             "blocos_que_renderam_topico": sorted(blocos_com_topico),
             "total_topicos": len(v_top),
-            "TOPICOS": v_top,                       # <<< o video virou indice de topicos
-            "aplicacao_no_meu_projeto": v_apl,
+            "TOPICOS": v_top,                       # <<< AGENTE 1: o video virou indice de topicos
+            "SINTESE_DO_VIDEO": {                   # <<< AGENTE 2: entendeu o video INTEIRO
+                "entendimento": (sintese.get("entendimento_do_video") or "").strip(),
+                "padrao_que_se_repete": (sintese.get("padrao_que_se_repete") or "").strip(),
+                "nada_novo": (sintese.get("nada_novo") or "").strip()},
+            "AGREGAR_NO_MEU_PROJETO": v_apl,
             "produtos": v_prod, "numeros": v_num})
-        for x in v_apl:
-            c["aplicacoes"].append(dict(x, video=vid, link=link, nicho=nicho, canal_fonte=canal))
         for pr in v_prod:
             c["produtos"].append({"produto": pr, "video": vid, "link": link, "nicho": nicho})
         for nu in v_num:
@@ -379,18 +440,20 @@ todos_videos = []
 tot_top = tot_apl = 0
 
 for canal, c in base["canais"].items():
-    for a in c.get("aplicacoes", []):
-        tot_apl += 1
-        k = norm(a["acao"])[:70]
-        if k in vistos:
-            continue
-        vistos.add(k)
-        por_tipo[a.get("tipo", "outro")] += 1
-        backlog.append({"id": hashlib.md5(k.encode()).hexdigest()[:12],
-                        "acao": a["acao"], "como": a.get("como", ""),
-                        "tipo": a.get("tipo", ""), "por_que_funciona": a.get("por_que_funciona", ""),
-                        "nicho": a.get("nicho", ""), "canal_fonte": canal,
-                        "link_fonte": a.get("link", ""), "status": "pendente"})
+    for v in c.get("videos", []):
+        for a in v.get("AGREGAR_NO_MEU_PROJETO", []):
+            tot_apl += 1
+            k = norm(a["o_que"])[:70]
+            if k in vistos:
+                continue
+            vistos.add(k)
+            por_tipo[a.get("tipo", "outro")] += 1
+            backlog.append({"id": hashlib.md5(k.encode()).hexdigest()[:12],
+                            "o_que_agregar": a["o_que"], "como_aplicar": a.get("como_aplicar", ""),
+                            "tipo": a.get("tipo", ""), "evidencia": a.get("evidencia", ""),
+                            "ja_tenho_parecido": a.get("ja_tenho_parecido", ""),
+                            "canal_fonte": canal, "link_fonte": v.get("link", ""),
+                            "video": v.get("video", ""), "status": "pendente"})
     for p in c.get("produtos", []):
         prod[p["produto"].strip().lower()] += 1
     for nu in c.get("numeros", []):
