@@ -77,9 +77,11 @@ def limpa_texto(t):
 BOILER_MIN_CANAIS = int(os.environ.get("NG_BOILER", "4"))
 
 def assinatura(fr):
-    """normaliza a frase para detectar quase-duplicatas entre canais"""
-    w = [x for x in TERM.findall(fr.lower()) if x not in STOP]
-    return " ".join(sorted(set(w))[:8])
+    """hash da frase normalizada (int, rápido) para detectar quase-duplicatas entre canais"""
+    w = sorted(set(x for x in TERM.findall(fr.lower()) if x not in STOP))[:8]
+    if len(w) < 3:
+        return 0
+    return hash(" ".join(w)) & 0xFFFFFFFFFFFF
 
 
 def conteudo(fr):
@@ -196,11 +198,14 @@ if not frases:
 
 # ---------- FILTRA BOILERPLATE (o clichê que aparece em N canais) ----------
 sig_canais = defaultdict(set)
-for fr, vid, canal, st in frases:
-    sig_canais[assinatura(fr)].add(canal)
+sigs = [assinatura(f[0]) for f in frases]         # calcula uma vez
+for k, (fr, vid, canal, st) in enumerate(frases):
+    if sigs[k]:
+        sig_canais[sigs[k]].add(canal)
 boiler = {sg for sg, cs in sig_canais.items() if len(cs) >= BOILER_MIN_CANAIS}
 antes = len(frases)
-frases = [f for f in frases if assinatura(f[0]) not in boiler]
+keep = [k for k in range(len(frases)) if sigs[k] not in boiler or sigs[k] == 0]
+frases = [frases[k] for k in keep]
 n_boiler = antes - len(frases)
 print("BOILERPLATE removido: %s frases-clichê (apareciam em >=%d canais diferentes)"
       % (format(n_boiler, ",d"), BOILER_MIN_CANAIS))
@@ -401,10 +406,14 @@ if arestas:
                    shape=(NF, NF), dtype=np.float32).tocsr()
     save_npz("GRAPH_FULL.npz", A)
     with open("GRAPH_NODES.jsonl", "w", encoding="utf-8") as fh:
+        buf = []
         for i in range(NF):
             fr, vid, canal, st = frases[i]
-            fh.write(json.dumps({"i": i, "f": fr, "v": vid, "c": canal, "t": st},
-                                ensure_ascii=False) + "\n")
+            buf.append(json.dumps({"i": i, "f": fr, "v": vid, "c": canal, "t": st}, ensure_ascii=False))
+            if len(buf) >= 50000:
+                fh.write("\n".join(buf) + "\n"); buf = []
+        if buf:
+            fh.write("\n".join(buf) + "\n")
     print("GRAFO COMPLETO salvo: %s nos, %s arestas -> GRAPH_FULL.npz"
           % (format(NF, ",d"), format(len(arestas), ",d")))
 
