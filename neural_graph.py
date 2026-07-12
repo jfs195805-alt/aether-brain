@@ -256,6 +256,84 @@ for i, h in viz.items():
 del viz
 gc.collect()
 
+# ================= CAMADA SEMANTICA (estado da arte) =================
+# 1) SVD RANDOMIZADO (Halko-Martinsson-Tropp): projeta 1M frases num espaco latente de K dims.
+#    Captura SIGNIFICADO, nao palavra. Liga "creatina da forca" com "suplemento melhora treino".
+# 2) IVF (k-means + celulas), a arquitetura do FAISS: torna o kNN viavel em 1M de vetores.
+SEM_K   = int(os.environ.get("NG_SVD", "256"))       # dimensoes latentes
+SEM_CEL = int(os.environ.get("NG_CELLS", "1500"))    # celulas do indice
+SEM_KNN = int(os.environ.get("NG_SKNN", "6"))        # vizinhos semanticos por frase
+SEM_LIM = float(os.environ.get("NG_SLIM", "0.45"))   # limiar semantico (cosseno no espaco latente)
+SEM_ON  = os.environ.get("NG_SEMANTIC", "1") == "1"
+
+arestas_lex = len(arestas)
+arestas_sem = 0
+T_SEM = time.time()
+if SEM_ON and NF > 1000:
+    try:
+        rng = np.random.default_rng(7)
+        p = 12
+        Om = rng.standard_normal((X.shape[1], SEM_K + p), dtype=np.float32)
+        Y = X @ Om                              # (NF x K+p) esparso@denso = rapido
+        Y, _ = np.linalg.qr(Y)                  # base ortonormal
+        B = (X.T @ Y).T                         # (K+p x vocab)
+        Ub, S, Vt = np.linalg.svd(B, full_matrices=False)
+        Z = (Y @ Ub[:, :SEM_K]) * S[:SEM_K]     # embeddings (NF x K)
+        del Om, Y, B, Ub, Vt
+        gc.collect()
+        Z = Z.astype(np.float32)
+        nz = np.linalg.norm(Z, axis=1, keepdims=True)
+        nz[nz == 0] = 1.0
+        Z /= nz                                  # normalizado -> produto interno = cosseno
+
+        # k-means (mini-batch) para montar as celulas do indice IVF
+        idxc = rng.choice(NF, size=min(SEM_CEL, NF), replace=False)
+        C = Z[idxc].copy()
+        for _ in range(6):
+            lot = rng.choice(NF, size=min(60000, NF), replace=False)
+            sim = Z[lot] @ C.T
+            asg = sim.argmax(axis=1)
+            for k in range(C.shape[0]):
+                m = lot[asg == k]
+                if len(m):
+                    v = Z[m].mean(axis=0)
+                    n_ = np.linalg.norm(v)
+                    if n_ > 0:
+                        C[k] = v / n_
+        # atribui todas as frases a uma celula
+        celula = np.empty(NF, dtype=np.int32)
+        for i0 in range(0, NF, 50000):
+            i1 = min(NF, i0 + 50000)
+            celula[i0:i1] = (Z[i0:i1] @ C.T).argmax(axis=1)
+
+        # kNN exato DENTRO de cada celula (semanticamente proximas)
+        for k in range(C.shape[0]):
+            membros = np.where(celula == k)[0]
+            L = len(membros)
+            if L < 2 or L > 4000:
+                continue
+            Sm = Z[membros] @ Z[membros].T
+            np.fill_diagonal(Sm, -1)
+            top = np.argpartition(-Sm, min(SEM_KNN, L - 1), axis=1)[:, :SEM_KNN]
+            for a in range(L):
+                i = int(membros[a])
+                for b in top[a]:
+                    v = float(Sm[a, b])
+                    if v < SEM_LIM:
+                        continue
+                    j = int(membros[b])
+                    if i == j:
+                        continue
+                    x, y = (i, j) if i < j else (j, i)
+                    if (x, y) not in arestas:
+                        arestas[(x, y)] = round(v, 3)
+                        arestas_sem += 1
+        del Z, C
+        gc.collect()
+    except Exception as e:
+        print("camada semantica falhou (%s) - seguindo so com lexica" % str(e)[:60])
+DUR_SEM = time.time() - T_SEM
+
 DUR = max(0.001, time.time() - T0)
 PPS = int(pares_avaliados / DUR)
 
@@ -320,6 +398,10 @@ out = {"ts": acc["ts"], "videos": nv, "canais": len(canais),
        "pares_frases_avaliados": pares_avaliados,
        "espaco_pares_total": espaco,
        "sinapses_descobertas": len(arestas),
+       "sinapses_lexicais": arestas_lex,
+       "sinapses_semanticas": arestas_sem,
+       "segundos_semantica": round(DUR_SEM, 1),
+       "dimensoes_latentes": SEM_K,
        "pares_por_segundo": PPS,
        "ram_pico_mb": ram_pico_mb(),
        "ram_total_mb": ram_total_mb(),
@@ -331,8 +413,9 @@ out = {"ts": acc["ts"], "videos": nv, "canais": len(canais),
        "ciclos": acc["ciclos"],
        "nodes": nodes, "edges": ed}
 json.dump(out, open(OUT, "w", encoding="utf-8"), ensure_ascii=False)
-print("GRAFO v3: %d frases | %s pares REAIS em %.1fs (%s pares/s, scipy esparso) | %d sinapses | "
-      "RAM: %d MB de %d MB (%.1f%%) em %d CPUs | ACUMULADO: %s pares, %d sinapses, ciclo %d"
-      % (NF, format(pares_avaliados, ",d"), DUR, format(PPS, ",d"), len(arestas),
-         ram_pico_mb(), ram_total_mb(), 100.0*ram_pico_mb()/max(1,ram_total_mb()), os.cpu_count(),
-         format(acc["pares_avaliados_total"], ",d"), acc["sinapses_descobertas_total"], acc["ciclos"]))
+print("GRAFO v4: %d frases | %s pares lexicais em %.1fs (%s pares/s) | sinapses: %s lexicais + %s SEMANTICAS (SVD %dd + IVF, %.1fs) | "
+      "RAM: %d MB de %d MB (%.1f%%) | ACUMULADO: %s pares, %s sinapses, ciclo %d"
+      % (NF, format(pares_avaliados, ",d"), DUR, format(PPS, ",d"),
+         format(arestas_lex, ",d"), format(arestas_sem, ",d"), SEM_K, DUR_SEM,
+         ram_pico_mb(), ram_total_mb(), 100.0*ram_pico_mb()/max(1,ram_total_mb()),
+         format(acc["pares_avaliados_total"], ",d"), format(acc["sinapses_descobertas_total"], ",d"), acc["ciclos"]))

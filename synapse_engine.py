@@ -140,6 +140,22 @@ tam = Counter(len(c) for c in cliques)
 maior = max(tam) if tam else 0
 
 # ---------- 3) FIGURAS pontuadas ----------
+MC = int(os.environ.get("SYN_MC", "400"))   # amostras de Monte Carlo por figura
+
+def monte_carlo(sims, div, lu, n):
+    """Propaga a incerteza: cada similaridade e uma medida ruidosa. Reamostra e devolve
+    (media, p05, p95) do score -> a figura passa a ter INTERVALO DE CONFIANCA, nao numero seco."""
+    if not sims:
+        return 0.0, 0.0, 0.0
+    a = np.array(sims, dtype=np.float32)
+    sd = max(0.02, float(a.std()))
+    rng = np.random.default_rng(11)
+    amostras = rng.normal(a.mean(), sd / math.sqrt(len(a)), MC)
+    base = (0.4 + 0.6 * div) * (1 + math.log1p(n) / 2.2) * (1 + math.log1p(lu) / 6.0)
+    sc = np.clip(amostras, 0, 1) * base
+    return float(sc.mean()), float(np.percentile(sc, 5)), float(np.percentile(sc, 95))
+
+
 def figura(c):
     cs = {categoria(i) for i in c}
     cn = {(META.get(i) or {}).get("c") for i in c}
@@ -151,7 +167,8 @@ def figura(c):
     ms = sum(sims) / len(sims) if sims else 0
     div = 0.5 * min(len(cs), 5) / 5.0 + 0.5 * min(len(cn), 5) / 5.0
     lu = max([lucro_de(x) for x in cs] or [0])
-    score = ms * (0.4 + 0.6 * div) * (1 + math.log1p(len(c)) / 2.2) * (1 + math.log1p(lu) / 6.0)
+    score, p05, p95 = monte_carlo(sims, div, lu, len(c))
+    confianca = round(1.0 - min(1.0, (p95 - p05) / max(1e-6, score)), 3) if score else 0.0
     pts = []
     for i in list(c)[:8]:
         d = META.get(i) or {}
@@ -160,7 +177,8 @@ def figura(c):
         pts.append({"frase": (d.get("f") or "")[:170], "canal": d.get("c"), "video": vid,
                     "t": st, "categoria": categoria(i),
                     "link": ("https://youtu.be/%s%s" % (vid, "?t=%d" % st if st is not None else "")) if vid else ""})
-    return {"n": len(c), "score": round(score, 4), "sim_media": round(ms, 3),
+    return {"n": len(c), "score": round(score, 4), "p05": round(p05, 4), "p95": round(p95, 4),
+            "confianca": confianca, "sim_media": round(ms, 3),
             "categorias": sorted(cs), "canais": sorted(cn)[:6],
             "n_categorias": len(cs), "n_canais": len(cn), "lucro_1k": lu, "pontos": pts}
 
@@ -227,6 +245,8 @@ espaco_trios = int(N * (N - 1) * (N - 2) / 6) if N > 2 else 0
 for f in (insights + pontes)[:TOP_OPP * 2]:
     if fila >= TOP_OPP or f["score"] < LIMIAR:
         continue
+    if f.get("p05", 0) < LIMIAR * 0.6:        # o pior cenario tem que se sustentar
+        continue
     gid = hashlib.md5("|".join(sorted(p["frase"][:40] for p in f["pontos"])).encode()).hexdigest()[:12]
     if gid in exist:
         continue
@@ -236,6 +256,7 @@ for f in (insights + pontes)[:TOP_OPP * 2]:
         "descricao_fonte": [p["frase"][:120] for p in f["pontos"][:4]],
         "provas": [p["link"] for p in f["pontos"] if p.get("link")][:4],
         "lucro_1k": f["lucro_1k"], "score": f["score"],
+        "intervalo_confianca": [f.get("p05"), f.get("p95")], "confianca": f.get("confianca"),
         "ideias_cruzadas": espaco_trios,
         "origem": "figura neural de %d pontos cruzando %d categorias e %d canais (grafo de %s nos)"
                   % (f["n"], f["n_categorias"], f["n_canais"], format(N, ",d")),
