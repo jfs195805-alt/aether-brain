@@ -34,6 +34,7 @@ on:
     - vault/**
     - out/**
     - '**.jsonl'
+    - TOPICOS_POR_VIDEO.json
   workflow_dispatch: {}
   schedule:
   - cron: '*/30 * * * *'
@@ -159,7 +160,7 @@ jobs:
 
         git config user.email aether@local; git config user.name aether
 
-        git add CONHECIMENTO_PRODUCAO.json PAUTA.json 2>/dev/null || true
+        git add CONHECIMENTO_PRODUCAO.json PAUTA.json TOPICOS_POR_VIDEO.json 2>/dev/null || true
 
         git commit -q -m "pauta de producao (conteudo bruto)" || echo nada
 
