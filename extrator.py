@@ -24,7 +24,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 4
+VERSAO = 5
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -94,49 +94,39 @@ base["versao"] = VERSAO
 
 feitos = {v for c in base["canais"].values() for v in c.get("videos_processados", [])}
 
-PROMPT = """Voce e o analista do meu projeto. Abaixo esta UM TRECHO da transcricao bruta de um
-video do YouTube (de um canal que funciona). Sua tarefa tem DUAS METADES.
+PROMPT = """Voce e o analista do meu projeto. Abaixo esta o BLOCO {bloco} de {total} da
+transcricao bruta de UM video do YouTube. Voce vera TODOS os blocos, um por vez - este e um deles.
 
 {projeto}
 
-=== METADE 1: O QUE O VIDEO ACONSELHA ===
-Capture TUDO que o video recomenda, aconselha ou ensina neste trecho. NAO RESUMA, NAO PULE NADA.
-Se ele recomenda 8 coisas, devolva 8. Guarde o DETALHE EXATO (numero, dose, prazo, preco, spec,
-criterio) como ele falou - nunca troque numero por "pouco" ou "algum".
+=== TAREFA 1: TOPICOS - O QUE ESTE BLOCO ENSINA A FAZER ===
+Transforme ESTE BLOCO em TOPICOS. Cada coisa que o video ensina a fazer = 1 topico.
+NAO RESUMA. NAO PULE NADA. Se o bloco ensina 7 coisas, devolva 7 topicos.
+Cada topico precisa do DETALHE EXATO como ele falou: numero, dose, prazo, preco, spec, ordem,
+criterio. Nunca troque numero por "pouco" ou "algum tempo".
+Se o bloco for so introducao/despedida/enrolacao, devolva "topicos": [] - sem inventar.
 
-=== METADE 2: O QUE EU FACO COM ISSO NO MEU PROJETO ===
-Para cada conselho relevante, diga o que EU devo fazer, de forma concreta e executavel.
-Nao e teoria: e tarefa. Ex: "gravar video X", "promover produto Y como afiliado",
-"usar este gancho no titulo", "copiar esta estrutura de roteiro", "responder esta objecao".
-Se o trecho nao servir para o meu projeto, devolva "aplicacao_no_meu_projeto": [] - sem inventar.
+=== TAREFA 2: O QUE EU FACO COM ISSO NO MEU PROJETO ===
+So o que REALMENTE serve para o meu projeto. Se nao servir, devolva [] - sem enchimento.
 
 Responda SO com JSON puro, sem markdown:
 
-{{"sobre": "do que este trecho trata, 1 frase",
- "conselhos": [
-   {{"conselho": "o que ele aconselha/recomenda/ensina",
-     "porque": "a razao ou o beneficio que ele da",
-     "detalhe": "numeros, doses, prazos, precos, specs, criterios EXATOS que ele citou",
-     "produto": "produto/marca/ferramenta citado; vazio se nenhum",
-     "para_quem": "para qual pessoa ou situacao esse conselho serve"}}
+{{"topicos": [
+   {{"topico": "titulo curto do topico (4-8 palavras)",
+     "ensina_a_fazer": "a acao que ele ensina a fazer, em 1 frase",
+     "como": "o passo a passo / o detalhe EXATO: numeros, valores, ordem, configuracao, criterio",
+     "produtos": ["produtos/marcas/ferramentas citados NESTE topico; [] se nenhum"],
+     "numeros": ["numeros/valores/prazos/doses/precos/specs citados NESTE topico, com contexto"]}}
  ],
  "aplicacao_no_meu_projeto": [
-   {{"acao": "o que EU faco (verbo no imperativo + objeto concreto)",
-     "como": "o passo a passo pratico de como executar",
+   {{"acao": "o que EU faco (imperativo + objeto concreto)",
+     "como": "o passo a passo pratico",
      "tipo": "pauta_de_video|produto_afiliado|gancho|estrutura_roteiro|argumento_de_venda|titulo_seo|cta|objecao|automacao",
-     "por_que_funciona": "a evidencia que veio deste video"}}
+     "por_que_funciona": "a evidencia deste bloco"}}
  ],
- "formato_do_video": {{"gancho": "como ele prende a atencao (se este trecho for a abertura; senao vazio)",
-                      "estrutura": "como ele organiza o conteudo neste trecho",
-                      "cta": "a chamada para acao que ele faz; vazio se nenhuma"}},
- "produtos": ["TODOS os produtos/marcas/ferramentas/sites citados; [] se nenhum"],
- "numeros": ["TODO numero/valor/prazo/dose/preco/spec/metrica citado, com contexto. ex: '5g por dia', '228 km de autonomia', 'R$13.000'"],
  "nicho": "Suplementos|Emagrecimento|Fitness|Saude|Afiliados|IA e Tech|Financas|Negocios|Beleza|Educacao|Automoveis|Outro"}}
 
-NAO DESCARTE NADA na METADE 1. Melhor um item a mais do que perder um conselho.
-Na METADE 2, so escreva o que REALMENTE serve para o meu projeto - qualidade, nao enchimento.
-
-TRECHO:
+BLOCO {bloco}/{total}:
 {txt}
 """
 
@@ -211,8 +201,8 @@ for f in arquivos:
     # Ao bater ORC_NICHO, para de gastar em canal de nicho e libera o restante para os demais.
     if eh_nicho and chamadas >= ORC_NICHO:
         continue
-    c = base["canais"].setdefault(canal, {"videos_processados": [], "conselhos": [],
-                                          "aplicacoes": [], "formatos": [], "produtos": [],
+    c = base["canais"].setdefault(canal, {"videos_processados": [], "videos": [],
+                                          "aplicacoes": [], "produtos": [],
                                           "numeros": [], "por_video": []})
     n = 0
     for ln in open(f, encoding="utf-8", errors="ignore"):
@@ -238,15 +228,17 @@ for f in arquivos:
 
         ok_ia = False       # so marca o video como FEITO se a IA respondeu de verdade
         blocos_ok = 0       # quantos blocos deste video a IA leu com sucesso
-        v_cons, v_apl, v_fmt, v_prod, v_num = [], [], [], [], []
+        v_top, v_apl, v_prod, v_num = [], [], [], []
+        blocos_com_topico = set()
         v_nicho = Counter()
-        seen_c, seen_a, seen_pr, seen_n = set(), set(), set(), set()
+        seen_t, seen_a, seen_pr, seen_n = set(), set(), set(), set()
 
-        for parte in parts:
+        for bi, parte in enumerate(parts):
             if chamadas >= (ORC_NICHO if eh_nicho else MAXCALLS) or (time.time() - T0) > TEMPO_MAX:
                 break
             try:
-                resp = ask(PROMPT.format(projeto=PROJETO, txt=parte[:CHUNK + 500]), max_tokens=1200)
+                resp = ask(PROMPT.format(projeto=PROJETO, bloco=bi + 1, total=len(parts),
+                                         txt=parte[:CHUNK + 500]), max_tokens=1400)
             except Exception as e:
                 falhas_ia += 1
                 continue
@@ -269,17 +261,30 @@ for f in arquivos:
             blocos_ok += 1
             if d.get("nicho"):
                 v_nicho[d["nicho"]] += 1
-            for p in (d.get("conselhos") or []):
-                if not isinstance(p, dict) or not (p.get("conselho") or "").strip():
+            for t in (d.get("topicos") or []):
+                if not isinstance(t, dict) or not (t.get("topico") or "").strip():
                     continue
-                k = norm(p.get("conselho", ""))[:70]
-                if k and k not in seen_c:
-                    seen_c.add(k)
-                    v_cons.append({"conselho": p["conselho"].strip(),
-                                   "porque": (p.get("porque") or "").strip(),
-                                   "detalhe": (p.get("detalhe") or "").strip(),
-                                   "produto": (p.get("produto") or "").strip(),
-                                   "para_quem": (p.get("para_quem") or "").strip()})
+                k = norm(t.get("topico", ""))[:70]
+                if k and k not in seen_t:
+                    seen_t.add(k)
+                    blocos_com_topico.add(bi + 1)
+                    v_top.append({"n": len(v_top) + 1,
+                                  "topico": t["topico"].strip(),
+                                  "ensina_a_fazer": (t.get("ensina_a_fazer") or "").strip(),
+                                  "como": (t.get("como") or "").strip(),
+                                  "produtos": [str(x).strip() for x in (t.get("produtos") or [])],
+                                  "numeros": [str(x).strip() for x in (t.get("numeros") or [])],
+                                  "bloco": bi + 1, "de_blocos": len(parts)})
+                    for x in (t.get("produtos") or []):
+                        kk = norm(str(x))[:50]
+                        if kk and kk not in seen_pr:
+                            seen_pr.add(kk)
+                            v_prod.append(str(x).strip())
+                    for x in (t.get("numeros") or []):
+                        kk = norm(str(x))[:60]
+                        if kk and kk not in seen_n:
+                            seen_n.add(kk)
+                            v_num.append(str(x).strip())
             for a in (d.get("aplicacao_no_meu_projeto") or []):
                 if not isinstance(a, dict) or not (a.get("acao") or "").strip():
                     continue
@@ -289,22 +294,8 @@ for f in arquivos:
                     v_apl.append({"acao": a["acao"].strip(),
                                   "como": (a.get("como") or "").strip(),
                                   "tipo": (a.get("tipo") or "").strip(),
-                                  "por_que_funciona": (a.get("por_que_funciona") or "").strip()})
-            fm = d.get("formato_do_video") or {}
-            if isinstance(fm, dict) and any((fm.get(x) or "").strip() for x in ("gancho", "estrutura", "cta")):
-                v_fmt.append({"gancho": (fm.get("gancho") or "").strip(),
-                              "estrutura": (fm.get("estrutura") or "").strip(),
-                              "cta": (fm.get("cta") or "").strip()})
-            for pr in (d.get("produtos") or []):
-                k = norm(pr)[:50]
-                if k and k not in seen_pr:
-                    seen_pr.add(k)
-                    v_prod.append(pr.strip())
-            for nu in (d.get("numeros") or []):
-                k = norm(nu)[:60]
-                if k and k not in seen_n:
-                    seen_n.add(k)
-                    v_num.append(nu.strip())
+                                  "por_que_funciona": (a.get("por_que_funciona") or "").strip(),
+                                  "bloco": bi + 1})
 
         # NAO DEIXAR PASSAR NADA: o video so e dado como MAPEADO se TODOS os blocos foram lidos.
         # Se algum bloco falhou, o video volta para a fila (ate MAXTENT tentativas).
@@ -338,31 +329,33 @@ for f in arquivos:
 
         c["por_video"].append({"video": vid, "link": link, "nicho": nicho,
                                "canal_do_meu_nicho": eh_nicho,
-                               "conselhos_captados": len(v_cons),
+                               "topicos": len(v_top),
                                "aplicacoes_no_projeto": len(v_apl),
                                "blocos_do_video": len(parts), "blocos_lidos_ok": blocos_ok,
                                "chars_transcricao": len(txt),
                                "cobertura": round(100.0 * blocos_ok / max(1, len(parts)), 1)})
-        if not v_cons and not v_apl:
+        if not v_top and not v_apl:
             videos_vazios += 1
             continue
-        for x in v_cons:
-            x.update({"video": vid, "link": link, "nicho": nicho})
-            c["conselhos"].append(x)
+        c.setdefault("videos", []).append({
+            "video": vid, "link": link, "nicho": nicho, "canal": canal,
+            "chars": len(txt), "blocos": len(parts), "blocos_lidos": blocos_ok,
+            "cobertura_pct": round(100.0 * blocos_ok / max(1, len(parts)), 1),
+            "blocos_que_renderam_topico": sorted(blocos_com_topico),
+            "total_topicos": len(v_top),
+            "TOPICOS": v_top,                       # <<< o video virou indice de topicos
+            "aplicacao_no_meu_projeto": v_apl,
+            "produtos": v_prod, "numeros": v_num})
         for x in v_apl:
-            x.update({"video": vid, "link": link, "nicho": nicho, "canal_fonte": canal})
-            c["aplicacoes"].append(x)
-        for x in v_fmt:
-            x.update({"video": vid, "link": link})
-            c["formatos"].append(x)
+            c["aplicacoes"].append(dict(x, video=vid, link=link, nicho=nicho, canal_fonte=canal))
         for pr in v_prod:
             c["produtos"].append({"produto": pr, "video": vid, "link": link, "nicho": nicho})
         for nu in v_num:
             c["numeros"].append({"numero": nu, "video": vid, "link": link, "nicho": nicho})
         videos_ok += 1
-        print("  [%s] %s -> %d conselhos, %d aplicacoes no projeto | %d/%d blocos (%.0f%% do video)"
-          % (canal[:18], vid, len(v_cons), len(v_apl), blocos_ok, len(parts),
-             100.0 * blocos_ok / max(1, len(parts))), flush=True)
+        print("  [%s] %s -> %d TOPICOS, %d aplicacoes | %d/%d blocos lidos (%.0f%%) | topicos vieram de %d blocos"
+          % (canal[:18], vid, len(v_top), len(v_apl), blocos_ok, len(parts),
+             100.0 * blocos_ok / max(1, len(parts)), len(blocos_com_topico)), flush=True)
 
         # CHECKPOINT: run cancelada no meio nao pode perder o que ja foi captado
         if videos_ok % 10 == 0:
@@ -374,16 +367,16 @@ base["ts"] = time.strftime("%FT%TZ", time.gmtime())
 base["versao"] = VERSAO
 json.dump(base, open(OUT, "w", encoding="utf-8"), ensure_ascii=False)
 
-# ---------- SAIDA: o que EU faco + o que os videos aconselham ----------
-backlog = []          # aplicacoes no MEU projeto (o que fazer)
-conselhos_cat = []    # tudo que os videos aconselham (catalogo bruto, nada descartado)
+# ---------- SAIDA ----------
+TOPICOS_OUT = "TOPICOS_POR_VIDEO.json"
+
+backlog = []
 prod = Counter()
 nums = []
-formatos = []
-por_video = []
 vistos = set()
-tot_cons = tot_apl = 0
 por_tipo = Counter()
+todos_videos = []
+tot_top = tot_apl = 0
 
 for canal, c in base["canais"].items():
     for a in c.get("aplicacoes", []):
@@ -398,39 +391,47 @@ for canal, c in base["canais"].items():
                         "tipo": a.get("tipo", ""), "por_que_funciona": a.get("por_que_funciona", ""),
                         "nicho": a.get("nicho", ""), "canal_fonte": canal,
                         "link_fonte": a.get("link", ""), "status": "pendente"})
-    for x in c.get("conselhos", []):
-        tot_cons += 1
-        conselhos_cat.append(dict(x, canal_fonte=canal))
     for p in c.get("produtos", []):
         prod[p["produto"].strip().lower()] += 1
     for nu in c.get("numeros", []):
         nums.append(nu)
-    for fm in c.get("formatos", []):
-        formatos.append(dict(fm, canal_fonte=canal))
-    for v in c.get("por_video", []):
-        por_video.append(dict(v, canal=canal))
+    for v in c.get("videos", []):
+        tot_top += v.get("total_topicos", 0)
+        todos_videos.append(v)
 
-por_video.sort(key=lambda x: -x.get("conselhos_captados", 0))
-nv = len(por_video) or 1
+todos_videos.sort(key=lambda v: -v.get("total_topicos", 0))
 
+# 1) CADA VIDEO = INDICE DE TOPICOS do que ele ensina a fazer (100% da transcricao)
 json.dump({"ts": base["ts"], "versao": VERSAO,
-           "metrica": "conselhos captados e aplicacoes no meu projeto, por video (100% do video lido)",
-           "videos_mapeados": nv,
-           "conselhos_captados_total": tot_cons,
+           "o_que_e": "cada video virou uma lista ordenada de TOPICOS do que ele ensina a fazer, "
+                      "lida do primeiro ao ultimo bloco da transcricao bruta",
+           "videos_mapeados": len(todos_videos),
+           "topicos_totais": tot_top,
+           "media_topicos_por_video": round(tot_top / float(len(todos_videos) or 1), 2),
+           "videos": todos_videos},
+          open(TOPICOS_OUT, "w", encoding="utf-8"), ensure_ascii=False)
+
+# 2) o que EU faco + insumos
+json.dump({"ts": base["ts"], "versao": VERSAO,
+           "metrica": "topicos do que o video ensina a fazer, sobre 100% da transcricao bruta",
+           "videos_mapeados": len(todos_videos),
+           "topicos_totais": tot_top,
            "aplicacoes_no_projeto_total": tot_apl,
-           "media_conselhos_por_video": round(tot_cons / float(nv), 2),
            "backlog_do_meu_projeto": backlog[:300],
            "backlog_por_tipo": por_tipo.most_common(),
-           "conselhos_dos_videos": conselhos_cat[:400],
-           "formatos_que_funcionam": formatos[:60],
            "produtos_mais_citados": prod.most_common(40),
            "numeros_duros": nums[:200],
-           "cobertura_por_video": por_video[:150]},
+           "cobertura": [{"video": v["video"], "canal": v["canal"], "link": v["link"],
+                          "chars": v["chars"], "blocos": v["blocos"],
+                          "blocos_lidos": v["blocos_lidos"], "cobertura_pct": v["cobertura_pct"],
+                          "topicos": v["total_topicos"]} for v in todos_videos[:200]]},
           open(PAUTA, "w", encoding="utf-8"), ensure_ascii=False)
 
-print("EXTRATOR v4: [fila: %d chamadas em canal do NICHO + %d no resto] %d videos mapeados (%d sem nada, %d NAO marcados por falha de IA, %d incompletos) | "
-      "%d blocos lidos | %d chamadas IA%s | %d CONSELHOS captados | %d APLICACOES no meu projeto | "
-      "%d produtos | %d numeros duros"
-      % (ch_nicho, ch_resto, videos_ok, videos_vazios, nao_marcados, incompletos, total_chunks, chamadas,
-         " (TETO - continua no proximo ciclo)" if parou_no_teto else "",
-         tot_cons, tot_apl, len(prod), len(nums)))
+completos = sum(1 for v in todos_videos if v["cobertura_pct"] >= 100.0)
+print("EXTRATOR v5: [fila: %d chamadas NICHO + %d resto] %d videos -> %d TOPICOS "
+      "(media %.1f/video) | %d/%d videos com 100%% da transcricao lida | %d aplicacoes no projeto | "
+      "%d chamadas IA%s | %d nao marcados (falha IA) | %d incompletos (voltam p/ fila)"
+      % (ch_nicho, ch_resto, len(todos_videos), tot_top,
+         tot_top / float(len(todos_videos) or 1), completos, len(todos_videos),
+         tot_apl, chamadas, " (TETO - continua no proximo ciclo)" if parou_no_teto else "",
+         nao_marcados, incompletos))
