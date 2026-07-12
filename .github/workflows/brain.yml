@@ -30,7 +30,7 @@ jobs:
         env:
           TS_BATCH: "250"
         run: |
-          python backfill_ts.py || true
+          timeout 600 python backfill_ts.py || echo "timestamps no teto de tempo (continua no proximo ciclo)"
           rclone copy transcripts_ts gdrive:AETHER_TRANSCRIPTS/youtube_ts --include "*.jsonl" --transfers 32 || true
       - name: GRAFO NEURAL REAL (frases + pre-juncao + subagrupamento, 16GB)
         env:
@@ -54,21 +54,39 @@ jobs:
         env:
           WATCH_BATCH: "60"
           WATCH_MAXV: "300"
-        run: python channel_watch.py || true
+        run: |
+          python channel_watch.py || true
+          git config user.email aether@local; git config user.name aether
+          git add COBERTURA.json 2>/dev/null || true
+          git commit -q -m "cobertura dos canais" || echo "nada novo"
+          git pull --rebase -q origin main || git rebase --abort || true
+          git push origin main && echo "SALVO: cobertura" || echo "FALHA AO SALVAR: cobertura"
       - name: BAIXA AUTOMATICO o que falta (ja com timestamp real)
         env:
-          SCRAPE_BATCH: "120"
+          SCRAPE_BATCH: "60"
         run: |
-          python scrape_missing.py || true
+          timeout 720 python scrape_missing.py || echo "download interrompido no teto de tempo (continua no proximo ciclo)"
           rclone copy transcripts gdrive:AETHER_TRANSCRIPTS/youtube --include "*.jsonl" --transfers 32 || true
           rclone copy transcripts_ts gdrive:AETHER_TRANSCRIPTS/youtube_ts --include "*.jsonl" --transfers 32 || true
       - name: CLASSIFICA CADA FRASE em categoria
-        run: python classify_phrases.py || true
+        run: |
+          python classify_phrases.py || true
+          git config user.email aether@local; git config user.name aether
+          git add FRASES_CATEGORIAS.json 2>/dev/null || true
+          git commit -q -m "frases classificadas" || echo "nada novo"
+          git pull --rebase -q origin main || git rebase --abort || true
+          git push origin main && echo "SALVO: categorias" || echo "FALHA AO SALVAR: categorias"
       - name: SINAPSES DE ORDEM SUPERIOR (triangulos, conceitos, memoria eterna, producao)
         env:
           SYN_OPP: "12"
           SYN_LIMIAR: "0.35"
-        run: python synapse_engine.py || true
+        run: |
+          python synapse_engine.py || true
+          git config user.email aether@local; git config user.name aether
+          git add SINAPSES.json KNOWLEDGE_ETERNO.json PENDING_ACTIONS.json 2>/dev/null || true
+          git commit -q -m "sinapses, memoria eterna e fila de producao" || echo "nada novo"
+          git pull --rebase -q origin main || git rebase --abort || true
+          git push origin main && echo "SALVO: sinapses" || echo "FALHA AO SALVAR: sinapses"
       - name: escolher melhor IA gratis do momento (tempo real)
         env:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
