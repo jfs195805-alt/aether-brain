@@ -201,9 +201,16 @@ def diverso(f):
             jac.append(len(sets[a] & sets[b]) / u)
     return (sum(jac) / len(jac)) < 0.55 if jac else False
 
+def sem_geral(f):
+    """insight tem que cruzar categorias REAIS - se metade e 'Geral', nao e insight de nicho"""
+    cs = [c for c in f["categorias"] if c not in ("Geral", "", None)]
+    return len(cs) >= 2 and len(cs) >= len(f["categorias"]) - 1
+
 insights = [f for f in figs
-            if f["n"] >= 4 and f["n_categorias"] >= 3 and f["n_canais"] >= 3 and diverso(f)]
-pontes = [f for f in figs if f["n_categorias"] >= 2 and f["n_canais"] >= 2 and diverso(f)]
+            if f["n"] >= 4 and f["n_categorias"] >= 3 and f["n_canais"] >= 3
+            and diverso(f) and sem_geral(f)]
+pontes = [f for f in figs if f["n_categorias"] >= 2 and f["n_canais"] >= 2
+          and diverso(f) and sem_geral(f)]
 
 # ---------- 4) COMUNIDADES (propagacao de rotulos, vetorizada) ----------
 lab = np.arange(N)

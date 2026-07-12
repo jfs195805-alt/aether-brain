@@ -194,6 +194,8 @@ if not frases:
     raise SystemExit
 
 # ---------- FILTRA BOILERPLATE (o clichê que aparece em N canais) ----------
+MIN_ESPEC = int(os.environ.get("NG_MIN_ESPEC", "2"))   # min de palavras ESPECÍFICAS por frase
+
 # cdf: em quantos canais distintos cada palavra aparece
 cdf = defaultdict(set)
 for fr, vid, canal, st in frases:
@@ -205,19 +207,23 @@ LIMITE_CANAIS = BOILER_PCT * NC
 
 antes = len(frases)
 mantidas = []
+n_vazia = 0
 for fr, vid, canal, st in frases:
     ws = set(w for w in TERM.findall(fr.lower()) if w not in STOP)
     if not ws:
         continue
-    # a palavra MAIS ESPECIFICA da frase (a que aparece em menos canais)
-    min_canais = min(len(cdf[w]) for w in ws)
-    if min_canais > LIMITE_CANAIS:       # nem a mais rara e especifica -> clichê
+    # quantas palavras da frase sao ESPECIFICAS (aparecem em poucos canais)
+    especificas = sum(1 for w in ws if len(cdf[w]) <= LIMITE_CANAIS)
+    if especificas == 0:                 # nenhuma palavra especifica -> clichê
+        continue
+    if especificas < MIN_ESPEC:          # so 1 palavra especifica -> conversa fiada
+        n_vazia += 1
         continue
     mantidas.append((fr, vid, canal, st))
 frases = mantidas
 n_boiler = antes - len(frases)
-print("BOILERPLATE removido: %s frases-clichê (nenhuma palavra aparecia em <%.0f%% dos %d canais)"
-      % (format(n_boiler, ",d"), BOILER_PCT * 100, NC))
+print("SEM SUBSTÂNCIA removido: %s frases (%s clichê puro + %s conversa fiada com <%d palavras específicas)"
+      % (format(n_boiler, ",d"), format(n_boiler - n_vazia, ",d"), format(n_vazia, ",d"), MIN_ESPEC))
 
 NF = len(frases)
 # ---------- vocabulario + TF-IDF esparso de TODAS as frases ----------
