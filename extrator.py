@@ -215,6 +215,12 @@ for f in arquivos:
             c["produtos"].append({"produto": pr, "video": vid, "link": link})
         videos_ok += 1
 
+        # CHECKPOINT: run cancelada no meio nao pode perder o que ja foi captado
+        if videos_ok % 10 == 0:
+            base["ts"] = time.strftime("%FT%TZ", time.gmtime())
+            json.dump(base, open(OUT, "w", encoding="utf-8"), ensure_ascii=False)
+            print("  checkpoint: %d videos salvos (%d chamadas)" % (videos_ok, chamadas), flush=True)
+
 base["ts"] = time.strftime("%FT%TZ", time.gmtime())
 base["versao"] = VERSAO
 json.dump(base, open(OUT, "w", encoding="utf-8"), ensure_ascii=False)
