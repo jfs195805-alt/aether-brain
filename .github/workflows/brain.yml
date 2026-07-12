@@ -22,9 +22,21 @@ on:
     - OTIMIZACOES.json
     - CONHECIMENTO_PRODUCAO.json
     - PAUTA.json
+    - CORE_STATE.json
+    - PENDING_ACTIONS.json
+    - RESULTS.json
+    - BRAIN_MEMORY.json
+    - INTERLINK.json
+    - MASS_IDEAS.json
+    - AETHER_CANAIS_CATEGORIAS.json
+    - AETHER_CANAIS_CONFIANCA.json
+    - GOVERNOR_LOG.md
+    - vault/**
+    - out/**
+    - '**.jsonl'
   workflow_dispatch: {}
   schedule:
-  - cron: '*/10 * * * *'
+  - cron: '*/30 * * * *'
 concurrency:
   group: brain-${{ github.workflow }}
   cancel-in-progress: true
@@ -124,18 +136,6 @@ jobs:
         token: ${{ secrets.AETHER_PAT }}
     - name: deps
       run: pip install --quiet requests || true
-    - name: RESET ZERO (apaga analise antiga; NAO toca nas transcricoes)
-      run: 'python limpa_zero.py
-
-        git config user.email aether@local; git config user.name aether
-
-        git add -A
-
-        git commit -q -m "RESET ZERO: apaga grafo/pares/sinapses/classificacoes e scripts mortos. Transcricoes brutas intactas." || echo "nada a limpar"
-
-        git pull --rebase -q origin main || git rebase --abort || true
-
-        git push origin main && echo RESET_SALVO || echo RESET_FALHA'
     - name: corpus do Drive
       run: 'curl -s https://rclone.org/install.sh | sudo bash || true
 
@@ -154,6 +154,7 @@ jobs:
         NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         EXTRAI_MAXV: '40'
+        EXTRAI_MAXCALLS: '500'
       run: 'python extrator.py || true
 
         git config user.email aether@local; git config user.name aether
