@@ -277,6 +277,24 @@ ed = [[mapa[a], mapa[b], s] for (a, b), s in arestas.items() if a in mapa and b 
 ed.sort(key=lambda x: -x[2])
 ed = ed[:EDGES]
 
+# ---------- GRAFO COMPLETO para o motor de sinapses (mesmo job, nao vai pro git) ----------
+from scipy.sparse import coo_matrix, save_npz
+if arestas:
+    ii = np.fromiter((a for (a, b) in arestas), dtype=np.int32, count=len(arestas))
+    jj = np.fromiter((b for (a, b) in arestas), dtype=np.int32, count=len(arestas))
+    vv = np.fromiter(arestas.values(), dtype=np.float32, count=len(arestas))
+    A = coo_matrix((np.concatenate([vv, vv]),
+                    (np.concatenate([ii, jj]), np.concatenate([jj, ii]))),
+                   shape=(NF, NF), dtype=np.float32).tocsr()
+    save_npz("GRAPH_FULL.npz", A)
+    with open("GRAPH_NODES.jsonl", "w", encoding="utf-8") as fh:
+        for i in range(NF):
+            fr, vid, canal, st = frases[i]
+            fh.write(json.dumps({"i": i, "f": fr, "v": vid, "c": canal, "t": st},
+                                ensure_ascii=False) + "\n")
+    print("GRAFO COMPLETO salvo: %s nos, %s arestas -> GRAPH_FULL.npz"
+          % (format(NF, ",d"), format(len(arestas), ",d")))
+
 com_ts = sum(1 for x in frases if x[3] is not None)
 
 # ---------- MEMORIA CUMULATIVA (soma para sempre) ----------
