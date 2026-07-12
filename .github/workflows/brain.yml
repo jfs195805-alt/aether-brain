@@ -20,6 +20,8 @@ on:
     - '**.md'
     - index.html
     - OTIMIZACOES.json
+    - CONHECIMENTO_PRODUCAO.json
+    - PAUTA.json
   workflow_dispatch: {}
   schedule:
   - cron: '*/10 * * * *'
@@ -59,15 +61,12 @@ jobs:
     name: AGENTE COLETOR (colhe transcricoes novas)
     runs-on: ubuntu-latest
     steps:
-    - &id001
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
       with:
         token: ${{ secrets.AETHER_PAT }}
-    - &id002
-      name: deps
+    - name: deps
       run: pip install --quiet numpy scipy yt-dlp youtube-transcript-api || true
-    - &id003
-      name: corpus do Drive (591+ canais)
+    - name: corpus do Drive (591+ canais)
       run: 'curl -s https://rclone.org/install.sh | sudo bash || true
 
         mkdir -p ~/.config/rclone transcripts
@@ -116,197 +115,41 @@ jobs:
         rclone copy transcripts_ts gdrive:AETHER_TRANSCRIPTS/youtube_ts --include "*.jsonl" --transfers 32 || true
 
         '
-  pensador:
-    name: AGENTE PENSADOR (cruza bilhoes e decide)
+  extrator:
+    name: EXTRATOR (conteudo bruto -> pauta de producao)
     runs-on: ubuntu-latest
     steps:
-    - *id001
-    - *id002
-    - *id003
-    - name: escolher melhor IA gratis do momento (tempo real)
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.AETHER_PAT }}
+    - name: deps
+      run: pip install --quiet requests || true
+    - name: corpus do Drive
+      run: 'curl -s https://rclone.org/install.sh | sudo bash || true
+
+        mkdir -p ~/.config/rclone transcripts
+
+        echo "${{ secrets.RCLONE_CONF_B64 }}" | base64 -d > ~/.config/rclone/rclone.conf || true
+
+        rclone copy gdrive:AETHER_TRANSCRIPTS/youtube transcripts --include "*.jsonl" --transfers 32 --fast-list || true'
+    - name: escolher melhor IA gratis
       env:
         NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-      run: 'BEST=$(AI_ONCE=1 python ai_health.py 2>/dev/null | tail -1)
-
-        [ -n "$BEST" ] && echo "AETHER_AI_ORDER=$BEST" >> $GITHUB_ENV
-
-        echo "melhor IA agora: $BEST"
-
-        '
-    - name: GRAFO NEURAL REAL (frases + pre-juncao + subagrupamento, 16GB)
-      env:
-        NG_V: '60000'
-        NG_DFMAX: '1200'
-        NG_BUCKET: '1200'
-        NG_LIM: '0.18'
-        NG_MAXPAIRS: '1500000000'
-        NG_KEEPK: '10'
-        NG_NODES: '2000'
-        NG_EDGES: '20000'
-        NG_RECS: '1000'
-        NG_SEMANTIC: '1'
-        NG_SVD: '256'
-        NG_CELLS: '1500'
-        NG_SKNN: '6'
-        NG_SLIM: '0.45'
-      run: 'python neural_graph.py || true
-
-        git config user.email aether@local; git config user.name aether
-
-        git add NEURAL_GRAPH.json ACUMULADO.json 2>/dev/null || true
-
-        git commit -q -m "grafo neural v3 (scipy, pares reais)" || echo "nada a commitar"
-
-        git pull --rebase -q origin main || git rebase --abort || true
-
-        git push origin main && echo "GRAFO PUBLICADO" || echo "PUSH DO GRAFO FALHOU"
-
-        '
-    - name: CLASSIFICA CADA FRASE em categoria
-      run: 'python classify_phrases.py || true
-
-        git config user.email aether@local; git config user.name aether
-
-        git add FRASES_CATEGORIAS.json 2>/dev/null || true
-
-        git commit -q -m "frases classificadas" || echo "nada novo"
-
-        git pull --rebase -q origin main || git rebase --abort || true
-
-        git push origin main && echo "SALVO: categorias" || echo "FALHA AO SALVAR: categorias"
-
-        '
-    - name: SINAPSES DE ORDEM SUPERIOR (triangulos, conceitos, memoria eterna, producao)
-      env:
-        SYN_OPP: '12'
-        SYN_LIMIAR: '0.35'
-        SYN_MC: '400'
-        SYN_MAXC: '500000'
-        SYN_BLOCO: '20000'
-      run: 'python synapse_engine.py || true
-
-        git config user.email aether@local; git config user.name aether
-
-        git add SINAPSES.json KNOWLEDGE_ETERNO.json PENDING_ACTIONS.json 2>/dev/null || true
-
-        git commit -q -m "sinapses, memoria eterna e fila de producao" || echo "nada novo"
-
-        git pull --rebase -q origin main || git rebase --abort || true
-
-        git push origin main && echo "SALVO: sinapses" || echo "FALHA AO SALVAR: sinapses"
-
-        '
-    - name: 'AGENTE PENSADOR (IA gratis: figuras neurais -> ideias reais)'
+      run: BEST=$(AI_ONCE=1 python ai_health.py 2>/dev/null | tail -1); [ -n "$BEST" ] && echo "AETHER_AI_ORDER=$BEST" >> $GITHUB_ENV || true
+    - name: EXTRAI conhecimento bruto -> PAUTA
       env:
         NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        IDEIA_MAX: '8'
-      run: 'python idea_agent.py || true
+        EXTRAI_MAXV: '40'
+      run: 'python extrator.py || true
 
         git config user.email aether@local; git config user.name aether
 
-        git add IDEIAS.json PENDING_ACTIONS.json 2>/dev/null || true
+        git add CONHECIMENTO_PRODUCAO.json PAUTA.json 2>/dev/null || true
 
-        git commit -q -m "ideias reais do agente pensador" || echo "nada novo"
+        git commit -q -m "pauta de producao (conteudo bruto)" || echo nada
 
         git pull --rebase -q origin main || git rebase --abort || true
 
-        git push origin main && echo "SALVO: ideias" || echo "FALHA: ideias"
-
-        '
-    - name: RECLASSIFICAR todos os canais
-      run: python reclassify.py || true
-    - name: CRUZAMENTO EM MASSA (16GB, vocab 6000 = milhoes de combinacoes)
-      env:
-        MASS_V: '6000'
-      run: 'python fast_interlink.py || true
-
-        python profit_engine.py || true
-
-        python results_collector.py || true
-
-        python brain_memory.py || true
-
-        python mass_ideas.py || true
-
-        '
-    - name: AUTOCHECAGEM DO CANAL (duplicados, playlists, comentario com link, aviso)
-      env:
-        YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
-        YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
-        YT_RT_GLOBALSUP: ${{ secrets.YT_RT_GLOBALSUP }}
-        AUDIT_APPLY: '1'
-      run: python channel_audit.py || true
-    - name: ffmpeg
-      run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg || true
-    - name: GOVERNADOR + PUBLICAR (marca, QA>=80, cooldowns)
-      env:
-        AETHER_AI_ORDER: ${{ secrets.AETHER_AI_ORDER }}
-        AETHER_AUTONOMY: ${{ secrets.AETHER_AUTONOMY }}
-        AETHER_CONTENT_DIR: ${{ secrets.AETHER_CONTENT_DIR }}
-        AETHER_MODEL: ${{ secrets.AETHER_MODEL }}
-        AMAZON_US_TAG: ${{ secrets.AMAZON_US_TAG }}
-        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
-        AWIN_AFFID: ${{ secrets.AWIN_AFFID }}
-        AWIN_API_TOKEN: ${{ secrets.AWIN_API_TOKEN }}
-        CLICKBANK_ID: ${{ secrets.CLICKBANK_ID }}
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
-        GEMINI_PRO_MODEL: ${{ secrets.GEMINI_PRO_MODEL }}
-        GH_OFFLOAD_PAT: ${{ secrets.GH_OFFLOAD_PAT }}
-        GH_PAT: ${{ secrets.GH_PAT }}
-        GH_PAT2: ${{ secrets.GH_PAT2 }}
-        GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        GS_AMAZON_TABLE: ${{ secrets.GS_AMAZON_TABLE }}
-        GS_SUPABASE_ANON_KEY: ${{ secrets.GS_SUPABASE_ANON_KEY }}
-        GS_SUPABASE_URL: ${{ secrets.GS_SUPABASE_URL }}
-        HOST: ${{ secrets.HOST }}
-        IG_TARGET_GMAIL: ${{ secrets.IG_TARGET_GMAIL }}
-        IG_TARGET_HANDLE: ${{ secrets.IG_TARGET_HANDLE }}
-        META_ACCESS_TOKEN: ${{ secrets.META_ACCESS_TOKEN }}
-        META_APP_ID: ${{ secrets.META_APP_ID }}
-        META_SYSUSER_TOKEN: ${{ secrets.META_SYSUSER_TOKEN }}
-        NODE_ENV: ${{ secrets.NODE_ENV }}
-        NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
-        NVIDIA_MODEL: ${{ secrets.NVIDIA_MODEL }}
-        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        PORT: ${{ secrets.PORT }}
-        SQLITE_PATH: ${{ secrets.SQLITE_PATH }}
-        SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
-        TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
-        YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
-        YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
-        YOUTUBE_RT_ADHD: ${{ secrets.YOUTUBE_RT_ADHD }}
-        YOUTUBE_RT_BSN: ${{ secrets.YOUTUBE_RT_BSN }}
-        YOUTUBE_RT_DBN: ${{ secrets.YOUTUBE_RT_DBN }}
-        YOUTUBE_RT_PINK: ${{ secrets.YOUTUBE_RT_PINK }}
-        YOUTUBE_RT_RAIN: ${{ secrets.YOUTUBE_RT_RAIN }}
-        YOUTUBE_RT_TINNITUS: ${{ secrets.YOUTUBE_RT_TINNITUS }}
-        YOUTUBE_RT_WNV: ${{ secrets.YOUTUBE_RT_WNV }}
-        YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
-        YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
-        YT_GLOBALSUP_CLIENT_ID: ${{ secrets.YT_GLOBALSUP_CLIENT_ID }}
-        YT_GLOBALSUP_CLIENT_SECRET: ${{ secrets.YT_GLOBALSUP_CLIENT_SECRET }}
-        YT_RT_GLOBALSUP: ${{ secrets.YT_RT_GLOBALSUP }}
-      run: 'python governor.py || true
-
-        python publish_products.py || true
-
-        python publish_shorts.py || true
-
-        '
-    - name: commit + push (git, re-dispara o loop, SEM REST)
-      run: 'git config user.name aether-bot
-
-        git config user.email bot@aether
-
-        git add -A
-
-        git commit -m "brain 16GB $(date -u +%FT%TZ)" || echo nochange
-
-        git push || echo nopush'
+        git push origin main && echo SALVO || echo FALHA'
