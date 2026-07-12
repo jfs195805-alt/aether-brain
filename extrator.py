@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 12
+VERSAO = 13
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -218,6 +218,39 @@ def valida_sintese(sintese, v_top, ntop):
             except Exception:
                 pass
     return True, "ok (%d%% ancorado)" % int(100 * taxa)
+
+
+def filtra_agregar(sintese, v_top):
+    """Descarta ITEM A ITEM o que nao ancora nos topicos deste video.
+    ERRO REAL: num video sobre morte por anabolizante o modelo propos 'contagem regressiva com
+    faixa de preco' - copiado de uma lista de pendencias que eu mesmo tinha dado. Item
+    contaminado pegava carona no texto ancorado e passava. Agora cada item responde por si."""
+    base_txt = norm(" ".join(
+        (t.get("topico", "") + " " + t.get("ensina_a_fazer", "") + " " + t.get("como", "") + " " +
+         t.get("deve_ser_copiado", "")) for t in v_top))
+    base_pref = {w[:5] for w in _PALAVRA.findall(base_txt)}
+    ESTRUT2 = set(("video", "topico", "topicos", "produto", "produtos", "conteudo", "formato",
+                   "estrutura", "publico", "canal", "projeto", "afiliado", "roteiro", "gancho",
+                   "titulo", "aplicar", "incluir", "criar", "adicionar", "usar", "fazer",
+                   "secao", "abertura", "fechamento", "padrao", "molde", "item", "itens",
+                   "review", "reviews", "link", "espectador", "audiencia", "mensagem"))
+    bons, cortados = [], []
+    for a in (sintese.get("agregar") or []):
+        if not isinstance(a, dict):
+            continue
+        txt = norm(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", "")))
+        cw = [w for w in _PALAVRA.findall(txt) if w not in ESTRUT2]
+        if not cw:
+            cortados.append((a.get("o_que", "?"), "sem conteudo"))
+            continue
+        anc = [w for w in cw if w[:5] in base_pref]
+        if len(anc) < 2 or (len(anc) / float(len(cw))) < 0.30:
+            cortados.append((a.get("o_que", "?"),
+                             "so %d/%d palavras ancoram no video" % (len(anc), len(cw))))
+            continue
+        bons.append(a)
+    sintese["agregar"] = bons
+    return cortados
 
 
 try:
@@ -562,6 +595,9 @@ for f in arquivos:
                     ok, motivo = valida_sintese(cand, v_top, len(v_top))
                     if ok:
                         sintese = cand
+                        for oq, motivo in filtra_agregar(sintese, v_top):
+                            print("      item CORTADO (nao e deste video): %s [%s]"
+                                  % (str(oq)[:60], motivo), flush=True)
                     else:
                         print("      AGENTE 2 REJEITADO: %s -> refazendo" % motivo, flush=True)
                         r2b = ask_forte(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
@@ -578,6 +614,9 @@ for f in arquivos:
                             ok2, motivo2 = valida_sintese(cand2, v_top, len(v_top))
                             if ok2:
                                 sintese = cand2
+                                for oq, motivo in filtra_agregar(sintese, v_top):
+                                    print("      item CORTADO (nao e deste video): %s [%s]"
+                                          % (str(oq)[:60], motivo), flush=True)
                                 print("      AGENTE 2: passou na 2a tentativa", flush=True)
                             else:
                                 print("      AGENTE 2 REJEITADO 2x (%s) -> sintese DESCARTADA" % motivo2, flush=True)

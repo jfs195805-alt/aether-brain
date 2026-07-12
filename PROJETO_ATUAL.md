@@ -1,8 +1,12 @@
 # O QUE O PROJETO GLOBAL SUPPLEMENTS JÁ TEM
 
-O Agente 2 (SINTETIZADOR) lê este arquivo antes de dizer o que agregar.
-Tudo que estiver aqui, ele NÃO deve propor de novo — só o que for NOVO ou uma MELHORIA clara
-em cima do que já existe.
+O Agente 2 lê este arquivo com UM único objetivo: **não propor o que já existe.**
+
+> **REGRA:** este arquivo lista SOMENTE o que o projeto **JÁ TEM**.
+> É PROIBIDO escrever aqui uma lista de "o que falta" — isso vira gabarito, e o modelo
+> simplesmente copia a lista em vez de olhar o vídeo. (Erro real: ele propôs "contagem
+> regressiva" e "faixa de preço explícita" num vídeo sobre morte por anabolizante, só porque
+> essas frases estavam num inventário de pendências aqui dentro.)
 
 ## Canais e presença
 - Canal YouTube **Global Supplements** (vídeos de produto + Shorts verticais 9:16)
@@ -16,23 +20,16 @@ em cima do que já existe.
 - Upload com metadata completa e notificação de inscritos.
 - SEO do canal configurado (palavras-chave + descrição via API).
 
+## Formatos de conteúdo que já usamos
+- Review de produto único, com foto real.
+- Ranking de produtos com evidência vinda das transcrições.
+
 ## Monetização
 - Comissão de **afiliado** com link rastreável: ClickBank > BuyGoods > Amazon (nessa prioridade).
 - Monetização de conteúdo (AdSense/YouTube).
 
-## Regras que já são obrigatórias (não propor de novo)
+## Regras obrigatórias (nunca propor de novo)
 - Foto REAL do produto em HD; IA só faz o fundo, nunca inventa o produto.
 - Conteúdo ORIGINAL nosso — nunca copiar a fala do criador.
 - Só produto real, com site real e ID de afiliado (senão não publica).
 - Nada de conselho de investimento nem promessa de cura.
-
-## Táticas de conteúdo já adotadas
-- Review de produto único com foto real.
-- Ranking de produtos com evidência vinda das transcrições.
-
-## O que o projeto AINDA NÃO TEM (aqui é onde agregar vale ouro)
-- Formato de **contagem regressiva** ("15 melhores X de 2026") com molde fixo por item.
-- **Faixa de preço explícita** como fechamento padrão de cada item.
-- Seção de **"para quem NÃO serve"** (objeção assumida) nos reviews.
-- Ordenação dos itens **por critério diferente** (o mais barato, o de efeito mais rápido, etc.).
-- Gancho padronizado de abertura testado.
