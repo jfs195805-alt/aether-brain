@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 9
+VERSAO = 10
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -127,6 +127,80 @@ def util(p):
     return isinstance(p, dict) and (p.get("acao") or "").strip()
 
 
+
+# ---------- VALIDADOR ANTI-COPIA (o Agente 2 copiou o gabarito uma vez; nunca mais) ----------
+# ERRO REAL: num video sobre INTESTINO, o Agente 2 respondeu "ranking de 16 micro carros
+# eletricos, preco explicito no fecho" - copiou o exemplo do prompt em vez de olhar os dados.
+# Este validador compara a sintese com os topicos REAIS. Se a sintese fala de coisa que nao
+# existe nos topicos, e cópia/alucinacao -> REJEITA.
+_PALAVRA = re.compile(r"[a-zA-ZÀ-ÿ]{5,}")
+_NUMERO = re.compile(r"\d[\d.,]*")
+
+
+def valida_sintese(sintese, v_top, ntop):
+    """Rejeita sintese COPIADA/ALUCINADA. Criterio: ANCORAGEM, nao vocabulario.
+    Uma sintese honesta FALA DO VIDEO -> suas palavras de conteudo aparecem nos topicos.
+    A fraude real ("ranking de 16 micro carros" num video de intestino) nao ancora em nada.
+    Devolve (ok, motivo)."""
+    if not isinstance(sintese, dict):
+        return False, "resposta nao e JSON"
+
+    base_txt = norm(" ".join(
+        (t.get("topico", "") + " " + t.get("ensina_a_fazer", "") + " " + t.get("como", "") + " " +
+         t.get("deve_ser_copiado", "") + " " + " ".join(t.get("produtos", [])) + " " +
+         " ".join(t.get("numeros", []))) for t in v_top))
+    base_pref = {w[:5] for w in _PALAVRA.findall(base_txt)}
+    base_nums = set(_NUMERO.findall(base_txt))
+
+    sint_txt = " ".join([str(sintese.get("entendimento_do_video", "")),
+                         str(sintese.get("padrao_que_se_repete", "")),
+                         " ".join(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", "")) +
+                                  " " + str(a.get("evidencia", ""))
+                                  for a in (sintese.get("agregar") or []) if isinstance(a, dict))])
+    sw = _PALAVRA.findall(norm(sint_txt))
+    if not sw:
+        return False, "sintese vazia"
+
+    # ESTRUTURAIS: palavras de forma (nao sao conteudo do video) - nao contam nem a favor nem contra
+    ESTRUT = set(("video", "topico", "topicos", "produto", "produtos", "conteudo", "formato",
+                  "estrutura", "publico", "canal", "projeto", "afiliado", "roteiro", "gancho",
+                  "titulo", "aplicar", "funciona", "repete", "molde", "espectador", "audiencia",
+                  "comando", "ciencia", "ponto", "entrada", "minimo", "passo", "passos", "item",
+                  "itens", "aparece", "ensina", "explicito", "fechamento", "abertura", "secao",
+                  "sempre", "nunca", "ainda", "tambem", "assim", "cada", "todos", "todas",
+                  "melhor", "maior", "menor", "quando", "depois", "antes", "durante", "porque",
+                  "criar", "adicionar", "incluir", "comecar", "usar", "fazer", "primeiro"))
+    conteudo = [w for w in sw if w not in ESTRUT]
+    if not conteudo:
+        return True, "ok (so estrutura)"
+
+    ancorados = [w for w in conteudo if w[:5] in base_pref]
+    taxa = len(ancorados) / float(len(conteudo))
+
+    # ANCORAGEM: a sintese TEM que falar do que esta nos topicos
+    if len(ancorados) < 3 or taxa < 0.25:
+        estranhas = sorted(set(w for w in conteudo if w[:5] not in base_pref))[:8]
+        return False, ("nao ancora nos topicos (so %d/%d palavras de conteudo batem, %d%%) - "
+                       "fala de: %s" % (len(ancorados), len(conteudo), int(100 * taxa), estranhas))
+
+    # NUMEROS inventados
+    fora = [n for n in set(_NUMERO.findall(sint_txt)) if n not in base_nums and len(n) > 1]
+    if fora:
+        return False, "cita numeros que nao estao nos topicos: %s" % fora[:5]
+
+    # EVIDENCIA tem que apontar para topico que EXISTE
+    for a in (sintese.get("agregar") or []):
+        if not isinstance(a, dict):
+            continue
+        for n in _NUMERO.findall(str(a.get("evidencia", ""))):
+            try:
+                if int(n) > ntop:
+                    return False, "evidencia cita 'topico %s' mas so existem %d topicos" % (n, ntop)
+            except Exception:
+                pass
+    return True, "ok (%d%% ancorado)" % int(100 * taxa)
+
+
 try:
     base = json.load(open(OUT, encoding="utf-8"))
 except Exception:
@@ -181,44 +255,58 @@ BLOCO {bloco}/{total}:
 
 
 # ---------- AGENTE 2: SINTETIZADOR (le o VIDEO INTEIRO via os topicos) ----------
-PROMPT2 = """AGENTE 2 - SINTETIZADOR. O AGENTE 1 leu a transcricao bruta INTEIRA deste video e a
-transformou nos TOPICOS abaixo. Voce agora ve o VIDEO COMO UM TODO - coisa que o Agente 1,
-que lia bloco a bloco, nao conseguia enxergar.
+PROMPT2 = """AGENTE 2 - SINTETIZADOR.
 
-===================== MODELO DE ANALISE (padrao-ouro obrigatorio) =====================
-Este e o nivel que a sua sintese TEM que atingir. Estude o exemplo e faca igual.
+O AGENTE 1 leu a transcricao bruta INTEIRA de UM video e a transformou nos TOPICOS abaixo.
+Voce ve o video COMO UM TODO - coisa que o Agente 1, lendo bloco a bloco, nao conseguia.
 
-{modelo}
-=======================================================================================
+################ REGRA ABSOLUTA - LEIA ANTES DE TUDO ################
+Sua resposta so pode falar do que esta nos TOPICOS abaixo.
+E PROIBIDO citar produto, numero, tema, preco ou exemplo que NAO apareca nos TOPICOS.
+Se voce inventar ou trouxer conteudo de fora, sua resposta sera REJEITADA e descartada.
+Nao existe gabarito. Nao existe resposta pronta. OLHE OS DADOS.
+#####################################################################
 
 {projeto}
 
-O QUE JA EXISTE NO MEU PROJETO (nao repetir - eu ja tenho isto):
+O QUE JA EXISTE NO MEU PROJETO (nao propor de novo - eu ja tenho isto):
 {ja_tenho}
 
 VIDEO: {link} | canal: {canal} | {nblocos} blocos lidos (100% da transcricao) | {ntop} topicos
 
-TOPICOS DO VIDEO INTEIRO:
+===================== TOPICOS DESTE VIDEO =====================
 {topicos}
+===============================================================
 
-Sua tarefa:
-1) ENTENDER O VIDEO COMO UM TODO: qual o PADRAO que se repete? qual a ESTRUTURA que ele usa do
-   inicio ao fim? o que faz esse video funcionar? (isso so se ve olhando todos os topicos juntos)
-2) DIZER O QUE AGREGAR AO MEU PROJETO EXISTENTE: conhecimento NOVO, que eu ainda NAO tenho.
-   Se o video nao agrega nada novo, devolva "agregar": [] - e diga por que em "nada_novo".
+SUA TAREFA:
 
-Responda SO com JSON puro, sem markdown:
+1) ENTENDER O VIDEO COMO UM TODO. Leia os {ntop} topicos acima como uma coisa so.
+   O que ESTE video E? Por que ele funciona? (2-3 frases, so com o que esta nos topicos)
 
-{{"entendimento_do_video": "o que este video E e por que ele funciona, em 2-3 frases, olhando o todo",
- "padrao_que_se_repete": "o molde/estrutura que ele repete do inicio ao fim (ex: 'mesmo formato 16 vezes: nome -> 1 frase -> 3 numeros -> preco'); vazio se nao houver",
+2) ACHAR O PADRAO QUE SE REPETE. Olhe os topicos em sequencia:
+   - existe um MOLDE que se repete de topico em topico? (mesma ordem de elementos?)
+   - como ele abre? como ele fecha? o que ele faz entre um item e outro?
+   - onde entra o produto/venda, se entra? no comeco ou depois de entregar valor?
+   Um padrao so vale se aparecer em VARIOS topicos - diga em quantos.
+   Se NAO houver padrao, devolva "" (string vazia). Nao invente.
+
+3) DIZER O QUE AGREGAR AO MEU PROJETO. So o que eu AINDA NAO TENHO.
+   Cada item precisa de EVIDENCIA citando o NUMERO DO TOPICO desta lista (1 a {ntop}).
+   Se citar um numero de topico que nao existe nesta lista, sua resposta sera rejeitada.
+   Se o video nao agrega nada novo: "agregar": [] e explique em "nada_novo".
+
+Responda SO com JSON puro, sem markdown, neste formato:
+
+{{"entendimento_do_video": "o que ESTE video e e por que funciona - so com o que esta nos topicos",
+ "padrao_que_se_repete": "o molde que se repete, e em quantos topicos ele aparece; \"\" se nao houver",
  "agregar": [
-   {{"o_que": "o conhecimento/tatica NOVA que eu devo agregar ao meu projeto",
+   {{"o_que": "a tatica NOVA que eu devo agregar",
      "como_aplicar": "o passo a passo pratico no MEU projeto",
      "tipo": "estrutura_roteiro|gancho|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
-     "evidencia": "o que NESTE video prova que funciona (cite o topico/numero)",
-     "ja_tenho_parecido": "sim/nao - e se sim, o que muda em relacao ao que ja tenho"}}
+     "evidencia": "cite o NUMERO DO TOPICO desta lista que prova isso (ex: 'topicos 3, 5 e 7')",
+     "ja_tenho_parecido": "sim/nao"}}
  ],
- "nada_novo": "se nao houver nada a agregar, explique por que; senao vazio"}}
+ "nada_novo": "se nao houver nada a agregar, o motivo; senao \"\""}}
 """
 
 if ask is None:
@@ -460,7 +548,7 @@ for f in arquivos:
                    (" | COPIAR: " + t["deve_ser_copiado"]) if t.get("deve_ser_copiado") else "")
                 for t in v_top)
             try:
-                r2 = ask_forte(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
+                r2 = ask_forte(PROMPT2.format(projeto=PROJETO, ja_tenho=JA_TENHO,
                                               link=link, canal=canal,
                                               nblocos=len(parts), ntop=len(v_top),
                                               topicos=resumo_top[:9000]), max_tokens=1600)
@@ -471,8 +559,31 @@ for f in arquivos:
                     ch_resto += 1
                 m2 = re.search(r"\{.*\}", r2 or "", re.S)
                 if m2:
-                    sintese = json.loads(m2.group(0))
-            except Exception:
+                    cand = json.loads(m2.group(0))
+                    ok, motivo = valida_sintese(cand, v_top, len(v_top))
+                    if ok:
+                        sintese = cand
+                    else:
+                        print("      AGENTE 2 REJEITADO: %s -> refazendo" % motivo, flush=True)
+                        r2b = ask_forte(PROMPT2.format(projeto=PROJETO, ja_tenho=JA_TENHO,
+                                                       link=link, canal=canal,
+                                                       nblocos=len(parts), ntop=len(v_top),
+                                                       topicos=resumo_top[:9000]) +
+                                        "\n\nATENCAO: sua resposta anterior foi REJEITADA porque %s. "
+                                        "Olhe SO os topicos acima. Nao invente nada." % motivo,
+                                        max_tokens=1600)
+                        chamadas += 1
+                        m2b = re.search(r"\{.*\}", r2b or "", re.S)
+                        if m2b:
+                            cand2 = json.loads(m2b.group(0))
+                            ok2, motivo2 = valida_sintese(cand2, v_top, len(v_top))
+                            if ok2:
+                                sintese = cand2
+                                print("      AGENTE 2: passou na 2a tentativa", flush=True)
+                            else:
+                                print("      AGENTE 2 REJEITADO 2x (%s) -> sintese DESCARTADA" % motivo2, flush=True)
+            except Exception as e:
+                print("      AGENTE 2: erro (%s)" % str(e)[:60], flush=True)
                 sintese = {}
 
         for a in (sintese.get("agregar") or []):
