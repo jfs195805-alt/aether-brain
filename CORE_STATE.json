@@ -1,15 +1,9 @@
 {
- "ts": "2026-07-12T00:07:14Z",
- "next_best": "noticias / politica",
- "fila_acoes": 8,
- "acoes_novas": 8,
- "registros": 8155,
- "pares": 2098780,
- "top": [
-  "aqui+gente",
-  "aqui+video",
-  "gente+video",
-  "aqui+fazer",
-  "aqui+hoje"
- ]
+ "ts": "2026-07-12T02:22:19Z",
+ "next_best": "",
+ "fila_acoes": 1,
+ "acoes_novas": 1,
+ "registros": 0,
+ "pares": 0,
+ "top": []
 }
