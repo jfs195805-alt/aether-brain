@@ -71,17 +71,14 @@ def limpa_texto(t):
     t = t.replace(">>", " ")
     return ESPACOS.sub(" ", t).strip()
 
-# --- BOILERPLATE: frase-clichê que aparece em MUITOS canais diferentes ---
-# "espero que tenha ajudado", "se inscreva no canal", "ate o proximo video"...
-# Nao e insight: e formula. Detectada por ASSINATURA que se repete entre canais.
-BOILER_MIN_CANAIS = int(os.environ.get("NG_BOILER", "4"))
-
-def assinatura(fr):
-    """hash da frase normalizada (int, rápido) para detectar quase-duplicatas entre canais"""
-    w = sorted(set(x for x in TERM.findall(fr.lower()) if x not in STOP))[:8]
-    if len(w) < 3:
-        return 0
-    return hash(" ".join(w)) & 0xFFFFFFFFFFFF
+# --- BOILERPLATE: frase sem NENHUMA palavra especifica de dominio ---
+# "espero que tenha ajudado", "se inscreva", "ate o proximo video" sao feitas de palavras que
+# aparecem em QUASE TODOS os canais. Uma frase com conteudo real tem pelo menos UMA palavra
+# que so aparece numa minoria de canais.
+#
+# ESPECIFICIDADE DE CANAL: cdf[w] = em quantos canais DISTINTOS a palavra w aparece.
+# Se ate a palavra MAIS RARA da frase esta em > BOILER_PCT dos canais -> e formula, nao conhecimento.
+BOILER_PCT = float(os.environ.get("NG_BOILER_PCT", "0.25"))   # 25% dos canais
 
 
 def conteudo(fr):
@@ -197,18 +194,30 @@ if not frases:
     raise SystemExit
 
 # ---------- FILTRA BOILERPLATE (o clichê que aparece em N canais) ----------
-sig_canais = defaultdict(set)
-sigs = [assinatura(f[0]) for f in frases]         # calcula uma vez
-for k, (fr, vid, canal, st) in enumerate(frases):
-    if sigs[k]:
-        sig_canais[sigs[k]].add(canal)
-boiler = {sg for sg, cs in sig_canais.items() if len(cs) >= BOILER_MIN_CANAIS}
+# cdf: em quantos canais distintos cada palavra aparece
+cdf = defaultdict(set)
+for fr, vid, canal, st in frases:
+    for w in set(TERM.findall(fr.lower())):
+        if w not in STOP:
+            cdf[w].add(canal)
+NC = max(1, len(canais))
+LIMITE_CANAIS = BOILER_PCT * NC
+
 antes = len(frases)
-keep = [k for k in range(len(frases)) if sigs[k] not in boiler or sigs[k] == 0]
-frases = [frases[k] for k in keep]
+mantidas = []
+for fr, vid, canal, st in frases:
+    ws = set(w for w in TERM.findall(fr.lower()) if w not in STOP)
+    if not ws:
+        continue
+    # a palavra MAIS ESPECIFICA da frase (a que aparece em menos canais)
+    min_canais = min(len(cdf[w]) for w in ws)
+    if min_canais > LIMITE_CANAIS:       # nem a mais rara e especifica -> clichê
+        continue
+    mantidas.append((fr, vid, canal, st))
+frases = mantidas
 n_boiler = antes - len(frases)
-print("BOILERPLATE removido: %s frases-clichê (apareciam em >=%d canais diferentes)"
-      % (format(n_boiler, ",d"), BOILER_MIN_CANAIS))
+print("BOILERPLATE removido: %s frases-clichê (nenhuma palavra aparecia em <%.0f%% dos %d canais)"
+      % (format(n_boiler, ",d"), BOILER_PCT * 100, NC))
 
 NF = len(frases)
 # ---------- vocabulario + TF-IDF esparso de TODAS as frases ----------
