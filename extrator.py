@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 13
+VERSAO = 14
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -220,6 +220,21 @@ def valida_sintese(sintese, v_top, ntop):
     return True, "ok (%d%% ancorado)" % int(100 * taxa)
 
 
+TIPOS_OK = ("estrutura_roteiro", "gancho", "argumento_de_venda", "titulo_seo", "cta",
+             "objecao", "pauta_de_video", "produto_afiliado", "automacao")
+
+
+def limpa_tipo(t):
+    """O modelo as vezes devolve o enum inteiro. Pega o primeiro tipo valido; senao 'outro'."""
+    t = (t or "").strip().lower()
+    if t in TIPOS_OK:
+        return t
+    for x in TIPOS_OK:              # "estrutura_roteiro|gancho|..." -> pega o 1o valido citado
+        if x in t:
+            return x
+    return "outro"
+
+
 def filtra_agregar(sintese, v_top):
     """Descarta ITEM A ITEM o que nao ancora nos topicos deste video.
     ERRO REAL: num video sobre morte por anabolizante o modelo propos 'contagem regressiva com
@@ -248,6 +263,7 @@ def filtra_agregar(sintese, v_top):
             cortados.append((a.get("o_que", "?"),
                              "so %d/%d palavras ancoram no video" % (len(anc), len(cw))))
             continue
+        a["tipo"] = limpa_tipo(a.get("tipo"))
         bons.append(a)
     sintese["agregar"] = bons
     return cortados
