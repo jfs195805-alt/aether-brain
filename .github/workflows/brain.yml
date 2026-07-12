@@ -1,5 +1,5 @@
 name: AETHER BRAIN 16GB (trilhoes de combinacoes, git-only, nunca bloqueia)
-true:
+on:
   push:
     branches:
     - main
