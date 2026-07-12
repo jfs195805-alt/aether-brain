@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 23
+VERSAO = 25
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -81,9 +81,16 @@ OR_URL = "https://openrouter.ai/api/v1/chat/completions"
 # nao sabe, PREENCHE O FORMULARIO com o texto do proprio formulario. Por isso o R1 vem 1o.
 # ATENCAO: os deepseek :free FORAM REMOVIDOS do OpenRouter (conferido na API em 2026-07-12).
 # Estes existem hoje, do mais capaz para o menos. O 550B e o gpt-oss-120b sao os que raciocinam.
+# BENCHMARK REAL (12/07/2026, mesma transcricao de 12.369 chars, mesmo prompt):
+#   nemotron-3-ultra-550b : 23.2s | 5 acoes propostas, 5 APROVADAS na ancora  <<< VENCEDOR
+#   gpt-oss-120b / super-120b / hy3 / nano-omni : > 39s (nao mediram no teto local, mas servem de reserva)
+#   llama-3.3-70b / qwen3-next / hermes-405b   : 429 (provedor upstream saturado)
+#   gemma-4-31b                                : 404
+# O llama-3.1-70b (NVIDIA direto, o que rodava antes) devolveu 0 acoes reais: preenchia o formulario.
 OR_FORTES = ["nvidia/nemotron-3-ultra-550b-a55b:free",
              "openai/gpt-oss-120b:free",
              "nvidia/nemotron-3-super-120b-a12b:free",
+             "tencent/hy3:free",
              "nousresearch/hermes-3-llama-3.1-405b:free",
              "qwen/qwen3-next-80b-a3b-instruct:free"]
 MODELOS_FORTES = [m for m in (os.environ.get("GEMINI_PRO_MODEL", ""),
@@ -249,9 +256,13 @@ SUBSTANCIA = (
     "gelatina", "monge", "romã", "cereja", "kwh", "autonomia")
 DOSE = re.compile(r"\b\d+\s*(mg|g|ml|kg|gramas?|colheres?|capsulas?|comprimidos?|doses?|"
                   r"vezes ao dia|x ao dia|dias?|semanas?|horas?)\b", re.I)
+# ATENCAO: "usar"/"use"/"utilizar" SAIRAM da lista.
+# ERRO REAL: a acao "Titulo SEO: 'Top 15 Cheapest Whey Protein 2026'" foi CORTADA como se fosse
+# receita, porque tinha "usar" + "whey". Isso e TITULO, nao prescricao. Verbo generico de
+# marketing nao pode disparar o bloqueio - so verbo de INGERIR ou de CURAR.
 VERBO_INGERIR = ("tomar", "tome", "ingerir", "consumir", "consuma", "beber", "comer",
-                 "suplementar", "suplemente", "usar", "use", "utilizar", "administrar",
-                 "eliminar", "curar", "tratar", "aliviar", "combater", "matar")
+                 "suplementar", "suplemente", "administrar", "dose de", "doses de",
+                 "curar", "tratar", "aliviar", "eliminar", "combater", "matar")
 
 
 def eh_conteudo_nao_tatica(a):
@@ -476,74 +487,68 @@ Responda SO com JSON puro:
 # transcricao bruta INTEIRA e ja traz os topicos + a tatica. Menos chamadas, e ele ve o todo.
 UNICO_MAX = int(os.environ.get("EXTRAI_UNICO_MAX", "13000"))
 
-PROMPT_UNICO = """Leia a TRANSCRICAO BRUTA COMPLETA deste video, do inicio ao fim.
+PROMPT_UNICO = """Voce e um estrategista de conteudo. Leia a TRANSCRICAO BRUTA COMPLETA abaixo,
+do inicio ao fim.
 
-Entenda TUDO que ele ensina:
-  - o CONCRETO: os numeros, doses, valores, prazos, nomes, precos, a ordem das coisas
-  - o ABSTRATO: como ele prende a atencao, como constroi confianca, como estrutura o
-    raciocinio, como prova o que diz, em que momento ele vende e o que deu antes disso
-
-Depois, me traga IDEIAS NOVAS, CONCRETAS E DETALHADAS para implantar no MEU projeto -
-ideias que eu AINDA NAO USO.
-
-O que e uma boa ideia:
-  - CONCRETA e DETALHADA: da para eu executar amanha sem te perguntar nada. Diz o que fazer,
-    em que ordem, com que palavras, em que momento do video, onde entra o link.
-  - NOVA: nao esta na lista do que eu ja tenho (abaixo). Se ja tenho, nao me traga.
-  - REPLICAVEL: e a TATICA dele (o COMO), nao o assunto dele. Tem que funcionar mesmo que o
-    meu video seja sobre outra coisa.
-
-O que NAO e ideia (nao me traga):
-  - "usar [substancia] para [problema]" - isso e o conteudo DELE, e no meu canal vira
-    promessa de cura. PROIBIDO.
-  - "seja consistente", "crie conteudo de qualidade" - vago, nao da para executar.
-  - o que eu ja tenho.
-
-MODELO (a ideia do tipo de analise - feito sobre OUTRO video; o conteudo dele nao e deste):
-{modelo}
+O ASSUNTO deste video nao me interessa. O que me interessa e o METODO dele.
 
 {projeto}
 
-O QUE EU JA TENHO (nao me traga isto de volta):
+O QUE EU JA FACO (nao me proponha de novo):
 {ja_tenho}
+
+O QUE EU QUERO DE VOLTA
+ACOES para eu executar e melhorar meu projeto - coisas que eu ainda nao faco.
+
+Uma ACAO so vale se passar nestes 3 testes:
+
+  TESTE 1 - E TATICA, NAO ASSUNTO.
+     Tem que continuar funcionando se o meu video for sobre creatina em vez do assunto dele.
+     Se a acao so faz sentido falando do assunto DELE, ela nao serve.
+
+  TESTE 2 - DA PARA EXECUTAR AMANHA, SEM ME PERGUNTAR NADA.
+     Diz o que fazer, em que ordem, em que segundo/minuto do video, com que palavras,
+     e onde exatamente entra o link de afiliado.
+     "Seja consistente" e "faca conteudo de qualidade" NAO sao acoes. Sao conversa fiada.
+
+  TESTE 3 - ELE REALMENTE FAZ ISSO NO VIDEO.
+     Voce vai colar a frase EXATA da transcricao que mostra ele fazendo. Em INGLES, como esta
+     escrito. Nao traduza, nao resuma, nao descreva.
+     EU CONFIRO PALAVRA POR PALAVRA CONTRA A TRANSCRICAO. Citacao que nao existir = acao jogada fora.
+
+Antes de escrever as acoes, entenda o video:
+  - com o que ele ABRE, e o que essa abertura faz com quem assiste
+  - que ESTRUTURA ele repete do comeco ao fim
+  - como ele PROVA o que diz
+  - EM QUE MOMENTO ele vende, e o que ele entregou de graca antes disso
+  - com o que ele FECHA (e, se ele NAO fecha direito, isso e uma brecha - me diga)
+
+Traga EXATAMENTE 5 acoes - as 5 mais fortes. Poucas e afiadas, nunca muitas e vagas.
+
+SEJA CONCISO. Cada campo de texto: no MAXIMO 2 frases. Nada de enrolacao.
+A citacao pode ter no maximo 20 palavras.
+
+PROIBIDO: recomendar substancia, dose ou tratamento. Isso vira promessa de cura no meu canal.
+
+Responda SO com JSON puro, sem markdown, sem comentario:
+
+{{"mecanica_do_video": "...",
+ "estrutura_que_se_repete": "...",
+ "como_ele_prova": "...",
+ "momento_da_venda": "...",
+ "fechamento": "...",
+ "acoes": [
+   {{"acao": "...",
+     "passo_a_passo": "...",
+     "onde_entra_o_link": "...",
+     "tipo": "gancho|estrutura_roteiro|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
+     "citacao_literal_em_ingles": "..."}}
+ ]}}
 
 =================== TRANSCRICAO BRUTA COMPLETA ===================
 {transcricao}
-==================================================================
+=================================================================="""
 
-REGRAS DE VOLUME (o modelo anterior devolveu 1 topico para um video de 15 minutos - isso e ERRO):
-  - UM topico para CADA coisa que ele ensina. Se o video ensina 12 coisas, sao 12 topicos.
-    NUNCA resuma o video inteiro em 1 ou 2 topicos.
-  - No minimo 3 ideias em "agregar". Se nao achar 3, o video tem pouco - explique em "nada_novo".
-
-Responda SO com JSON puro:
-
-{{"topicos": [
-   {{"topico": "titulo curto do que ele ensina (4-8 palavras)",
-     "ensina_a_fazer": "o que ele ensina/recomenda, 1 frase",
-     "como": "o detalhe EXATO: numeros, doses, valores, ordem, criterios - nada de resumir",
-     "deve_ser_copiado": "o que daqui vira tatica; vazio se nada",
-     "produtos": ["produtos/marcas citados; [] se nenhum"],
-     "numeros": ["numeros/valores/prazos citados, com contexto"]}}
- ],
- "entendimento_do_video": "por que ESTE video funciona - a mecanica dele, nao o assunto",
- "padrao_que_se_repete": "a estrutura que ele repete do inicio ao fim; \"\" se nao houver",
- "onde_entra_a_venda": "em que momento ele vende, e o que ele entregou de graca antes disso",
- "agregar": [
-   {{"o_que": "a IDEIA NOVA, em uma frase (a tatica, nunca o assunto)",
-     "como_aplicar": "o passo a passo DETALHADO no meu canal: o que fazer, em que ordem, em que "
-                     "minuto do video, com que palavras, onde entra o link de afiliado",
-     "tipo": "estrutura_roteiro|gancho|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
-     "evidencia": "COPIE E COLE a frase EXATA da transcricao, no idioma ORIGINAL dela (ingles). "
-                  "NAO descreva o trecho, NAO traduza, NAO resuma - COLE. Se voce nao consegue "
-                  "colar uma frase real, a ideia e invencao e nao serve.",
-     "ja_tenho_parecido": "sim/nao"}}
- ],
- "nada_novo": "se o video nao tem nenhuma ideia nova para mim, o motivo; senao \"\""}}
-
-AVISO: eu CONFIRO a evidencia contra a transcricao, palavra por palavra. Ideia com evidencia
-inventada e JOGADA FORA. Cole a frase real do video, em ingles, como ela esta escrita.
-"""
 
 
 if ask is None:
@@ -661,45 +666,37 @@ for f in arquivos:
                 du = None
                 print("      AGENTE UNICO falhou (%s)" % str(e)[:50], flush=True)
 
-            if du and (du.get("topicos") or du.get("agregar")):
-                v_top = []
-                seen_u = set()
-                for t in (du.get("topicos") or []):
-                    if not isinstance(t, dict) or not (t.get("topico") or "").strip():
-                        continue
-                    k = norm(t["topico"])[:70]
-                    if k in seen_u:
-                        continue
-                    seen_u.add(k)
-                    v_top.append({"n": len(v_top) + 1, "topico": t["topico"].strip(),
-                                  "ensina_a_fazer": (t.get("ensina_a_fazer") or "").strip(),
-                                  "como": (t.get("como") or "").strip(),
-                                  "deve_ser_copiado": (t.get("deve_ser_copiado") or "").strip(),
-                                  "produtos": [str(x).strip() for x in (t.get("produtos") or [])],
-                                  "numeros": [str(x).strip() for x in (t.get("numeros") or [])],
-                                  "bloco": 1, "de_blocos": 1})
-                sintese = {k: du.get(k, "") for k in
-                           ("entendimento_do_video", "padrao_que_se_repete",
-                            "onde_entra_a_venda", "nada_novo")}
-                sintese["agregar"] = du.get("agregar") or []
-                ok, motivo = valida_sintese(sintese, v_top, len(v_top), txt)
-                if not ok:
-                    print("      AGENTE UNICO: sintese rejeitada (%s)" % motivo, flush=True)
-                    sintese = {}
-                else:
-                    for oq, mot in filtra_agregar(sintese, v_top, txt):
-                        print("      item CORTADO (conteudo, nao tatica): %s [%s]"
-                              % (str(oq)[:55], mot), flush=True)
+            if du and du.get("acoes"):
+                # ---- traduz o JSON novo (acoes) para a estrutura interna ----
+                sintese = {
+                    "entendimento_do_video": (du.get("mecanica_do_video") or "").strip(),
+                    "padrao_que_se_repete": (du.get("estrutura_que_se_repete") or "").strip(),
+                    "onde_entra_a_venda": (du.get("momento_da_venda") or "").strip(),
+                    "como_ele_prova": (du.get("como_ele_prova") or "").strip(),
+                    "fechamento": (du.get("fechamento") or "").strip(),
+                    "nada_novo": ""}
+                sintese["agregar"] = [{
+                    "o_que": (a.get("acao") or "").strip(),
+                    "como_aplicar": (a.get("passo_a_passo") or "").strip(),
+                    "onde_entra_o_link": (a.get("onde_entra_o_link") or "").strip(),
+                    "tipo": (a.get("tipo") or "").strip(),
+                    "evidencia": (a.get("citacao_literal_em_ingles") or "").strip(),
+                    "ja_tenho_parecido": "nao"}
+                    for a in du["acoes"] if isinstance(a, dict) and (a.get("acao") or "").strip()]
 
-                v_prod = sorted({p for t in v_top for p in t.get("produtos", []) if p})
-                v_num = [n for t in v_top for n in t.get("numeros", []) if n]
-                v_apl = []
-                for a in (sintese.get("agregar") or []):
-                    v_apl.append({"o_que": a.get("o_que", ""),
-                                  "como_aplicar": a.get("como_aplicar", ""),
-                                  "tipo": a.get("tipo", ""),
-                                  "evidencia": a.get("evidencia", ""),
-                                  "ja_tenho_parecido": a.get("ja_tenho_parecido", "")})
+                # o "topico" agora e a propria mecanica: 1 registro por acao, com a citacao
+                v_top = [{"n": k + 1, "topico": a["o_que"][:70],
+                          "ensina_a_fazer": a["o_que"], "como": a["como_aplicar"],
+                          "deve_ser_copiado": a["o_que"], "produtos": [], "numeros": [],
+                          "bloco": 1, "de_blocos": 1}
+                         for k, a in enumerate(sintese["agregar"])]
+
+                # JUIZ: a citacao tem que existir na transcricao. Nao existe -> acao jogada fora.
+                for oq, mot in filtra_agregar(sintese, v_top, txt):
+                    print("      acao CORTADA: %s [%s]" % (str(oq)[:55], mot), flush=True)
+
+                v_prod, v_num = [], []
+                v_apl = list(sintese.get("agregar") or [])
                 c["videos_processados"].append(vid)
                 feitos.add(vid)
                 n += 1
@@ -709,22 +706,20 @@ for f in arquivos:
                     "video": vid, "link": link, "nicho": nicho, "canal": canal,
                     "chars": len(txt), "blocos": 1, "blocos_lidos": 1, "cobertura_pct": 100.0,
                     "blocos_que_renderam_topico": [1], "total_topicos": len(v_top),
-                    "agente": "UNICO (1 chamada, video inteiro)",
+                    "agente": "UNICO (1 chamada, transcricao inteira)",
                     "TOPICOS": v_top,
                     "SINTESE_DO_VIDEO": {
-                        "entendimento": (sintese.get("entendimento_do_video") or "").strip(),
-                        "padrao_que_se_repete": (sintese.get("padrao_que_se_repete") or "").strip(),
-                        "onde_entra_a_venda": (sintese.get("onde_entra_a_venda") or "").strip(),
-                        "nada_novo": (sintese.get("nada_novo") or "").strip()},
+                        "entendimento": sintese["entendimento_do_video"],
+                        "padrao_que_se_repete": sintese["padrao_que_se_repete"],
+                        "onde_entra_a_venda": sintese["onde_entra_a_venda"],
+                        "como_ele_prova": sintese["como_ele_prova"],
+                        "fechamento": sintese["fechamento"],
+                        "nada_novo": ""},
                     "AGREGAR_NO_MEU_PROJETO": v_apl,
                     "produtos": v_prod, "numeros": v_num})
-                for pr in v_prod:
-                    c["produtos"].append({"produto": pr, "video": vid, "link": link, "nicho": nicho})
-                for nu in v_num:
-                    c["numeros"].append({"numero": nu, "video": vid, "link": link, "nicho": nicho})
                 videos_ok += 1
-                print("  [%s] %s -> AGENTE UNICO: %d topicos, %d taticas | 1 chamada | %d chars"
-                      % (canal[:18], vid, len(v_top), len(v_apl), len(txt)), flush=True)
+                print("  [%s] %s -> AGENTE UNICO: %d acoes propostas, %d APROVADAS | 1 chamada | %d chars"
+                      % (canal[:18], vid, len(du["acoes"]), len(v_apl), len(txt)), flush=True)
                 continue     # proximo video
 
         # ---------- ROTA B: video LONGO -> blocos (Agente 1) + Agente 2 ----------
