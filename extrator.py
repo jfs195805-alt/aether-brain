@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 8
+VERSAO = 9
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -140,6 +140,11 @@ if base.get("versao") != VERSAO:
 base["versao"] = VERSAO
 
 feitos = {v for c in base["canais"].values() for v in c.get("videos_processados", [])}
+
+# PROGRESSO PARCIAL por video: {video_id: {"blocos_ok": [1,3,4], "topicos": [...]}}
+# ERRO REAL: a regra "100% ou nada" jogava 3m39s de trabalho fora quando 1 bloco de 5 falhava.
+# Agora o que deu certo FICA GRAVADO e o proximo ciclo retenta SO o bloco que faltou.
+parcial = base.setdefault("parcial", {})
 
 PROMPT = """AGENTE 1 - TOPICADOR. Voce le UM BLOCO da transcricao bruta de um video e o
 transforma em TOPICOS. Voce NAO opina sobre projeto nenhum - outro agente fara isso depois.
@@ -314,8 +319,14 @@ for f in arquivos:
         if not parts:
             continue
 
-        ok_ia = False       # so marca o video como FEITO se a IA respondeu de verdade
-        blocos_ok = 0       # quantos blocos deste video a IA leu com sucesso
+        pv = parcial.setdefault(vid, {"blocos_ok": [], "topicos": [], "prod": [], "num": []})
+        ja_ok = set(pv["blocos_ok"])          # blocos que ciclos anteriores ja leram
+        ok_ia = bool(ja_ok)
+        blocos_ok = len(ja_ok)
+        if ja_ok:
+            print("  [%s] %s -> retomando: %d/%d blocos ja lidos, falta %s"
+                  % (canal[:18], vid, len(ja_ok), len(parts),
+                     [i for i in range(1, len(parts) + 1) if i not in ja_ok]), flush=True)
         v_top, v_prod, v_num = [], [], []
         v_apl = []   # preenchido pelo AGENTE 2
         blocos_com_topico = set()
@@ -323,6 +334,8 @@ for f in arquivos:
         seen_t, seen_a, seen_pr, seen_n = set(), set(), set(), set()
 
         for bi, parte in enumerate(parts):
+            if (bi + 1) in ja_ok:            # bloco ja lido em ciclo anterior -> nao gasta IA de novo
+                continue
             if chamadas >= (ORC_NICHO if eh_nicho else MAXCALLS) or (time.time() - T0) > TEMPO_MAX:
                 break
             try:
@@ -330,6 +343,7 @@ for f in arquivos:
                                          txt=parte[:CHUNK + 500]), max_tokens=1400)
             except Exception as e:
                 falhas_ia += 1
+                print("      bloco %d/%d: FALHA na IA (%s)" % (bi + 1, len(parts), str(e)[:60]), flush=True)
                 continue
             chamadas += 1
             total_chunks += 1
@@ -340,14 +354,17 @@ for f in arquivos:
             m = re.search(r"\{.*\}", resp or "", re.S)
             if not m:
                 falhas_ia += 1
+                print("      bloco %d/%d: resposta sem JSON" % (bi + 1, len(parts)), flush=True)
                 continue
             try:
                 d = json.loads(m.group(0))
-            except Exception:
+            except Exception as e:
                 falhas_ia += 1
+                print("      bloco %d/%d: JSON invalido (%s)" % (bi + 1, len(parts), str(e)[:50]), flush=True)
                 continue
             ok_ia = True
             blocos_ok += 1
+            pv["blocos_ok"].append(bi + 1)      # <<< GRAVA NA HORA: nunca mais perde este bloco
             if d.get("nicho"):
                 v_nicho[d["nicho"]] += 1
             for t in (d.get("topicos") or []):
@@ -357,14 +374,14 @@ for f in arquivos:
                 if k and k not in seen_t:
                     seen_t.add(k)
                     blocos_com_topico.add(bi + 1)
-                    v_top.append({"n": len(v_top) + 1,
-                                  "topico": t["topico"].strip(),
-                                  "ensina_a_fazer": (t.get("ensina_a_fazer") or "").strip(),
-                                  "como": (t.get("como") or "").strip(),
-                                  "deve_ser_copiado": (t.get("deve_ser_copiado") or "").strip(),
-                                  "produtos": [str(x).strip() for x in (t.get("produtos") or [])],
-                                  "numeros": [str(x).strip() for x in (t.get("numeros") or [])],
-                                  "bloco": bi + 1, "de_blocos": len(parts)})
+                    _t = {"topico": t["topico"].strip(),
+                          "ensina_a_fazer": (t.get("ensina_a_fazer") or "").strip(),
+                          "como": (t.get("como") or "").strip(),
+                          "deve_ser_copiado": (t.get("deve_ser_copiado") or "").strip(),
+                          "produtos": [str(x).strip() for x in (t.get("produtos") or [])],
+                          "numeros": [str(x).strip() for x in (t.get("numeros") or [])],
+                          "bloco": bi + 1, "de_blocos": len(parts)}
+                    pv["topicos"].append(_t)      # <<< PERSISTE NA HORA (nunca perde)
                     for x in (t.get("produtos") or []):
                         kk = norm(str(x))[:50]
                         if kk and kk not in seen_pr:
@@ -376,6 +393,19 @@ for f in arquivos:
                             seen_n.add(kk)
                             v_num.append(str(x).strip())
 
+        # reconstitui a lista de topicos a partir do que esta PERSISTIDO (todos os ciclos)
+        v_top = []
+        seen_tt = set()
+        for _t in sorted(pv["topicos"], key=lambda x: x.get("bloco", 0)):
+            k = norm(_t.get("topico", ""))[:70]
+            if k and k not in seen_tt:
+                seen_tt.add(k)
+                v_top.append(dict(_t, n=len(v_top) + 1))
+        blocos_ok = len(set(pv["blocos_ok"]))
+        blocos_com_topico = {t.get("bloco") for t in v_top if t.get("bloco")}
+        v_prod = sorted({p for t in v_top for p in t.get("produtos", []) if p})
+        v_num = [n for t in v_top for n in t.get("numeros", []) if n]
+
         # NAO DEIXAR PASSAR NADA: o video so e dado como MAPEADO se TODOS os blocos foram lidos.
         # Se algum bloco falhou, o video volta para a fila (ate MAXTENT tentativas).
         tent = base.setdefault("tentativas", {})
@@ -385,8 +415,10 @@ for f in arquivos:
             tent[vid] = t
             if t < MAXTENT:
                 incompletos += 1
-                print("  [%s] %s -> INCOMPLETO (%d/%d blocos) - volta para a fila (tentativa %d)"
-                      % (canal[:18], vid, blocos_ok, len(parts), t), flush=True)
+                print("  [%s] %s -> INCOMPLETO (%d/%d blocos, %d topicos JA SALVOS) - retenta so o que falta (tentativa %d)"
+                      % (canal[:18], vid, blocos_ok, len(parts), len(v_top), t), flush=True)
+                base["ts"] = time.strftime("%FT%TZ", time.gmtime())
+                json.dump(base, open(OUT, "w", encoding="utf-8"), ensure_ascii=False)   # SALVA o parcial
                 continue
 
         if not ok_ia:
@@ -421,7 +453,7 @@ for f in arquivos:
         # O Agente 1 leu bloco a bloco. Agora o Agente 2 ve TODOS os topicos juntos e enxerga
         # o padrao que se repete - coisa impossivel de ver olhando um bloco isolado.
         sintese = {}
-        if v_top:
+        if v_top and blocos_ok == len(parts):
             resumo_top = "\n".join(
                 "%d. %s | ENSINA: %s | COMO: %s%s"
                 % (t["n"], t["topico"], t["ensina_a_fazer"], t["como"],
