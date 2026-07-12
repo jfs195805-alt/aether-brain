@@ -116,6 +116,11 @@ jobs:
         NG_NODES: '2000'
         NG_EDGES: '20000'
         NG_RECS: '1000'
+        NG_SEMANTIC: '1'
+        NG_SVD: '256'
+        NG_CELLS: '1500'
+        NG_SKNN: '6'
+        NG_SLIM: '0.45'
       run: 'python neural_graph.py || true
 
         git config user.email aether@local; git config user.name aether
@@ -147,6 +152,9 @@ jobs:
       env:
         SYN_OPP: '12'
         SYN_LIMIAR: '0.35'
+        SYN_MC: '400'
+        SYN_MAXC: '500000'
+        SYN_BLOCO: '20000'
       run: 'python synapse_engine.py || true
 
         git config user.email aether@local; git config user.name aether
