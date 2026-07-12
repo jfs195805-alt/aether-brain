@@ -124,6 +124,18 @@ jobs:
         token: ${{ secrets.AETHER_PAT }}
     - name: deps
       run: pip install --quiet requests || true
+    - name: RESET ZERO (apaga analise antiga; NAO toca nas transcricoes)
+      run: 'python limpa_zero.py
+
+        git config user.email aether@local; git config user.name aether
+
+        git add -A
+
+        git commit -q -m "RESET ZERO: apaga grafo/pares/sinapses/classificacoes e scripts mortos. Transcricoes brutas intactas." || echo "nada a limpar"
+
+        git pull --rebase -q origin main || git rebase --abort || true
+
+        git push origin main && echo RESET_SALVO || echo RESET_FALHA'
     - name: corpus do Drive
       run: 'curl -s https://rclone.org/install.sh | sudo bash || true
 
