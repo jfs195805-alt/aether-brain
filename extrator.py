@@ -17,6 +17,7 @@ from collections import Counter, defaultdict
 
 SRC = os.environ.get("NG_SRC", "transcripts")
 CANAIS = [c.strip() for c in os.environ.get("EXTRAI_CANAIS", "").split(",") if c.strip()]
+SO_VIDEO = os.environ.get("EXTRAI_VIDEO", "").strip()   # roda SO este video (teste)
 MAXV = int(os.environ.get("EXTRAI_MAXV", "60"))
 CHUNK = int(os.environ.get("EXTRAI_CHUNK", "3000"))   # bloco menor = mais detalhe captado
 MAXCHUNKS = int(os.environ.get("EXTRAI_MAXCHUNKS", "0"))  # 0 = SEM TETO: video INTEIRO
@@ -24,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 7
+VERSAO = 8
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -60,8 +61,32 @@ PAUTA = "PAUTA.json"
 
 try:
     from ai_providers import ask
+    import ai_providers as _AP
 except Exception:
     ask = None
+    _AP = None
+
+# ---- MODELO FORTE para o AGENTE 2 ----
+# O Agente 1 faz trabalho MECANICO (listar o que esta escrito) -> modelo rapido serve.
+# O Agente 2 faz o trabalho DIFICIL (descobrir o padrao que ninguem escreveu) -> merece o melhor.
+GEM_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+MODELOS_FORTES = [m for m in (os.environ.get("GEMINI_PRO_MODEL", ""),
+                              os.environ.get("AI_MODELO_FORTE", ""),
+                              "gemini-2.5-pro", "gemini-2.0-flash") if m]
+
+
+def ask_forte(prompt, max_tokens=1600):
+    """Usado SO pelo AGENTE 2. Tenta o modelo forte; se nao houver, cai na ordem normal."""
+    k = os.environ.get("GEMINI_API_KEY")
+    if k and _AP is not None:
+        for m in MODELOS_FORTES:
+            try:
+                t = _AP._call("gemini", GEM_URL, k, m, prompt, max_tokens=max_tokens, timeout=70)
+                if t and t.strip():
+                    return t
+            except Exception:
+                continue
+    return ask(prompt, max_tokens=max_tokens)
 
 CENSURA = re.compile(r"\[\s*(&nbsp;)?\s*_+\s*(&nbsp;)?\s*\]")
 NUM = re.compile(r"\d")
@@ -279,6 +304,8 @@ for f in arquivos:
         vid = r.get("video_id")
         if not vid or vid in feitos:
             continue
+        if SO_VIDEO and vid != SO_VIDEO:
+            continue
         txt = limpa(r.get("transcript") or "")
         if len(txt) < 400:
             continue
@@ -401,10 +428,10 @@ for f in arquivos:
                    (" | COPIAR: " + t["deve_ser_copiado"]) if t.get("deve_ser_copiado") else "")
                 for t in v_top)
             try:
-                r2 = ask(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
-                                        link=link, canal=canal,
-                                        nblocos=len(parts), ntop=len(v_top),
-                                        topicos=resumo_top[:9000]), max_tokens=1600)
+                r2 = ask_forte(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
+                                              link=link, canal=canal,
+                                              nblocos=len(parts), ntop=len(v_top),
+                                              topicos=resumo_top[:9000]), max_tokens=1600)
                 chamadas += 1
                 if eh_nicho:
                     ch_nicho += 1
@@ -527,3 +554,36 @@ print("EXTRATOR v5: [fila: %d chamadas NICHO + %d resto] %d videos -> %d TOPICOS
          tot_top / float(len(todos_videos) or 1), completos, len(todos_videos),
          tot_apl, chamadas, " (TETO - continua no proximo ciclo)" if parou_no_teto else "",
          nao_marcados, incompletos))
+
+
+# ---------- MODO TESTE: imprime o resultado do video no log ----------
+if SO_VIDEO and todos_videos:
+    v = todos_videos[0]
+    print("\n" + "=" * 78)
+    print("RESULTADO REAL — video %s (%s)" % (v["video"], v["canal"]))
+    print("%d chars | %d blocos | LIDOS %d/%d = %.0f%%"
+          % (v["chars"], v["blocos"], v["blocos_lidos"], v["blocos"], v["cobertura_pct"]))
+    print("=" * 78)
+    print("\n--- AGENTE 1 (TOPICADOR): %d topicos ---" % v["total_topicos"])
+    for t in v["TOPICOS"]:
+        print("\n%d. [bloco %d/%d] %s" % (t["n"], t["bloco"], t["de_blocos"], t["topico"]))
+        print("   ENSINA A FAZER: %s" % t["ensina_a_fazer"])
+        print("   COMO: %s" % t["como"])
+        if t.get("deve_ser_copiado"):
+            print("   DEVE SER COPIADO: %s" % t["deve_ser_copiado"])
+        if t.get("numeros"):
+            print("   NUMEROS: %s" % ", ".join(t["numeros"]))
+    sx = v.get("SINTESE_DO_VIDEO") or {}
+    print("\n\n--- AGENTE 2 (SINTETIZADOR) ---")
+    print("\nENTENDIMENTO DO VIDEO:\n   %s" % (sx.get("entendimento") or "(vazio)"))
+    print("\nPADRAO QUE SE REPETE:\n   %s" % (sx.get("padrao_que_se_repete") or "(nao encontrou)"))
+    print("\nO QUE AGREGAR NO MEU PROJETO:")
+    if not v.get("AGREGAR_NO_MEU_PROJETO"):
+        print("   (nada) motivo: %s" % (sx.get("nada_novo") or "-"))
+    for a in v.get("AGREGAR_NO_MEU_PROJETO", []):
+        ja = a.get("ja_tenho_parecido", "")
+        flag = "  <<< JA TENHO - descartar" if ja.lower().startswith("sim") else ""
+        print("\n   [%s] %s%s" % (a.get("tipo", "?"), a["o_que"], flag))
+        print("      COMO APLICAR: %s" % a.get("como_aplicar", ""))
+        print("      EVIDENCIA   : %s" % a.get("evidencia", ""))
+    print("\n" + "=" * 78)
