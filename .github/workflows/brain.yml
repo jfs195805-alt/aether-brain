@@ -149,13 +149,21 @@ jobs:
       env:
         NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+        GEMINI_PRO_MODEL: ${{ secrets.GEMINI_PRO_MODEL }}
       run: BEST=$(AI_ONCE=1 python ai_health.py 2>/dev/null | tail -1); [ -n "$BEST" ] && echo "AETHER_AI_ORDER=$BEST" >> $GITHUB_ENV || true
     - name: EXTRAI conhecimento bruto -> PAUTA
       env:
         NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        EXTRAI_MAXV: '40'
-        EXTRAI_MAXCALLS: '500'
+        EXTRAI_MAXV: '1'
+        EXTRAI_MAXCALLS: '60'
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
+        GEMINI_PRO_MODEL: ${{ secrets.GEMINI_PRO_MODEL }}
+        EXTRAI_CANAIS: -TechGear
+        EXTRAI_VIDEO: G82HT04zopk
       run: 'python extrator.py || true
 
         git config user.email aether@local; git config user.name aether
