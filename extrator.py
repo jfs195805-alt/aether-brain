@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 21
+VERSAO = 22
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -70,23 +70,50 @@ except Exception:
 # O Agente 1 faz trabalho MECANICO (listar o que esta escrito) -> modelo rapido serve.
 # O Agente 2 faz o trabalho DIFICIL (descobrir o padrao que ninguem escreveu) -> merece o melhor.
 GEM_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+OR_URL = "https://openrouter.ai/api/v1/chat/completions"
+
+# Ordem do MODELO FORTE (a chamada que RACIOCINA - achar o padrao que ninguem escreveu):
+#   1) DeepSeek-R1 (raciocina de verdade, gratis no OpenRouter) <- o destravamento
+#   2) Qwen 2.5 72B / DeepSeek v3 (gratis, backup)
+#   3) Gemini pro/flash (intermitente: 429 por quota)
+#   4) ordem normal (llama-3.1-70b) - so se tudo acima morrer
+# MEDIDO: o llama-3.1-70b NAO faz a abstracao. Ele devolve o ASSUNTO do video, e quando
+# nao sabe, PREENCHE O FORMULARIO com o texto do proprio formulario. Por isso o R1 vem 1o.
+OR_FORTES = ["deepseek/deepseek-r1:free", "deepseek/deepseek-chat-v3.1:free",
+             "qwen/qwen-2.5-72b-instruct:free"]
 MODELOS_FORTES = [m for m in (os.environ.get("GEMINI_PRO_MODEL", ""),
                               os.environ.get("AI_MODELO_FORTE", ""),
                               "gemini-2.5-pro", "gemini-2.0-flash") if m]
 
 
 def ask_forte(prompt, max_tokens=1600):
-    """Usado SO pelo AGENTE 2. Tenta o modelo forte; se nao houver, cai na ordem normal."""
-    k = os.environ.get("GEMINI_API_KEY")
-    if k and _AP is not None:
-        for m in MODELOS_FORTES:
-            try:
-                t = _AP._call("gemini", GEM_URL, k, m, prompt, max_tokens=max_tokens, timeout=70)
-                if t and t.strip():
-                    return t
-            except Exception:
-                continue
+    """SO para a chamada que precisa RACIOCINAR (sintese/ideias). Modelo de raciocinio 1o."""
+    if _AP is not None:
+        ork = os.environ.get("OPENROUTER_API_KEY")
+        if ork:
+            for m in OR_FORTES:
+                try:
+                    # R1 emite tokens de raciocinio: precisa de teto alto e paciencia.
+                    t = _AP._call("openai", OR_URL, ork, m, prompt,
+                                  max_tokens=max(max_tokens, 4000), timeout=180)
+                    if t and t.strip():
+                        print("      [forte] %s" % m, flush=True)
+                        return t
+                except Exception as e:
+                    print("      [forte] %s falhou (%s)" % (m, str(e)[:45]), flush=True)
+        gk = os.environ.get("GEMINI_API_KEY")
+        if gk:
+            for m in MODELOS_FORTES:
+                try:
+                    t = _AP._call("gemini", GEM_URL, gk, m, prompt,
+                                  max_tokens=max_tokens, timeout=70)
+                    if t and t.strip():
+                        print("      [forte] gemini %s" % m, flush=True)
+                        return t
+                except Exception:
+                    continue
     return ask(prompt, max_tokens=max_tokens)
+
 
 CENSURA = re.compile(r"\[\s*(&nbsp;)?\s*_+\s*(&nbsp;)?\s*\]")
 NUM = re.compile(r"\d")
