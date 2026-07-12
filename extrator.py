@@ -12,7 +12,7 @@ Saidas:
   CONHECIMENTO_PRODUCAO.json - por canal: passos operacionais, tarefas, produtos, contagem por video
   PAUTA.json                 - BACKLOG EXECUTAVEL + tarefas do projeto + ensinamentos por video
 """
-import os, re, json, glob, time, html, hashlib
+import os, re, json, glob, time, html, hashlib, unicodedata
 from collections import Counter, defaultdict
 
 SRC = os.environ.get("NG_SRC", "transcripts")
@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 20
+VERSAO = 21
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -246,6 +246,56 @@ def eh_conteudo_nao_tatica(a):
     return False, ""
 
 
+# ---------- ANCORA DE CITACAO (v21) ----------
+# ERRO REAL: pedi "evidencia: o trecho da transcricao que mostra ele fazendo isso" e o modelo
+# devolveu, LITERALMENTE, "O trecho da transcricao que fala sobre o produto afiliado".
+# Ele nao leu o video - ele PREENCHEU O FORMULARIO com o texto do proprio formulario.
+# Conserto: a evidencia tem que ser CITACAO LITERAL, colada da transcricao. E eu confiro.
+# Funciona entre idiomas: a transcricao e em ingles, entao a citacao tem que vir em ingles.
+
+ECO_DO_FORMULARIO = (
+    "trecho da transcricao", "trecho da transcript", "o trecho que", "a frase que",
+    "a tatica que eu copio", "o passo a passo no meu canal", "a ideia nova",
+    "titulo curto", "1 frase", "o detalhe exato", "vazio se nada", "se nenhum",
+    "o que ele ensina", "por que este video funciona", "a estrutura que ele repete",
+    "em que momento ele vende", "the excerpt", "the transcript excerpt", "the passage")
+
+
+def _pal(s_):
+    return [w for w in re.findall(r"[a-z0-9']+", (s_ or "").lower()) if len(w) > 1]
+
+
+def cita_de_verdade(evid, bruto, minw=5):
+    """True se a evidencia e uma CITACAO REAL: >= minw palavras seguidas que existem no bruto.
+
+    Nao exige a frase inteira (o modelo corta/junta). Exige que algum pedaco continuo de
+    minw palavras da evidencia apareca, na mesma ordem, dentro da transcricao.
+    """
+    e = _pal(evid)
+    if len(e) < minw:
+        return False
+    b = " ".join(_pal(bruto))
+    for i in range(len(e) - minw + 1):
+        if " ".join(e[i:i + minw]) in b:
+            return True
+    return False
+
+
+def _sem_acento(s_):
+    s_ = unicodedata.normalize("NFD", (s_ or "").lower())
+    s_ = "".join(c for c in s_ if unicodedata.category(c) != "Mn")
+    return re.sub(r"[^a-z0-9 ]", " ", s_)
+
+
+def eco_do_formulario(a):
+    """True se o item repapagueia o texto do MEU schema em vez de olhar o video."""
+    txt = re.sub(r"\s+", " ", _sem_acento(
+        str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", "")) + " "
+        + str(a.get("evidencia", ""))))
+    return any(e in txt for e in ECO_DO_FORMULARIO)
+
+
+
 def filtra_agregar(sintese, v_top, bruto=""):
     """Corta ITEM A ITEM o que for CONTEUDO do video em vez de TATICA replicavel."""
     bons, cortados = [], []
@@ -255,6 +305,14 @@ def filtra_agregar(sintese, v_top, bruto=""):
         ruim, motivo = eh_conteudo_nao_tatica(a)
         if ruim:
             cortados.append((a.get("o_que", "?"), motivo))
+            continue
+        if eco_do_formulario(a):
+            cortados.append((a.get("o_que", "?"),
+                             "ECO DO FORMULARIO: repetiu o texto do meu schema, nao leu o video"))
+            continue
+        if bruto and not cita_de_verdade(a.get("evidencia", ""), bruto):
+            cortados.append((a.get("o_que", "?"),
+                             "evidencia NAO existe na transcricao (nao e citacao literal)"))
             continue
         a["tipo"] = limpa_tipo(a.get("tipo"))
         bons.append(a)
@@ -444,10 +502,15 @@ Responda SO com JSON puro:
      "como_aplicar": "o passo a passo DETALHADO no meu canal: o que fazer, em que ordem, em que "
                      "minuto do video, com que palavras, onde entra o link de afiliado",
      "tipo": "estrutura_roteiro|gancho|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
-     "evidencia": "o trecho da transcricao que mostra ele fazendo isso",
+     "evidencia": "COPIE E COLE a frase EXATA da transcricao, no idioma ORIGINAL dela (ingles). "
+                  "NAO descreva o trecho, NAO traduza, NAO resuma - COLE. Se voce nao consegue "
+                  "colar uma frase real, a ideia e invencao e nao serve.",
      "ja_tenho_parecido": "sim/nao"}}
  ],
  "nada_novo": "se o video nao tem nenhuma ideia nova para mim, o motivo; senao \"\""}}
+
+AVISO: eu CONFIRO a evidencia contra a transcricao, palavra por palavra. Ideia com evidencia
+inventada e JOGADA FORA. Cole a frase real do video, em ingles, como ela esta escrita.
 """
 
 
