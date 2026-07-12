@@ -162,8 +162,8 @@ jobs:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
         GEMINI_PRO_MODEL: ${{ secrets.GEMINI_PRO_MODEL }}
-        EXTRAI_CANAIS: fitlifetv
-        EXTRAI_VIDEO: t0ydymVpZzM
+        EXTRAI_CANAIS: lucaslopesnutri
+        EXTRAI_VIDEO: dwtFP3NaQP4
       run: 'python extrator.py || true
 
         git config user.email aether@local; git config user.name aether
