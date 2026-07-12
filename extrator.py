@@ -18,10 +18,11 @@ from collections import Counter, defaultdict
 SRC = os.environ.get("NG_SRC", "transcripts")
 CANAIS = [c.strip() for c in os.environ.get("EXTRAI_CANAIS", "").split(",") if c.strip()]
 MAXV = int(os.environ.get("EXTRAI_MAXV", "60"))
-CHUNK = int(os.environ.get("EXTRAI_CHUNK", "5500"))
-MAXCHUNKS = int(os.environ.get("EXTRAI_MAXCHUNKS", "8"))
+CHUNK = int(os.environ.get("EXTRAI_CHUNK", "3000"))   # bloco menor = mais detalhe captado
+MAXCHUNKS = int(os.environ.get("EXTRAI_MAXCHUNKS", "0"))  # 0 = SEM TETO: video INTEIRO
 MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
+MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
 VERSAO = 3
 OUT = "CONHECIMENTO_PRODUCAO.json"
@@ -46,7 +47,7 @@ def blocos(txt):
     """Divide a transcricao INTEIRA em blocos, cortando em espaco (sem picar palavra)."""
     out = []
     i, n = 0, len(txt)
-    while i < n and len(out) < MAXCHUNKS:
+    while i < n and (MAXCHUNKS <= 0 or len(out) < MAXCHUNKS):
         j = min(i + CHUNK, n)
         if j < n:
             k = txt.rfind(" ", i + int(CHUNK * 0.6), j)
@@ -85,30 +86,30 @@ base["versao"] = VERSAO
 
 feitos = {v for c in base["canais"].values() for v in c.get("videos_processados", [])}
 
-PROMPT = """Abaixo esta UM TRECHO da transcricao bruta de um video do YouTube.
+PROMPT = """Abaixo esta UM TRECHO da transcricao bruta de UM video do YouTube.
 
-Extraia SO o PASSO A PASSO OPERACIONAL. NAO quero conceito. NAO quero teoria. NAO quero
-motivacao. Quero o que FAZER e COMO FAZER, com detalhe suficiente para alguem EXECUTAR
-sem assistir o video - detalhe que da para virar tarefa de backend.
+Sua tarefa: MAPEAR TUDO que este trecho ensina. NAO RESUMA. NAO GENERALIZE. NAO PULE NADA.
+Cada coisa que a pessoa ensina, cada numero que ela diz, cada configuracao, cada ordem de
+passos, cada produto, cada criterio - vira um item. Se ela ensina 12 coisas, devolva 12 itens.
+
+Prefira o DETALHE OPERACIONAL (o COMO) ao conceito. Se ela disser "use 5g", registre "5g".
+Se disser "espere 48h", registre "48h". Nao troque numero por "pouco" ou "algum tempo".
 
 Responda SO com JSON puro, sem markdown:
 
 {{"passos": [
-   {{"acao": "verbo no imperativo + objeto concreto (O QUE fazer)",
-     "como": "o DETALHE OPERACIONAL: onde, qual valor, qual configuracao, qual ordem, qual criterio, qual numero",
-     "ferramenta": "ferramenta/plataforma/produto usado; vazio se nenhum",
-     "resultado": "o que esse passo entrega na pratica"}}
+   {{"acao": "O QUE fazer - verbo + objeto concreto",
+     "como": "o DETALHE EXATO como ele falou: valores, numeros, ordem, onde, configuracao, criterio",
+     "ferramenta": "ferramenta/plataforma/produto/marca usado; vazio se nenhum",
+     "resultado": "o que isso entrega/produz, como ele falou"}}
  ],
- "tarefas_projeto": ["ate 3 tarefas OBJETIVAS e EXECUTAVEIS que eu deveria fazer no MEU projeto de conteudo/afiliado com base neste trecho"],
- "produtos": ["produtos/ferramentas citados; [] se nenhum"],
+ "tarefas_projeto": ["tarefas OBJETIVAS e EXECUTAVEIS que eu deveria fazer no MEU projeto de conteudo/afiliado com base neste trecho"],
+ "produtos": ["TODOS os produtos, marcas, ferramentas e sites citados neste trecho; [] se nenhum"],
+ "numeros": ["TODO numero/valor/prazo/dose/preco/metrica citado, com o contexto. ex: '5g por dia', 'CTR abaixo de 1%', '20 reais/dia'"],
  "nicho": "Suplementos|Emagrecimento|Fitness|Afiliados|IA e Tech|Financas|Negocios|Saude|Psicologia|Beleza|Educacao|Outro"}}
 
-NAO DESCARTE NADA. Extraia TUDO que o trecho ensina - todo ensinamento, todo detalhe.
-Quanto mais detalhe operacional (numero, valor, configuracao, ordem, criterio), melhor.
-  Exemplo bom: "publique 3 videos por semana as 19h, com o titulo comecando por numero".
-  Exemplo bom: "no gerenciador de anuncios, comece com 20 reais/dia, 3 criativos, e mate o
-                criativo com CTR abaixo de 1% em 48h".
-Se o trecho tiver pouco detalhe, ainda assim registre o que ele ensina - nao jogue fora.
+NAO DESCARTE NADA. Melhor devolver um item a mais do que perder um ensinamento.
+Se o trecho tiver pouco detalhe, registre mesmo assim o que ele ensina.
 
 TRECHO:
 {txt}
@@ -124,7 +125,7 @@ if CANAIS:
 
 chamadas = 0
 videos_ok = videos_vazios = total_chunks = 0
-falhas_ia = nao_marcados = 0
+falhas_ia = nao_marcados = incompletos = 0
 parou_no_teto = False
 abortou = False
 
@@ -136,7 +137,8 @@ for f in arquivos:
         break
     canal = os.path.splitext(os.path.basename(f))[0]
     c = base["canais"].setdefault(canal, {"videos_processados": [], "passos": [],
-                                          "tarefas": [], "produtos": [], "por_video": []})
+                                          "tarefas": [], "produtos": [], "numeros": [],
+                                          "por_video": []})
     n = 0
     for ln in open(f, encoding="utf-8", errors="ignore"):
         if n >= MAXV or chamadas >= MAXCALLS or (time.time() - T0) > TEMPO_MAX:
@@ -159,9 +161,10 @@ for f in arquivos:
             continue
 
         ok_ia = False       # so marca o video como FEITO se a IA respondeu de verdade
-        v_passos, v_tarefas, v_prod = [], [], []
+        blocos_ok = 0       # quantos blocos deste video a IA leu com sucesso
+        v_passos, v_tarefas, v_prod, v_num = [], [], [], []
         v_nicho = Counter()
-        seen_p, seen_t, seen_pr = set(), set(), set()
+        seen_p, seen_t, seen_pr, seen_n = set(), set(), set(), set()
 
         for parte in parts:
             if chamadas >= MAXCALLS or (time.time() - T0) > TEMPO_MAX:
@@ -183,6 +186,7 @@ for f in arquivos:
                 falhas_ia += 1
                 continue
             ok_ia = True
+            blocos_ok += 1
             if d.get("nicho"):
                 v_nicho[d["nicho"]] += 1
             for p in (d.get("passos") or []):
@@ -204,6 +208,24 @@ for f in arquivos:
                 if k and k not in seen_pr:
                     seen_pr.add(k)
                     v_prod.append(pr.strip())
+            for nu in (d.get("numeros") or []):
+                k = norm(nu)[:60]
+                if k and k not in seen_n:
+                    seen_n.add(k)
+                    v_num.append(nu.strip())
+
+        # NAO DEIXAR PASSAR NADA: o video so e dado como MAPEADO se TODOS os blocos foram lidos.
+        # Se algum bloco falhou, o video volta para a fila (ate MAXTENT tentativas).
+        tent = base.setdefault("tentativas", {})
+        completo = (blocos_ok == len(parts))
+        if ok_ia and not completo:
+            t = tent.get(vid, 0) + 1
+            tent[vid] = t
+            if t < MAXTENT:
+                incompletos += 1
+                print("  [%s] %s -> INCOMPLETO (%d/%d blocos) - volta para a fila (tentativa %d)"
+                      % (canal[:18], vid, blocos_ok, len(parts), t), flush=True)
+                continue
 
         if not ok_ia:
             # IA nao respondeu para NENHUM bloco deste video -> NAO marca como feito,
@@ -224,7 +246,10 @@ for f in arquivos:
 
         c["por_video"].append({"video": vid, "link": link, "nicho": nicho,
                                "ensinamentos_captados": len(v_passos),
-                               "tarefas": len(v_tarefas), "blocos_lidos": len(parts)})
+                               "tarefas": len(v_tarefas),
+                               "blocos_do_video": len(parts), "blocos_lidos_ok": blocos_ok,
+                               "chars_transcricao": len(txt),
+                               "cobertura": round(100.0 * blocos_ok / max(1, len(parts)), 1)})
         if not v_passos and not v_tarefas:
             videos_vazios += 1
             continue
@@ -235,9 +260,12 @@ for f in arquivos:
             c["tarefas"].append({"tarefa": t, "video": vid, "link": link, "nicho": nicho})
         for pr in v_prod:
             c["produtos"].append({"produto": pr, "video": vid, "link": link})
+        for nu in v_num:
+            c.setdefault("numeros", []).append({"numero": nu, "video": vid, "link": link, "nicho": nicho})
         videos_ok += 1
-        print("  [%s] %s -> %d ensinamentos (%d blocos, %d chamadas)"
-          % (canal[:18], vid, len(v_passos), len(parts), chamadas), flush=True)
+        print("  [%s] %s -> %d ensinamentos | %d/%d blocos lidos (%.0f%% do video, %d chars)"
+          % (canal[:18], vid, len(v_passos), blocos_ok, len(parts),
+             100.0 * blocos_ok / max(1, len(parts)), len(txt)), flush=True)
 
         # CHECKPOINT: run cancelada no meio nao pode perder o que ja foi captado
         if videos_ok % 10 == 0:
