@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 19
+VERSAO = 20
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -217,19 +217,31 @@ SUBSTANCIA = (
     "gelatina", "monge", "romã", "cereja", "kwh", "autonomia")
 DOSE = re.compile(r"\b\d+\s*(mg|g|ml|kg|gramas?|colheres?|capsulas?|comprimidos?|doses?|"
                   r"vezes ao dia|x ao dia|dias?|semanas?|horas?)\b", re.I)
-VERBO_INGERIR = ("tomar", "tome", "ingerir", "consumir", "consuma", "usar por", "beber", "comer",
-                 "suplementar", "eliminar parasita", "curar", "tratar", "aliviar")
+VERBO_INGERIR = ("tomar", "tome", "ingerir", "consumir", "consuma", "beber", "comer",
+                 "suplementar", "suplemente", "usar", "use", "utilizar", "administrar",
+                 "eliminar", "curar", "tratar", "aliviar", "combater", "matar")
 
 
 def eh_conteudo_nao_tatica(a):
-    """True se o item e CONTEUDO do video (receita/substancia/dose) em vez de TATICA de marketing.
-    ERRO REAL: o agente mandou 'agregar: usar mimosa pudica e milk thistle para eliminar
-    parasitas'. Isso e a receita DELE, nao a minha tatica - e vira promessa de cura no meu
-    canal (proibido pela Regra Zero). Tatica e o COMO ele vende, nao o QUE ele receita."""
-    txt = norm(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", "")))
-    if any(sub in txt for sub in SUBSTANCIA):
-        return True, "recomenda substancia/assunto do video (e conteudo dele, nao tatica minha)"
-    if DOSE.search(txt) and any(v in txt for v in VERBO_INGERIR):
+    """True SO se o item PRESCREVE (verbo de ingerir + substancia, ou dose).
+
+    ERRO REAL 1: o agente mandou 'agregar: usar mimosa pudica para eliminar parasitas'.
+      Isso e a receita DELE. No meu canal vira promessa de cura -> PROIBIDO. CORTA.
+
+    ERRO REAL 2 (do bloqueador anterior): ele cortava
+      'Estrutura de Roteiro para um Video de Limpeza de Parasitas' -- so porque a palavra
+      'parasita' aparecia no NOME. Mas isso e TATICA (estrutura de roteiro); o tema do video
+      esta no titulo, e nao ha prescricao nenhuma. Cortar isso zerou o video inteiro.
+
+    Regra: o tema do video PODE aparecer no nome da tatica. O que nao pode e RECEITAR.
+    """
+    o_que = norm(str(a.get("o_que", "")))
+    txt = o_que + " " + norm(str(a.get("como_aplicar", "")))
+    tem_sub = any(sub in txt for sub in SUBSTANCIA)
+    tem_verbo = any(re.search(r"\b%s\b" % re.escape(v), txt) for v in VERBO_INGERIR)
+    if tem_sub and tem_verbo:
+        return True, "receita substancia (conteudo dele; no meu canal vira promessa de cura)"
+    if DOSE.search(txt) and tem_verbo:
         return True, "prescreve dose/tratamento (proibido - vira promessa de cura)"
     return False, ""
 
@@ -408,6 +420,11 @@ O QUE EU JA TENHO (nao me traga isto de volta):
 =================== TRANSCRICAO BRUTA COMPLETA ===================
 {transcricao}
 ==================================================================
+
+REGRAS DE VOLUME (o modelo anterior devolveu 1 topico para um video de 15 minutos - isso e ERRO):
+  - UM topico para CADA coisa que ele ensina. Se o video ensina 12 coisas, sao 12 topicos.
+    NUNCA resuma o video inteiro em 1 ou 2 topicos.
+  - No minimo 3 ideias em "agregar". Se nao achar 3, o video tem pouco - explique em "nada_novo".
 
 Responda SO com JSON puro:
 
