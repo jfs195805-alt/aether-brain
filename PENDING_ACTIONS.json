@@ -1,1 +1,76 @@
-{"queue": []}
+{
+ "queue": [
+  {
+   "id": "idea_332863fd1f",
+   "tipo": "publicar_short",
+   "gancho": "aqui + gente",
+   "nicho": "outros",
+   "lucro_1k": 3172.0,
+   "marca": true,
+   "ts": "2026-07-12T00:07:14Z"
+  },
+  {
+   "id": "idea_dfcf8e20f7",
+   "tipo": "publicar_short",
+   "gancho": "aqui + video",
+   "nicho": "outros",
+   "lucro_1k": 3172.0,
+   "marca": true,
+   "ts": "2026-07-12T00:07:14Z"
+  },
+  {
+   "id": "idea_b89cfd6018",
+   "tipo": "publicar_short",
+   "gancho": "gente + video",
+   "nicho": "outros",
+   "lucro_1k": 3172.0,
+   "marca": true,
+   "ts": "2026-07-12T00:07:14Z"
+  },
+  {
+   "id": "idea_ec12480f03",
+   "tipo": "publicar_short",
+   "gancho": "aqui + fazer",
+   "nicho": "outros",
+   "lucro_1k": 3172.0,
+   "marca": true,
+   "ts": "2026-07-12T00:07:14Z"
+  },
+  {
+   "id": "idea_c988c70e7a",
+   "tipo": "publicar_short",
+   "gancho": "aqui + hoje",
+   "nicho": "outros",
+   "lucro_1k": 3172.0,
+   "marca": true,
+   "ts": "2026-07-12T00:07:14Z"
+  },
+  {
+   "id": "idea_57f9f2dd96",
+   "tipo": "publicar_short",
+   "gancho": "aqui + handle",
+   "nicho": "outros",
+   "lucro_1k": 3172.0,
+   "marca": true,
+   "ts": "2026-07-12T00:07:14Z"
+  },
+  {
+   "id": "idea_db96d8d59c",
+   "tipo": "publicar_short",
+   "gancho": "aqui + transcript",
+   "nicho": "outros",
+   "lucro_1k": 3172.0,
+   "marca": true,
+   "ts": "2026-07-12T00:07:14Z"
+  },
+  {
+   "id": "idea_9504766e6f",
+   "tipo": "publicar_short",
+   "gancho": "aqui + tudo",
+   "nicho": "outros",
+   "lucro_1k": 3172.0,
+   "marca": true,
+   "ts": "2026-07-12T00:07:14Z"
+  }
+ ]
+}
