@@ -19,6 +19,7 @@ on:
     - AI_HEALTH.json
     - '**.md'
     - index.html
+    - OTIMIZACOES.json
   workflow_dispatch: {}
   schedule:
   - cron: '*/10 * * * *'
@@ -26,6 +27,34 @@ concurrency:
   group: brain-${{ github.workflow }}
   cancel-in-progress: true
 jobs:
+  otimizador:
+    name: AGENTE OTIMIZADOR (arruma o que ja esta em producao)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.AETHER_PAT }}
+    - name: deps
+      run: pip install --quiet requests || true
+    - name: DIAGNOSTICO + OTIMIZACAO do canal em producao
+      env:
+        YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+        YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+        YT_RT_GLOBALSUP: ${{ secrets.YT_RT_GLOBALSUP }}
+        AUDIT_APPLY: ${{ vars.AUDIT_APPLY || '0' }}
+      run: 'python otimizador.py || true
+
+        git config user.email aether@local; git config user.name aether
+
+        git add OTIMIZACOES.json 2>/dev/null || true
+
+        git commit -q -m "otimizacoes do que esta em producao" || echo "nada novo"
+
+        git pull --rebase -q origin main || git rebase --abort || true
+
+        git push origin main && echo "SALVO: otimizacoes" || echo "FALHA"
+
+        '
   coletor:
     name: AGENTE COLETOR (colhe transcricoes novas)
     runs-on: ubuntu-latest
