@@ -24,7 +24,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 6
+VERSAO = 7
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -33,6 +33,22 @@ PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
   link de afiliado, argumento de venda com prova, titulo/SEO, CTA, e taticas replicaveis.
 - REGRA: conteudo ORIGINAL nosso (nunca copiar a fala do criador), foto REAL do produto,
   link de afiliado rastreavel. Nada de conselho de investimento nem promessa de cura.""")
+MODELO_FILE = os.environ.get("EXTRAI_MODELO", "MODELO_ANALISE.md")
+try:
+    _mod = open(MODELO_FILE, encoding="utf-8").read()
+except Exception:
+    _mod = ""
+# o documento inteiro e o padrao-ouro. Cada agente recebe a sua secao (marcada no arquivo).
+if "<<<MODELO_AGENTE_2>>>" in _mod:
+    MODELO_A1 = _mod.split("<<<MODELO_AGENTE_2>>>")[0]
+    MODELO_A2 = _mod.split("<<<MODELO_AGENTE_2>>>")[1]
+else:
+    MODELO_A1 = MODELO_A2 = _mod
+if os.environ.get("EXTRAI_MODELO_COMPLETO") == "1":   # injeta o documento INTEIRO nos dois
+    MODELO_A1 = MODELO_A2 = _mod
+if not _mod:
+    MODELO_A1 = MODELO_A2 = "(modelo de analise nao encontrado - siga as regras do prompt)"
+
 JA_TENHO_FILE = os.environ.get("EXTRAI_JA_TENHO", "PROJETO_ATUAL.md")
 try:
     JA_TENHO = open(JA_TENHO_FILE, encoding="utf-8").read()[:3000]
@@ -103,6 +119,12 @@ feitos = {v for c in base["canais"].values() for v in c.get("videos_processados"
 PROMPT = """AGENTE 1 - TOPICADOR. Voce le UM BLOCO da transcricao bruta de um video e o
 transforma em TOPICOS. Voce NAO opina sobre projeto nenhum - outro agente fara isso depois.
 
+===================== MODELO DE ANALISE (padrao-ouro obrigatorio) =====================
+Analise abaixo do nivel deste modelo esta ERRADA. Siga-o.
+
+{modelo}
+=======================================================================================
+
 Este e o BLOCO {bloco} de {total}. Voce (ou outra instancia sua) vera TODOS os blocos.
 
 REGRA: cada coisa que o video ENSINA A FAZER ou RECOMENDA = 1 topico.
@@ -132,6 +154,12 @@ BLOCO {bloco}/{total}:
 PROMPT2 = """AGENTE 2 - SINTETIZADOR. O AGENTE 1 leu a transcricao bruta INTEIRA deste video e a
 transformou nos TOPICOS abaixo. Voce agora ve o VIDEO COMO UM TODO - coisa que o Agente 1,
 que lia bloco a bloco, nao conseguia enxergar.
+
+===================== MODELO DE ANALISE (padrao-ouro obrigatorio) =====================
+Este e o nivel que a sua sintese TEM que atingir. Estude o exemplo e faca igual.
+
+{modelo}
+=======================================================================================
 
 {projeto}
 
@@ -271,7 +299,7 @@ for f in arquivos:
             if chamadas >= (ORC_NICHO if eh_nicho else MAXCALLS) or (time.time() - T0) > TEMPO_MAX:
                 break
             try:
-                resp = ask(PROMPT.format(projeto=PROJETO, bloco=bi + 1, total=len(parts),
+                resp = ask(PROMPT.format(modelo=MODELO_A1, bloco=bi + 1, total=len(parts),
                                          txt=parte[:CHUNK + 500]), max_tokens=1400)
             except Exception as e:
                 falhas_ia += 1
@@ -373,7 +401,8 @@ for f in arquivos:
                    (" | COPIAR: " + t["deve_ser_copiado"]) if t.get("deve_ser_copiado") else "")
                 for t in v_top)
             try:
-                r2 = ask(PROMPT2.format(projeto=PROJETO, ja_tenho=JA_TENHO, link=link, canal=canal,
+                r2 = ask(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
+                                        link=link, canal=canal,
                                         nblocos=len(parts), ntop=len(v_top),
                                         topicos=resumo_top[:9000]), max_tokens=1600)
                 chamadas += 1

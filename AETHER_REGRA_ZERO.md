@@ -167,3 +167,44 @@ perfeito. Inútil na prática.
   **detecção em 100 ms + envio imediato + RTT**.
 - `raw.githubusercontent` tem **cache de ~5 min** — não serve para tempo real.
   Canal ao vivo tem que ser fora do GitHub (túnel próprio / Supabase).
+
+---
+
+## 11. ANÁLISE DE TRANSCRIÇÃO — DOIS AGENTES, SEMPRE (inviolável)
+
+Toda transcrição bruta passa por **DOIS agentes, nesta ordem**. Um só agente é **proibido**.
+
+### AGENTE 1 — TOPICADOR (bloco a bloco)
+- Lê **100% da transcrição**, do primeiro ao último bloco. **Sem teto de blocos.**
+- Cada coisa que o vídeo **ensina a fazer** ou **recomenda** = **1 tópico**.
+- **Proibido resumir. Proibido pular. Proibido trocar número por adjetivo** — "5g" nunca vira
+  "pouco"; "€19.990" nunca vira "barato"; "48h" nunca vira "algum tempo".
+- Cada tópico grava **de qual bloco veio** — é a prova de cobertura.
+- **NÃO opina sobre o projeto.** Isso é do Agente 2.
+
+### AGENTE 2 — SINTETIZADOR (o vídeo inteiro de uma vez)
+- Recebe **TODOS os tópicos do vídeo juntos** + o `PROJETO_ATUAL.md`.
+- Descobre o **PADRÃO que se repete** — o que **não existe em bloco nenhum**, só no todo.
+- Só propõe o que o projeto **AINDA NÃO TEM**. O que já existe → `ja_tenho_parecido: sim` → **descartado**.
+- Vídeo que não agrega nada → `agregar: []` + explicar em `nada_novo`. **Proibido encher linguiça.**
+
+### Por que a regra existe (erro real cometido)
+Analisando bloco a bloco, o agente **repetiu "citar o preço" 5 vezes** (não tem memória do bloco
+anterior), **propôs "usar foto real"** — que já é regra obrigatória do projeto — e **não enxergou
+o padrão**: o criador repetia **o mesmo molde 16 vezes seguidas**
+(`nome → 1 frase → 3 números duros → para quem serve → preço no fecho`).
+Esse padrão **não está em bloco nenhum. Está no espaço entre os blocos.**
+
+> O **Agente 1** diz **o que tem dentro do vídeo**. O **Agente 2** diz **por que o vídeo funciona**
+> e **o que disso o projeto ainda não tem**. Um é inventário. O outro é inteligência.
+
+### Regras duras
+1. **Vídeo só é MAPEADO com 100% dos blocos lidos.** Bloco que falhou → o vídeo **volta para a fila**.
+2. **Falha de IA NÃO marca o vídeo como feito** — senão ele nunca mais seria revisitado e o
+   ensinamento se perderia para sempre.
+3. **`MODELO_ANALISE.md` é o padrão-ouro** e vai **dentro do prompt dos dois agentes**. Análise
+   abaixo daquele nível está errada.
+4. **`PROJETO_ATUAL.md` é o espelho do projeto.** Sem ele, o Agente 2 propõe o que já existe.
+5. **Nunca copiar a fala do criador.** Extrai-se a **tática**; o conteúdo publicado é **original**.
+6. **Canal fora do nicho também serve** — o **formato** é replicável. (Provado: um vídeo de micro
+   carros elétricos rendeu 3 táticas novas para suplementos.)

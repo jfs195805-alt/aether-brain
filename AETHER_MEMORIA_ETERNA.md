@@ -335,3 +335,219 @@ canais. O problema é que **fórmula de encerramento não é conhecimento**.
   (k-means) e busca vizinhos dentro delas — vizinho aproximado em escala.
 - **Blocking** = só compara itens que compartilham uma chave (termo raro); reduz o custo
   quadrático do all-pairs.
+
+---
+
+## 14-B. ONDE O CÉREBRO MORA (nunca mais perder isto)
+
+- **Repo do cérebro:** `https://github.com/jfs195805-alt/aether-brain` — **público**, branch **`main`**.
+  Conta limpa `jfs195805-alt`. (A antiga, `tafita1981novo-dotcom`, está sinalizada.)
+- **Workflow:** `.github/workflows/brain.yml`. Jobs vivos: **`otimizador`** · **`coletor`** · **`extrator`**.
+  O job `pensador` (grafo/frases/pares/sinapses) foi **DELETADO**.
+- **Push:** o Actions usa o secret **`AETHER_PAT`** (só existe dentro do runner). O sandbox do
+  agente **não tem** esse token e **não deve** criar nenhum. Para corrigir código de fora:
+  **subir o arquivo pelo GitHub web** (Add file → Upload files → commit direto na `main`).
+  Caminho validado — inclusive para `.github/workflows/` (usar `/upload/main/.github/workflows`).
+- **`tafita1981novo-dotcom/monetizacao-24-7`** (branch `master`) = projeto antigo, **NÃO é o cérebro**.
+- **O clone de trabalho do agente NÃO sobrevive entre sessões.** Sempre reclonar.
+- **Escrita via mount Windows pode corromper** (null bytes). Sempre escrever o arquivo no
+  sandbox, `compile()` para validar, e só então copiar/subir.
+
+---
+
+## 15. VIRADA FINAL — ENSINAMENTO OPERACIONAL POR VÍDEO (o que vale hoje)
+
+**MORTO E ENTERRADO (RESET ZERO executado):** grafo de frases, pares, sinapses, triângulos,
+cliques, classificação de frases, insights por similaridade. Apagados do repo por
+`limpa_zero.py`. **Não se fala mais nesses números.**
+
+**Por que morreu:** os 592 canais foram escolhidos por serem **únicos e inovadores**. Procurar
+frase parecida num acervo curado para *não repetir* é a métrica errada — só achava clichê.
+A ausência de repetição **prova** que a curadoria de canais está certa.
+
+**A MÉTRICA QUE VALE AGORA:** `ensinamentos operacionais captados por vídeo`.
+
+**`extrator.py` v3 — SEM FILTRO:**
+- Lê a transcrição **BRUTA e INTEIRA** de cada vídeo (blocos de ~5500 chars, até 8 por vídeo).
+  (v1 lia só os primeiros 6000 chars e marcava o vídeo como feito → perdia metade dos longos.)
+- Extrai o **PASSO A PASSO OPERACIONAL**: `acao` (O QUE) + `como` (o detalhe: número, valor,
+  configuração, ordem, critério) + `ferramenta` + `resultado`. **Conceito/teoria não interessa.**
+- **ZERO FILTROS.** Nada é descartado. Lição real: uma whitelist de verbos rejeitou
+  *"tome 5g de creatina por dia, sem fase de saturação"* (porque "tome" não estava na lista) e
+  **zerou o vídeo inteiro**. Ensinamento perdido é irrecuperável; lixo é barato de ignorar.
+- **GUARD ANTI-PERDA:** estado de versão antiga é descartado e **todos os vídeos são
+  reprocessados por inteiro** — senão vídeo marcado como "feito" nunca mais seria revisitado.
+- Teto de chamadas por ciclo (`EXTRAI_MAXCALLS`) + incremental → cobre os milhares de vídeos
+  somando ciclo após ciclo, sem estourar o runner.
+
+**Saídas:** `CONHECIMENTO_PRODUCAO.json` (por canal: passos, tarefas, produtos, contagem por
+vídeo) e `PAUTA.json` = **BACKLOG EXECUTÁVEL** (passo a passo pronto para virar backend) +
+**tarefas do projeto** + **ensinamentos por vídeo** + produtos mais citados.
+
+**Transcrições brutas: NUNCA apagar.** São a fonte (592 canais, 150 MB, 8k+ vídeos). O
+`coletor` continua monitorando os canais e **acrescentando os vídeos novos** que faltam
+(`COBERTURA.json` guarda o que falta baixar — também não se apaga). `limpa_zero.py` tem
+blindagem explícita: jamais toca em `transcripts/` nem em `COBERTURA.json`.
+
+**Copyright:** o ensinamento (o fato) é internalizado; a **expressão** do criador nunca é
+republicada. Produzimos conteúdo original com NOSSOS afiliados.
+
+---
+
+## 16. MAPEAMENTO EXAUSTIVO — 1 VÍDEO POR VEZ, 100% DO VÍDEO
+
+Pedido do Rafael: *"1 transcrição bruta de vídeo por vez e mapeie todos os detalhes, não
+deixe passar nada de conhecimento."*
+
+**Furo encontrado e corrigido:** `MAXCHUNKS=8` **truncava o vídeo** — só lia os primeiros
+~44k chars. Vídeo longo tinha o final descartado. Agora **`MAXCHUNKS=0` = SEM TETO**: o vídeo
+é lido do primeiro ao último bloco, sempre.
+
+Regras do extrator v3 (exaustivo):
+- **`CHUNK=3000`** (bloco menor ⇒ o modelo não resume, capta mais detalhe por pedaço).
+- **Sem teto de blocos** — vídeo de 37k chars = 13 blocos, todos lidos (medido: cobertura 100%).
+- **O vídeo só é dado como MAPEADO se 100% dos blocos foram lidos.** Se um bloco falhar, ele
+  volta para a fila (até `EXTRAI_MAXTENT=3` tentativas). Cobertura por vídeo é gravada
+  (`blocos_do_video`, `blocos_lidos_ok`, `cobertura`, `chars_transcricao`) — é prova, não promessa.
+- **Números duros** viram campo próprio: `numeros` (dose, prazo, preço, métrica) — "5g por dia",
+  "CTR abaixo de 1%", "48h", "20 reais/dia". É o detalhe que vira backend.
+- Prompt proíbe resumir: *"NAO RESUMA. NAO GENERALIZE. NAO PULE NADA. Se ela ensina 12 coisas,
+  devolva 12 itens."*
+- **Vídeo com falha total de IA NÃO é marcado como feito** (senão sumiria para sempre).
+  Testado com IA fora do ar → 0 vídeos marcados.
+
+### IA GRÁTIS — estado medido (11/07/2026)
+
+| Provedor | Estado |
+|---|---|
+| **NVIDIA** `meta/llama-3.1-70b-instruct` | ✅ **VIVO** — é o único que responde |
+| NVIDIA `nemotron-70b` | ❌ HTTP 404 |
+| NVIDIA `llama-3.3-70b` | ❌ timeout |
+| **Groq** (todos os modelos) | ❌ **HTTP 403 / error 1010** (bloqueio Cloudflare no runner) |
+| Gemini · HuggingFace · OpenRouter · DeepSeek · OpenAI | ⚠️ sem chave |
+
+**Consequência:** o ciclo é LENTO (um só provedor). Não é bug — é limite. O extrator tem teto
+de tempo (25 min) e retoma de onde parou no ciclo seguinte. Ganho de velocidade real viria de
+adicionar chave grátis do Gemini ou OpenRouter.
+
+---
+
+## 17. EXTRATOR v4 — O QUE O VÍDEO ACONSELHA + O QUE EU FAÇO COM ISSO
+
+**Erro do v3:** o prompt pedia "passo a passo operacional", mas a maioria dos vídeos **não
+ensina passos — ela ACONSELHA** (recomenda produto, dá spec, preço, veredito). E a IA **não
+sabia o que é o projeto do Rafael**, então não conseguia dizer o que servia para ele.
+
+**Prompt v4 tem DUAS METADES:**
+
+1. **O QUE O VÍDEO ACONSELHA** — cada recomendação vira item com `conselho` · `porque` (a razão
+   que ele dá) · `detalhe` (o número EXATO: dose, prazo, preço, spec) · `produto` · `para_quem`.
+   Regra: *"NÃO RESUMA, NÃO PULE NADA. Se ele recomenda 8 coisas, devolva 8."* Nada é descartado.
+
+2. **O QUE EU FAÇO NO MEU PROJETO** — o **contexto do Global Supplements vai DENTRO do prompt**
+   (canal + site de reviews, receita por afiliado ClickBank/BuyGoods/Amazon, nichos de
+   suplemento/emagrecimento/saúde/fitness, regra de conteúdo original + foto real + link
+   rastreável). Saída classificada por `tipo`: `pauta_de_video` · `produto_afiliado` · `gancho` ·
+   `estrutura_roteiro` · `argumento_de_venda` · `titulo_seo` · `cta` · `objecao` · `automacao`.
+   Se o trecho não servir, devolve lista vazia — **proibido inventar enchimento**.
+
+**Prova real:** um vídeo de **micro carros elétricos** (fora do nicho) virou 3 táticas usáveis —
+estrutura de contagem regressiva com ficha técnica, gancho de "mais barato do que você
+imaginava", e fechamento com faixa de preço explícita para levar ao clique do afiliado.
+**Canal fora do nicho ainda entrega formato replicável.**
+
+### FILA: NICHO PRIMEIRO, MAS NENHUM CANAL FICA DE FORA (fazer os 2)
+
+A IA grátis é o gargalo (só a NVIDIA viva) — então a ordem importa:
+
+- **Prioridade 2** — canal cujos vídeos já lidos são de Suplementos/Emagrecimento/Fitness/
+  Saúde/Afiliados (**evidência real**, não palpite).
+- **Prioridade 1** — nome do canal bate com palavra do nicho (`KW_NICHO`: supplement, protein,
+  creatin, keto, fit, gym, muscle, afiliad, clickbank, …).
+- **Prioridade 0** — fora do nicho, mas **entra na ROTAÇÃO** (`offset = ciclo*20 % len(resto)`).
+
+**`EXTRAI_NICHO_PCT=0.70`** → o nicho tem 70% do orçamento de chamadas **como TETO** (não pode
+comer 100%), e os 30% restantes garantem que o resto seja varrido. **Medido:** ciclo 1 atendeu
+os 3 canais de nicho + parte do resto; ciclo 2 a rotação puxou o canal que faltava →
+**18/18 vídeos, 6/6 canais, nenhum de fora**. E a fila **aprende**: no ciclo 2 já reconhecia
+5 canais de nicho (contra 3 no ciclo 1), porque passou a usar o nicho medido dos vídeos lidos.
+
+**Saída (`PAUTA.json`):** `backlog_do_meu_projeto` (o que fazer, por tipo) · `conselhos_dos_videos`
+(catálogo bruto) · `formatos_que_funcionam` · `produtos_mais_citados` · `numeros_duros` ·
+`cobertura_por_video` (prova de que leu 100% de cada vídeo).
+
+---
+
+## 18. ARQUITETURA DE DOIS AGENTES (`extrator.py` v7) — o desenho definitivo
+
+Ideia do Rafael: *"talvez tenha que ter um primeiro agente para colocar em tópicos o que o vídeo
+ensina e que deve ser copiado, e depois um outro agente que lê todos os tópicos de forma inteira,
+entende o vídeo e traz o conhecimento que posso agregar no meu projeto existente."*
+
+**Ele estava certo — e isso corrigiu um furo real.** Até a v6, a "aplicação no meu projeto" era
+decidida **bloco a bloco**. A IA **nunca via o vídeo inteiro**.
+
+```
+transcricao bruta (100%)
+   │
+   ├─ AGENTE 1 · TOPICADOR  ── bloco 1 → tópicos
+   │                          ── bloco 2 → tópicos      (N chamadas, 1 por bloco)
+   │                          ── bloco N → tópicos
+   │                                │
+   │                                ▼
+   │                        ÍNDICE DE TÓPICOS DO VÍDEO
+   │                                │
+   └─ AGENTE 2 · SINTETIZADOR ──────┘  + PROJETO_ATUAL.md   (1 chamada por VÍDEO)
+                                    │
+                                    ▼
+                    entendimento · padrão que se repete · O QUE AGREGAR
+```
+
+### AGENTE 1 — TOPICADOR (`PROMPT`)
+- Roda **por bloco**. `CHUNK=3000` chars, **`MAXCHUNKS=0` (sem teto)** → lê o vídeo inteiro.
+- Saída por tópico: `topico` · `ensina_a_fazer` · `como` (detalhe exato) · **`deve_ser_copiado`** ·
+  `produtos` · `numeros` · **`bloco` de origem**.
+- **Não opina sobre o projeto.** É inventário puro.
+
+### AGENTE 2 — SINTETIZADOR (`PROMPT2`)
+- Roda **1× por vídeo**, depois que o vídeo está 100% topicado.
+- Recebe: **todos os tópicos juntos** + `PROJETO` + **`PROJETO_ATUAL.md`** (o que já existe).
+- Saída: `entendimento_do_video` · **`padrao_que_se_repete`** · `agregar[]`
+  (`o_que` · `como_aplicar` · `tipo` · `evidencia` · **`ja_tenho_parecido`**) · `nada_novo`.
+- Custo: **+1 chamada por vídeo** (não por bloco). Barato perto do ganho.
+
+### MODELO_ANALISE.md — o padrão-ouro dentro do prompt
+O documento do caso real (`youtu.be/G82HT04zopk`, 16 micro carros) vai **integralmente** para
+dentro dos prompts. Ele tem dois marcadores: `<<<MODELO_AGENTE_1>>>` e `<<<MODELO_AGENTE_2>>>` —
+cada agente recebe a sua seção. `EXTRAI_MODELO_COMPLETO=1` injeta o documento inteiro nos dois.
+Ele traz: exemplos de tópicos **bons** e **ruins**, o erro do bloco-a-bloco, o padrão descoberto,
+o placar da diferença e as proibições. **Análise abaixo desse nível está errada.**
+
+### PROJETO_ATUAL.md — o espelho do projeto
+Inventário do que o Global Supplements **já tem** (canal, site, publicador de vídeo com foto real,
+Shorts 9:16, afiliados ClickBank/BuyGoods/Amazon, regras obrigatórias) **e do que ainda não tem**.
+Sem ele, o Agente 2 propõe o que já existe. **Quanto mais fiel, melhor a mira.**
+
+### A DIFERENÇA — medida no caso real
+
+| | Agente 1 sozinho | Com o Agente 2 |
+|---|---|---|
+| Tópicos do vídeo | 17 ✅ | 17 ✅ |
+| Propostas geradas | 7 | 4 |
+| **Duplicadas** | **5** ("citar preço" repetido em cada bloco) | **0** |
+| **Que o projeto já tem** | **1** (foto real) | **0** (cortada sozinha) |
+| **Realmente novas** | **1** | **3** |
+| **Padrão que se repete** | ❌ invisível | ✅ descoberto |
+
+**O padrão descoberto:** `nome → 1 frase → 3 números duros → para quem serve → preço no fecho`
+— repetido **16 vezes sem variar**. Não está em bloco nenhum: está **no espaço entre os blocos**.
+
+**As 3 táticas novas** (de um canal de **micro carros**, totalmente fora do nicho):
+contagem regressiva com molde fixo · faixa de preço explícita colada no link · assumir para quem
+o produto **não** serve.
+
+### Saídas
+- `TOPICOS_POR_VIDEO.json` — cada vídeo com `TOPICOS[]` (Agente 1) + `SINTESE_DO_VIDEO` (Agente 2)
+  + `AGREGAR_NO_MEU_PROJETO[]` + prova de cobertura (`blocos_lidos/blocos`, `cobertura_pct`).
+- `PAUTA.json` — `backlog_do_meu_projeto` (só o que é novo), por tipo, com evidência e link-fonte.
+- `CONHECIMENTO_PRODUCAO.json` — estado incremental (nunca reprocessa vídeo já mapeado).
