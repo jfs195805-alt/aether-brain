@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 11
+VERSAO = 12
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -274,55 +274,35 @@ BLOCO {bloco}/{total}:
 
 
 # ---------- AGENTE 2: SINTETIZADOR (le o VIDEO INTEIRO via os topicos) ----------
-PROMPT2 = """AGENTE 2 - SINTETIZADOR.
+PROMPT2 = """Abaixo esta um MODELO DE ANALISE (a IDEIA, o metodo). Ele foi feito sobre OUTRO
+video - o conteudo dele nao pertence ao video de agora. Use so a IDEIA.
 
-O AGENTE 1 leu a transcricao bruta INTEIRA de UM video e a transformou nos TOPICOS abaixo.
-Voce ve o video COMO UM TODO - coisa que o Agente 1, lendo bloco a bloco, nao conseguia.
+--------------------------------- MODELO (a ideia) ---------------------------------
+{modelo}
+------------------------------------------------------------------------------------
 
-################ REGRA ABSOLUTA - LEIA ANTES DE TUDO ################
-Sua resposta so pode falar do que esta nos TOPICOS abaixo.
-E PROIBIDO citar produto, numero, tema, preco ou exemplo que NAO apareca nos TOPICOS.
-Se voce inventar ou trouxer conteudo de fora, sua resposta sera REJEITADA e descartada.
-Nao existe gabarito. Nao existe resposta pronta. OLHE OS DADOS.
-#####################################################################
+Agora aplique essa MESMA IDEIA ao video abaixo.
 
 {projeto}
 
-O QUE JA EXISTE NO MEU PROJETO (nao propor de novo - eu ja tenho isto):
+O QUE MEU PROJETO JA TEM (nao repita):
 {ja_tenho}
 
-VIDEO: {link} | canal: {canal} | {nblocos} blocos lidos (100% da transcricao) | {ntop} topicos
+VIDEO: {link} | {canal} | {ntop} topicos, lidos de 100% da transcricao
 
-===================== TOPICOS DESTE VIDEO =====================
+--------------------------------- OS TOPICOS DESTE VIDEO ---------------------------------
 {topicos}
-===============================================================
+------------------------------------------------------------------------------------------
 
-SUA TAREFA:
+Responda SO com JSON puro:
 
-1) ENTENDER O VIDEO COMO UM TODO. Leia os {ntop} topicos acima como uma coisa so.
-   O que ESTE video E? Por que ele funciona? (2-3 frases, so com o que esta nos topicos)
-
-2) ACHAR O PADRAO QUE SE REPETE. Olhe os topicos em sequencia:
-   - existe um MOLDE que se repete de topico em topico? (mesma ordem de elementos?)
-   - como ele abre? como ele fecha? o que ele faz entre um item e outro?
-   - onde entra o produto/venda, se entra? no comeco ou depois de entregar valor?
-   Um padrao so vale se aparecer em VARIOS topicos - diga em quantos.
-   Se NAO houver padrao, devolva "" (string vazia). Nao invente.
-
-3) DIZER O QUE AGREGAR AO MEU PROJETO. So o que eu AINDA NAO TENHO.
-   Cada item precisa de EVIDENCIA citando o NUMERO DO TOPICO desta lista (1 a {ntop}).
-   Se citar um numero de topico que nao existe nesta lista, sua resposta sera rejeitada.
-   Se o video nao agrega nada novo: "agregar": [] e explique em "nada_novo".
-
-Responda SO com JSON puro, sem markdown, neste formato:
-
-{{"entendimento_do_video": "o que ESTE video e e por que funciona - so com o que esta nos topicos",
- "padrao_que_se_repete": "o molde que se repete, e em quantos topicos ele aparece; \"\" se nao houver",
+{{"entendimento_do_video": "o que ESTE video e e por que funciona",
+ "padrao_que_se_repete": "o molde que se repete NESTE video e em quantos topicos aparece; \"\" se nao houver",
  "agregar": [
-   {{"o_que": "a tatica NOVA que eu devo agregar",
-     "como_aplicar": "o passo a passo pratico no MEU projeto",
+   {{"o_que": "a tatica nova para o meu projeto",
+     "como_aplicar": "o passo a passo pratico",
      "tipo": "estrutura_roteiro|gancho|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
-     "evidencia": "cite o NUMERO DO TOPICO desta lista que prova isso (ex: 'topicos 3, 5 e 7')",
+     "evidencia": "qual topico DESTE video prova isso",
      "ja_tenho_parecido": "sim/nao"}}
  ],
  "nada_novo": "se nao houver nada a agregar, o motivo; senao \"\""}}
@@ -567,7 +547,7 @@ for f in arquivos:
                    (" | COPIAR: " + t["deve_ser_copiado"]) if t.get("deve_ser_copiado") else "")
                 for t in v_top)
             try:
-                r2 = ask_forte(PROMPT2.format(projeto=PROJETO, ja_tenho=JA_TENHO,
+                r2 = ask_forte(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
                                               link=link, canal=canal,
                                               nblocos=len(parts), ntop=len(v_top),
                                               topicos=resumo_top[:9000]), max_tokens=1600)
@@ -584,7 +564,7 @@ for f in arquivos:
                         sintese = cand
                     else:
                         print("      AGENTE 2 REJEITADO: %s -> refazendo" % motivo, flush=True)
-                        r2b = ask_forte(PROMPT2.format(projeto=PROJETO, ja_tenho=JA_TENHO,
+                        r2b = ask_forte(PROMPT2.format(modelo=MODELO_A2, projeto=PROJETO, ja_tenho=JA_TENHO,
                                                        link=link, canal=canal,
                                                        nblocos=len(parts), ntop=len(v_top),
                                                        topicos=resumo_top[:9000]) +
