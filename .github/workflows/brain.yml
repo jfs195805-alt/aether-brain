@@ -148,6 +148,7 @@ jobs:
     - name: escolher melhor IA gratis
       env:
         NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         GEMINI_MODEL: ${{ secrets.GEMINI_MODEL }}
@@ -156,6 +157,7 @@ jobs:
     - name: EXTRAI conhecimento bruto -> PAUTA
       env:
         NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+        OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         EXTRAI_MAXV: '1'
         EXTRAI_MAXCALLS: '60'
