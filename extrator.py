@@ -148,7 +148,52 @@ arquivos = sorted(glob.glob(os.path.join(SRC, "*.jsonl")))
 if CANAIS:
     arquivos = [f for f in arquivos if os.path.splitext(os.path.basename(f))[0] in CANAIS]
 
+
+
+# ---------- FILA: NICHO PRIMEIRO, MAS TODOS OS CANAIS SAO COBERTOS ----------
+# Faz os 2: canais do meu nicho vao na frente (a IA gratis e o gargalo), MAS uma fatia do
+# orcamento fica reservada para o resto, com ROTACAO -> nenhum canal fica na fome.
+NICHO_PCT = float(os.environ.get("EXTRAI_NICHO_PCT", "0.70"))   # 70% do orcamento p/ o nicho
+
+KW_NICHO = ("supplement", "suplement", "vitamin", "protein", "creatin", "nutrition", "nutri",
+            "weight", "emagrec", "diet", "keto", "fat", "slim", "burn", "detox",
+            "fit", "gym", "muscle", "workout", "treino", "musculac", "body", "health", "saude",
+            "wellness", "afiliad", "affiliate", "marketing", "clickbank", "dropship", "ecom",
+            "renda", "income", "money", "biohack", "longevity", "testosterone", "collagen")
+
+
+def prioridade_canal(nome, estado):
+    """2 = nicho confirmado pelos videos ja lidos | 1 = nome do canal bate | 0 = fora do nicho."""
+    c = (estado.get("canais") or {}).get(nome) or {}
+    nichos = [v.get("nicho", "") for v in c.get("por_video", [])]
+    if any(n in ("Suplementos", "Emagrecimento", "Fitness", "Saude", "Afiliados") for n in nichos):
+        return 2
+    low = nome.lower()
+    if any(k in low for k in KW_NICHO):
+        return 1
+    return 0
+
+
+ciclo = int(base.get("ciclo", 0)) + 1
+base["ciclo"] = ciclo
+
+_pri = [f for f in arquivos if prioridade_canal(os.path.splitext(os.path.basename(f))[0], base) > 0]
+_res = [f for f in arquivos if prioridade_canal(os.path.splitext(os.path.basename(f))[0], base) == 0]
+_pri.sort(key=lambda f: -prioridade_canal(os.path.splitext(os.path.basename(f))[0], base))
+# ROTACAO: cada ciclo comeca o "resto" num ponto diferente -> cobertura de TODOS ao longo do tempo
+if _res:
+    off = (ciclo * 20) % len(_res)
+    _res = _res[off:] + _res[:off]
+
+ORC_NICHO = int(MAXCALLS * NICHO_PCT)     # orcamento reservado ao nicho
+arquivos = _pri + _res
+print("FILA: %d canais do NICHO primeiro (%d chamadas reservadas) + %d canais do resto "
+      "(rotacao, ciclo %d) = %d canais no total, nenhum de fora"
+      % (len(_pri), ORC_NICHO, len(_res), ciclo, len(arquivos)), flush=True)
+_nicho_set = set(_pri)
+
 chamadas = 0
+ch_nicho = ch_resto = 0
 videos_ok = videos_vazios = total_chunks = 0
 falhas_ia = nao_marcados = incompletos = 0
 parou_no_teto = False
@@ -161,12 +206,18 @@ for f in arquivos:
         parou_no_teto = True
         break
     canal = os.path.splitext(os.path.basename(f))[0]
+    eh_nicho = f in _nicho_set
+    # TETO DO NICHO: o nicho nao pode comer 100% do orcamento, senao o resto nunca roda.
+    # Ao bater ORC_NICHO, para de gastar em canal de nicho e libera o restante para os demais.
+    if eh_nicho and chamadas >= ORC_NICHO:
+        continue
     c = base["canais"].setdefault(canal, {"videos_processados": [], "conselhos": [],
                                           "aplicacoes": [], "formatos": [], "produtos": [],
                                           "numeros": [], "por_video": []})
     n = 0
     for ln in open(f, encoding="utf-8", errors="ignore"):
-        if n >= MAXV or chamadas >= MAXCALLS or (time.time() - T0) > TEMPO_MAX:
+        teto = ORC_NICHO if eh_nicho else MAXCALLS
+        if n >= MAXV or chamadas >= teto or (time.time() - T0) > TEMPO_MAX:
             break
         if not ln.strip():
             continue
@@ -192,7 +243,7 @@ for f in arquivos:
         seen_c, seen_a, seen_pr, seen_n = set(), set(), set(), set()
 
         for parte in parts:
-            if chamadas >= MAXCALLS or (time.time() - T0) > TEMPO_MAX:
+            if chamadas >= (ORC_NICHO if eh_nicho else MAXCALLS) or (time.time() - T0) > TEMPO_MAX:
                 break
             try:
                 resp = ask(PROMPT.format(projeto=PROJETO, txt=parte[:CHUNK + 500]), max_tokens=1200)
@@ -201,6 +252,10 @@ for f in arquivos:
                 continue
             chamadas += 1
             total_chunks += 1
+            if eh_nicho:
+                ch_nicho += 1
+            else:
+                ch_resto += 1
             m = re.search(r"\{.*\}", resp or "", re.S)
             if not m:
                 falhas_ia += 1
@@ -282,6 +337,7 @@ for f in arquivos:
         nicho = v_nicho.most_common(1)[0][0] if v_nicho else "Outro"
 
         c["por_video"].append({"video": vid, "link": link, "nicho": nicho,
+                               "canal_do_meu_nicho": eh_nicho,
                                "conselhos_captados": len(v_cons),
                                "aplicacoes_no_projeto": len(v_apl),
                                "blocos_do_video": len(parts), "blocos_lidos_ok": blocos_ok,
@@ -372,9 +428,9 @@ json.dump({"ts": base["ts"], "versao": VERSAO,
            "cobertura_por_video": por_video[:150]},
           open(PAUTA, "w", encoding="utf-8"), ensure_ascii=False)
 
-print("EXTRATOR v4: %d videos mapeados (%d sem nada, %d NAO marcados por falha de IA, %d incompletos) | "
+print("EXTRATOR v4: [fila: %d chamadas em canal do NICHO + %d no resto] %d videos mapeados (%d sem nada, %d NAO marcados por falha de IA, %d incompletos) | "
       "%d blocos lidos | %d chamadas IA%s | %d CONSELHOS captados | %d APLICACOES no meu projeto | "
       "%d produtos | %d numeros duros"
-      % (videos_ok, videos_vazios, nao_marcados, incompletos, total_chunks, chamadas,
+      % (ch_nicho, ch_resto, videos_ok, videos_vazios, nao_marcados, incompletos, total_chunks, chamadas,
          " (TETO - continua no proximo ciclo)" if parou_no_teto else "",
          tot_cons, tot_apl, len(prod), len(nums)))
