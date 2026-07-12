@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 15
+VERSAO = 19
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -137,91 +137,63 @@ _PALAVRA = re.compile(r"[a-zA-ZÀ-ÿ]{5,}")
 _NUMERO = re.compile(r"\d[\d.,]*")
 
 
-def valida_sintese(sintese, v_top, ntop):
-    """Rejeita sintese COPIADA/ALUCINADA. Criterio: ANCORAGEM, nao vocabulario.
-    Uma sintese honesta FALA DO VIDEO -> suas palavras de conteudo aparecem nos topicos.
-    A fraude real ("ranking de 16 micro carros" num video de intestino) nao ancora em nada.
-    Devolve (ok, motivo)."""
+def valida_sintese(sintese, v_top, ntop, bruto=""):
+    """Anti-copia SEM ancoragem lexical.
+
+    Por que a ancoragem morreu (2 motivos medidos):
+      1) uma sintese BOA descreve MECANICA ("abre com prova fisica e so vende no fim") -
+         ela NAO usa as palavras do video de proposito. A ancoragem punia justamente a boa.
+      2) as transcricoes sao em INGLES e o modelo responde em PORTUGUES. Ancorar palavra a
+         palavra entre idiomas e impossivel.
+
+    O que sobra, e funciona em qualquer idioma:
+      - NUMERO citado tem que existir na transcricao ("16 micro carros", "EUR 19.990",
+        "228 km" nao existem num video de parasita -> era a fraude real).
+      - evidencia nao pode citar topico que nao existe.
+    """
     if not isinstance(sintese, dict):
         return False, "resposta nao e JSON"
+    if not str(sintese.get("entendimento_do_video", "")).strip():
+        return False, "sem entendimento"
 
-    base_txt = norm(" ".join(
-        (t.get("topico", "") + " " + t.get("ensina_a_fazer", "") + " " + t.get("como", "") + " " +
-         t.get("deve_ser_copiado", "") + " " + " ".join(t.get("produtos", [])) + " " +
-         " ".join(t.get("numeros", []))) for t in v_top))
-    base_pref = {w[:5] for w in _PALAVRA.findall(base_txt)}
-    base_nums = set(_NUMERO.findall(base_txt))
+    base = norm(bruto) + " " + norm(" ".join(
+        (t.get("como", "") + " " + " ".join(t.get("numeros", []))) for t in v_top))
+    base_nums = set(_NUMERO.findall(base))
 
-    # texto para ANCORAGEM (inclui evidencia: e texto normal)
-    sint_txt = " ".join([str(sintese.get("entendimento_do_video", "")),
-                         str(sintese.get("padrao_que_se_repete", "")),
-                         " ".join(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", "")) +
-                                  " " + str(a.get("evidencia", ""))
-                                  for a in (sintese.get("agregar") or []) if isinstance(a, dict))])
-    # texto para checar NUMERO INVENTADO -> NUNCA inclui 'evidencia' (la os numeros sao
-    # indices de topico, e legitimo citar "topicos 1, 4 e 9"). Bug real: o validador
-    # rejeitava a sintese honesta por causa disso.
-    sint_num_txt = " ".join([str(sintese.get("entendimento_do_video", "")),
-                             str(sintese.get("padrao_que_se_repete", "")),
-                             " ".join(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", ""))
-                                      for a in (sintese.get("agregar") or []) if isinstance(a, dict))])
-    sw = _PALAVRA.findall(norm(sint_txt))
-    if not sw:
-        return False, "sintese vazia"
-
-    # ESTRUTURAIS: palavras de forma (nao sao conteudo do video) - nao contam nem a favor nem contra
-    ESTRUT = set(("video", "topico", "topicos", "produto", "produtos", "conteudo", "formato",
-                  "estrutura", "publico", "canal", "projeto", "afiliado", "roteiro", "gancho",
-                  "titulo", "aplicar", "funciona", "repete", "molde", "espectador", "audiencia",
-                  "comando", "ciencia", "ponto", "entrada", "minimo", "passo", "passos", "item",
-                  "itens", "aparece", "ensina", "explicito", "fechamento", "abertura", "secao",
-                  "sempre", "nunca", "ainda", "tambem", "assim", "cada", "todos", "todas",
-                  "melhor", "maior", "menor", "quando", "depois", "antes", "durante", "porque",
-                  "criar", "adicionar", "incluir", "comecar", "usar", "fazer", "primeiro"))
-    conteudo = [w for w in sw if w not in ESTRUT]
-    if not conteudo:
-        return True, "ok (so estrutura)"
-
-    ancorados = [w for w in conteudo if w[:5] in base_pref]
-    taxa = len(ancorados) / float(len(conteudo))
-
-    # ANCORAGEM: a sintese TEM que falar do que esta nos topicos
-    if len(ancorados) < 3 or taxa < 0.25:
-        estranhas = sorted(set(w for w in conteudo if w[:5] not in base_pref))[:8]
-        return False, ("nao ancora nos topicos (so %d/%d palavras de conteudo batem, %d%%) - "
-                       "fala de: %s" % (len(ancorados), len(conteudo), int(100 * taxa), estranhas))
-
-    # NUMEROS inventados (fora da evidencia). Inteiro pequeno (<= ntop) pode ser referencia
-    # a topico dentro do texto -> nao conta como invencao.
+    # numeros citados FORA da evidencia (la, numero e indice de topico - legitimo)
+    txt = " ".join([str(sintese.get("entendimento_do_video", "")),
+                    str(sintese.get("padrao_que_se_repete", "")),
+                    str(sintese.get("onde_entra_a_venda", "")),
+                    " ".join(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", ""))
+                             for a in (sintese.get("agregar") or []) if isinstance(a, dict))])
     fora = []
-    for n in set(_NUMERO.findall(sint_num_txt)):
-        nn = n.strip(".,")
+    for nm in set(_NUMERO.findall(txt)):
+        nn = nm.strip(".,")
         if not nn or nn in base_nums:
             continue
         try:
-            if int(nn) <= ntop:      # "os 5 passos", "topico 3" - referencia legitima
+            if int(nn) <= max(ntop, 10):      # "5 passos", "topico 3" - referencia curta, ok
                 continue
         except Exception:
             pass
         fora.append(nn)
     if fora:
-        return False, "cita numeros que nao estao nos topicos: %s" % fora[:5]
+        return False, "cita numeros que NAO existem na transcricao: %s" % fora[:5]
 
-    # EVIDENCIA tem que apontar para topico que EXISTE
     for a in (sintese.get("agregar") or []):
         if not isinstance(a, dict):
             continue
-        for n in _NUMERO.findall(str(a.get("evidencia", ""))):
+        for nm in _NUMERO.findall(str(a.get("evidencia", ""))):
             try:
-                if int(n) > ntop:
-                    return False, "evidencia cita 'topico %s' mas so existem %d topicos" % (n, ntop)
+                if int(nm) > ntop and ntop > 0 and int(nm) < 500:
+                    return False, "evidencia cita topico %s mas so existem %d" % (nm, ntop)
             except Exception:
                 pass
-    return True, "ok (%d%% ancorado)" % int(100 * taxa)
+    return True, "ok"
 
 
 TIPOS_OK = ("estrutura_roteiro", "gancho", "argumento_de_venda", "titulo_seo", "cta",
-             "objecao", "pauta_de_video", "produto_afiliado", "automacao")
+            "objecao", "pauta_de_video", "produto_afiliado", "automacao")
 
 
 def limpa_tipo(t):
@@ -229,39 +201,48 @@ def limpa_tipo(t):
     t = (t or "").strip().lower()
     if t in TIPOS_OK:
         return t
-    for x in TIPOS_OK:              # "estrutura_roteiro|gancho|..." -> pega o 1o valido citado
+    for x in TIPOS_OK:
         if x in t:
             return x
     return "outro"
 
 
-def filtra_agregar(sintese, v_top):
-    """Descarta ITEM A ITEM o que nao ancora nos topicos deste video.
-    ERRO REAL: num video sobre morte por anabolizante o modelo propos 'contagem regressiva com
-    faixa de preco' - copiado de uma lista de pendencias que eu mesmo tinha dado. Item
-    contaminado pegava carona no texto ancorado e passava. Agora cada item responde por si."""
-    base_txt = norm(" ".join(
-        (t.get("topico", "") + " " + t.get("ensina_a_fazer", "") + " " + t.get("como", "") + " " +
-         t.get("deve_ser_copiado", "")) for t in v_top))
-    base_pref = {w[:5] for w in _PALAVRA.findall(base_txt)}
-    ESTRUT2 = set(("video", "topico", "topicos", "produto", "produtos", "conteudo", "formato",
-                   "estrutura", "publico", "canal", "projeto", "afiliado", "roteiro", "gancho",
-                   "titulo", "aplicar", "incluir", "criar", "adicionar", "usar", "fazer",
-                   "secao", "abertura", "fechamento", "padrao", "molde", "item", "itens",
-                   "review", "reviews", "link", "espectador", "audiencia", "mensagem"))
+SUBSTANCIA = (
+    "mimosa", "pudica", "curcuma", "creatina", "creatine", "colageno", "collagen", "magnesio",
+    "magnesium", "glicinato", "glycinate", "milk thistle", "cardo", "artichoke", "alcachofra",
+    "dandelion", "dente-de-leao", "humico", "fulvico", "humic", "fulvic", "clover", "trevo",
+    "aloe", "vera", "probiotico", "prebiotico", "kefir", "kimchi", "chucrute", "inulina",
+    "berberina", "ashwagandha", "melatonina", "vitamina", "zinco", "omega", "whey", "bcaa",
+    "esteroide", "hormonio", "testosterona", "anabolizante", "parasita", "verme", "detox",
+    "gelatina", "monge", "romã", "cereja", "kwh", "autonomia")
+DOSE = re.compile(r"\b\d+\s*(mg|g|ml|kg|gramas?|colheres?|capsulas?|comprimidos?|doses?|"
+                  r"vezes ao dia|x ao dia|dias?|semanas?|horas?)\b", re.I)
+VERBO_INGERIR = ("tomar", "tome", "ingerir", "consumir", "consuma", "usar por", "beber", "comer",
+                 "suplementar", "eliminar parasita", "curar", "tratar", "aliviar")
+
+
+def eh_conteudo_nao_tatica(a):
+    """True se o item e CONTEUDO do video (receita/substancia/dose) em vez de TATICA de marketing.
+    ERRO REAL: o agente mandou 'agregar: usar mimosa pudica e milk thistle para eliminar
+    parasitas'. Isso e a receita DELE, nao a minha tatica - e vira promessa de cura no meu
+    canal (proibido pela Regra Zero). Tatica e o COMO ele vende, nao o QUE ele receita."""
+    txt = norm(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", "")))
+    if any(sub in txt for sub in SUBSTANCIA):
+        return True, "recomenda substancia/assunto do video (e conteudo dele, nao tatica minha)"
+    if DOSE.search(txt) and any(v in txt for v in VERBO_INGERIR):
+        return True, "prescreve dose/tratamento (proibido - vira promessa de cura)"
+    return False, ""
+
+
+def filtra_agregar(sintese, v_top, bruto=""):
+    """Corta ITEM A ITEM o que for CONTEUDO do video em vez de TATICA replicavel."""
     bons, cortados = [], []
     for a in (sintese.get("agregar") or []):
-        if not isinstance(a, dict):
+        if not isinstance(a, dict) or not str(a.get("o_que", "")).strip():
             continue
-        txt = norm(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", "")))
-        cw = [w for w in _PALAVRA.findall(txt) if w not in ESTRUT2]
-        if not cw:
-            cortados.append((a.get("o_que", "?"), "sem conteudo"))
-            continue
-        anc = [w for w in cw if w[:5] in base_pref]
-        if len(anc) < 2 or (len(anc) / float(len(cw))) < 0.30:
-            cortados.append((a.get("o_que", "?"),
-                             "so %d/%d palavras ancoram no video" % (len(anc), len(cw))))
+        ruim, motivo = eh_conteudo_nao_tatica(a)
+        if ruim:
+            cortados.append((a.get("o_que", "?"), motivo))
             continue
         a["tipo"] = limpa_tipo(a.get("tipo"))
         bons.append(a)
@@ -323,10 +304,33 @@ BLOCO {bloco}/{total}:
 
 
 # ---------- AGENTE 2: SINTETIZADOR (le o VIDEO INTEIRO via os topicos) ----------
-PROMPT2 = """Voce ja leu este video em pedacos e listou o que ele ensina. Agora leia o video
-INTEIRO, de uma vez, e olhe para ele como um todo.
+PROMPT2 = """Voce ja leu este video em pedacos. Agora leia a transcricao INTEIRA e responda
+como ANALISTA DE MARKETING - nao como resumidor.
 
-MODELO (a ideia do que procurar - feito sobre OUTRO video; o conteudo dele nao e deste video):
+################## A UNICA COISA QUE VOCE PRECISA ENTENDER ##################
+
+O ASSUNTO do video NAO me interessa. A TATICA dele me interessa.
+
+  CONTEUDO (o que ele fala)          TATICA (COMO ele fala) <- e isto que eu quero
+  ---------------------------------  --------------------------------------------
+  "tome mimosa pudica p/ parasita"   "ele da o protocolo INTEIRO de graca e so no
+                                      fim oferece o atalho pronto, com cupom"
+  "coma 30 plantas por semana"       "cada passo abre com o comando, cita um estudo
+                                      com numero, e fecha com a dose minima p/ comecar"
+  "o Microlino tem 228 km"           "ele repete a mesma ficha em todos os itens e
+                                      fecha cada um com o preco, colado no link"
+
+Se voce escrever no 'agregar' o ASSUNTO do video (parasita, creatina, esteroide,
+carro, planta), voce ERROU. Isso e conteudo dele, nao tatica minha.
+Escreva SEMPRE o COMO: o gancho, a estrutura, a ordem, a prova, onde entra a venda.
+A tatica tem que funcionar mesmo que o assunto do MEU video seja outro.
+
+PROIBIDO: recomendar substancia, dose ou tratamento. Isso vira promessa de cura no meu
+canal e e proibido. Extraia a TATICA de venda, nunca a receita medica.
+
+#############################################################################
+
+MODELO (a ideia do que procurar - feito sobre OUTRO video, o conteudo dele nao e deste):
 {modelo}
 
 {projeto}
@@ -338,29 +342,97 @@ O QUE MEU PROJETO JA TEM (nao repita):
 {transcricao}
 =============================================================================
 
-O QUE VOCE JA TIROU DELE:
+O QUE VOCE JA TIROU DELE (para consulta):
 {topicos}
 
-Agora, olhando o VIDEO INTEIRO:
+Responda estas perguntas olhando a TRANSCRICAO:
 
-- Como ele comeca? Como ele termina? O que ele faz no meio?
-- Existe um MOLDE que ele repete? (nao olhe a lista acima - olhe a transcricao)
-- Onde entra o produto/venda? Logo no comeco, ou depois de entregar valor de graca?
-- O que faz ESTE video funcionar?
+1. Com o que ele ABRE? (a primeira frase - o que ela faz com quem assiste?)
+2. Que ESTRUTURA ele repete do inicio ao fim?
+3. Como ele PROVA o que diz? (numero? estudo? historia pessoal? autoridade de terceiro?)
+4. ONDE entra a venda: no comeco, ou depois de entregar valor de graca?
+5. Com o que ele FECHA? (qual e a chamada para acao, e o que ela oferece?)
 
 Responda SO com JSON puro:
 
-{{"entendimento_do_video": "o que ESTE video e e por que funciona",
- "padrao_que_se_repete": "o molde que ele repete NA TRANSCRICAO (nao na lista); \"\" se nao houver",
+{{"entendimento_do_video": "por que ESTE video funciona (a mecanica, nao o assunto)",
+ "padrao_que_se_repete": "a ESTRUTURA que ele repete; \"\" se nao houver",
+ "onde_entra_a_venda": "em que momento do video ele vende, e o que ele deu antes disso",
  "agregar": [
-   {{"o_que": "a tatica concreta que eu devo copiar para o meu projeto",
-     "como_aplicar": "o passo a passo pratico",
+   {{"o_que": "a TATICA que eu copio (o COMO, nunca o assunto)",
+     "como_aplicar": "o passo a passo no MEU canal de suplementos",
      "tipo": "estrutura_roteiro|gancho|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
-     "evidencia": "o trecho do video que prova isso",
+     "evidencia": "o trecho do video que prova que ele faz isso",
      "ja_tenho_parecido": "sim/nao"}}
  ],
- "nada_novo": "se nao houver nada a agregar, o motivo; senao \"\""}}
+ "nada_novo": "se nao houver tatica nova, o motivo; senao \"\""}}
 """
+
+
+# ---------- AGENTE UNICO (ideia do Rafael) ----------
+# A maioria dos videos (6-13k chars) CABE numa chamada. Nao precisa de 2 agentes: 1 le a
+# transcricao bruta INTEIRA e ja traz os topicos + a tatica. Menos chamadas, e ele ve o todo.
+UNICO_MAX = int(os.environ.get("EXTRAI_UNICO_MAX", "13000"))
+
+PROMPT_UNICO = """Leia a TRANSCRICAO BRUTA COMPLETA deste video, do inicio ao fim.
+
+Entenda TUDO que ele ensina:
+  - o CONCRETO: os numeros, doses, valores, prazos, nomes, precos, a ordem das coisas
+  - o ABSTRATO: como ele prende a atencao, como constroi confianca, como estrutura o
+    raciocinio, como prova o que diz, em que momento ele vende e o que deu antes disso
+
+Depois, me traga IDEIAS NOVAS, CONCRETAS E DETALHADAS para implantar no MEU projeto -
+ideias que eu AINDA NAO USO.
+
+O que e uma boa ideia:
+  - CONCRETA e DETALHADA: da para eu executar amanha sem te perguntar nada. Diz o que fazer,
+    em que ordem, com que palavras, em que momento do video, onde entra o link.
+  - NOVA: nao esta na lista do que eu ja tenho (abaixo). Se ja tenho, nao me traga.
+  - REPLICAVEL: e a TATICA dele (o COMO), nao o assunto dele. Tem que funcionar mesmo que o
+    meu video seja sobre outra coisa.
+
+O que NAO e ideia (nao me traga):
+  - "usar [substancia] para [problema]" - isso e o conteudo DELE, e no meu canal vira
+    promessa de cura. PROIBIDO.
+  - "seja consistente", "crie conteudo de qualidade" - vago, nao da para executar.
+  - o que eu ja tenho.
+
+MODELO (a ideia do tipo de analise - feito sobre OUTRO video; o conteudo dele nao e deste):
+{modelo}
+
+{projeto}
+
+O QUE EU JA TENHO (nao me traga isto de volta):
+{ja_tenho}
+
+=================== TRANSCRICAO BRUTA COMPLETA ===================
+{transcricao}
+==================================================================
+
+Responda SO com JSON puro:
+
+{{"topicos": [
+   {{"topico": "titulo curto do que ele ensina (4-8 palavras)",
+     "ensina_a_fazer": "o que ele ensina/recomenda, 1 frase",
+     "como": "o detalhe EXATO: numeros, doses, valores, ordem, criterios - nada de resumir",
+     "deve_ser_copiado": "o que daqui vira tatica; vazio se nada",
+     "produtos": ["produtos/marcas citados; [] se nenhum"],
+     "numeros": ["numeros/valores/prazos citados, com contexto"]}}
+ ],
+ "entendimento_do_video": "por que ESTE video funciona - a mecanica dele, nao o assunto",
+ "padrao_que_se_repete": "a estrutura que ele repete do inicio ao fim; \"\" se nao houver",
+ "onde_entra_a_venda": "em que momento ele vende, e o que ele entregou de graca antes disso",
+ "agregar": [
+   {{"o_que": "a IDEIA NOVA, em uma frase (a tatica, nunca o assunto)",
+     "como_aplicar": "o passo a passo DETALHADO no meu canal: o que fazer, em que ordem, em que "
+                     "minuto do video, com que palavras, onde entra o link de afiliado",
+     "tipo": "estrutura_roteiro|gancho|argumento_de_venda|titulo_seo|cta|objecao|pauta_de_video|produto_afiliado|automacao",
+     "evidencia": "o trecho da transcricao que mostra ele fazendo isso",
+     "ja_tenho_parecido": "sim/nao"}}
+ ],
+ "nada_novo": "se o video nao tem nenhuma ideia nova para mim, o motivo; senao \"\""}}
+"""
+
 
 if ask is None:
     print("EXTRATOR: ai_providers indisponivel")
@@ -459,6 +531,91 @@ for f in arquivos:
         parts = blocos(txt)
         if not parts:
             continue
+
+        # ---------- ROTA A: AGENTE UNICO (video cabe numa chamada) ----------
+        if len(txt) <= UNICO_MAX and vid not in parcial:
+            try:
+                ru = ask_forte(PROMPT_UNICO.format(modelo=MODELO_A2, projeto=PROJETO,
+                                                   ja_tenho=JA_TENHO, transcricao=txt),
+                               max_tokens=2600)
+                chamadas += 1
+                if eh_nicho:
+                    ch_nicho += 1
+                else:
+                    ch_resto += 1
+                mu = re.search(r"\{.*\}", ru or "", re.S)
+                du = json.loads(mu.group(0)) if mu else None
+            except Exception as e:
+                du = None
+                print("      AGENTE UNICO falhou (%s)" % str(e)[:50], flush=True)
+
+            if du and (du.get("topicos") or du.get("agregar")):
+                v_top = []
+                seen_u = set()
+                for t in (du.get("topicos") or []):
+                    if not isinstance(t, dict) or not (t.get("topico") or "").strip():
+                        continue
+                    k = norm(t["topico"])[:70]
+                    if k in seen_u:
+                        continue
+                    seen_u.add(k)
+                    v_top.append({"n": len(v_top) + 1, "topico": t["topico"].strip(),
+                                  "ensina_a_fazer": (t.get("ensina_a_fazer") or "").strip(),
+                                  "como": (t.get("como") or "").strip(),
+                                  "deve_ser_copiado": (t.get("deve_ser_copiado") or "").strip(),
+                                  "produtos": [str(x).strip() for x in (t.get("produtos") or [])],
+                                  "numeros": [str(x).strip() for x in (t.get("numeros") or [])],
+                                  "bloco": 1, "de_blocos": 1})
+                sintese = {k: du.get(k, "") for k in
+                           ("entendimento_do_video", "padrao_que_se_repete",
+                            "onde_entra_a_venda", "nada_novo")}
+                sintese["agregar"] = du.get("agregar") or []
+                ok, motivo = valida_sintese(sintese, v_top, len(v_top), txt)
+                if not ok:
+                    print("      AGENTE UNICO: sintese rejeitada (%s)" % motivo, flush=True)
+                    sintese = {}
+                else:
+                    for oq, mot in filtra_agregar(sintese, v_top, txt):
+                        print("      item CORTADO (conteudo, nao tatica): %s [%s]"
+                              % (str(oq)[:55], mot), flush=True)
+
+                v_prod = sorted({p for t in v_top for p in t.get("produtos", []) if p})
+                v_num = [n for t in v_top for n in t.get("numeros", []) if n]
+                v_apl = []
+                for a in (sintese.get("agregar") or []):
+                    v_apl.append({"o_que": a.get("o_que", ""),
+                                  "como_aplicar": a.get("como_aplicar", ""),
+                                  "tipo": a.get("tipo", ""),
+                                  "evidencia": a.get("evidencia", ""),
+                                  "ja_tenho_parecido": a.get("ja_tenho_parecido", "")})
+                c["videos_processados"].append(vid)
+                feitos.add(vid)
+                n += 1
+                link = "https://youtu.be/" + vid
+                nicho = "Outro"
+                c.setdefault("videos", []).append({
+                    "video": vid, "link": link, "nicho": nicho, "canal": canal,
+                    "chars": len(txt), "blocos": 1, "blocos_lidos": 1, "cobertura_pct": 100.0,
+                    "blocos_que_renderam_topico": [1], "total_topicos": len(v_top),
+                    "agente": "UNICO (1 chamada, video inteiro)",
+                    "TOPICOS": v_top,
+                    "SINTESE_DO_VIDEO": {
+                        "entendimento": (sintese.get("entendimento_do_video") or "").strip(),
+                        "padrao_que_se_repete": (sintese.get("padrao_que_se_repete") or "").strip(),
+                        "onde_entra_a_venda": (sintese.get("onde_entra_a_venda") or "").strip(),
+                        "nada_novo": (sintese.get("nada_novo") or "").strip()},
+                    "AGREGAR_NO_MEU_PROJETO": v_apl,
+                    "produtos": v_prod, "numeros": v_num})
+                for pr in v_prod:
+                    c["produtos"].append({"produto": pr, "video": vid, "link": link, "nicho": nicho})
+                for nu in v_num:
+                    c["numeros"].append({"numero": nu, "video": vid, "link": link, "nicho": nicho})
+                videos_ok += 1
+                print("  [%s] %s -> AGENTE UNICO: %d topicos, %d taticas | 1 chamada | %d chars"
+                      % (canal[:18], vid, len(v_top), len(v_apl), len(txt)), flush=True)
+                continue     # proximo video
+
+        # ---------- ROTA B: video LONGO -> blocos (Agente 1) + Agente 2 ----------
 
         pv = parcial.setdefault(vid, {"blocos_ok": [], "topicos": [], "prod": [], "num": []})
         ja_ok = set(pv["blocos_ok"])          # blocos que ciclos anteriores ja leram
@@ -613,10 +770,10 @@ for f in arquivos:
                 m2 = re.search(r"\{.*\}", r2 or "", re.S)
                 if m2:
                     cand = json.loads(m2.group(0))
-                    ok, motivo = valida_sintese(cand, v_top, len(v_top))
+                    ok, motivo = valida_sintese(cand, v_top, len(v_top), txt)
                     if ok:
                         sintese = cand
-                        for oq, motivo in filtra_agregar(sintese, v_top):
+                        for oq, motivo in filtra_agregar(sintese, v_top, txt):
                             print("      item CORTADO (nao e deste video): %s [%s]"
                                   % (str(oq)[:60], motivo), flush=True)
                     else:
@@ -631,10 +788,10 @@ for f in arquivos:
                         m2b = re.search(r"\{.*\}", r2b or "", re.S)
                         if m2b:
                             cand2 = json.loads(m2b.group(0))
-                            ok2, motivo2 = valida_sintese(cand2, v_top, len(v_top))
+                            ok2, motivo2 = valida_sintese(cand2, v_top, len(v_top), txt)
                             if ok2:
                                 sintese = cand2
-                                for oq, motivo in filtra_agregar(sintese, v_top):
+                                for oq, motivo in filtra_agregar(sintese, v_top, txt):
                                     print("      item CORTADO (nao e deste video): %s [%s]"
                                           % (str(oq)[:60], motivo), flush=True)
                                 print("      AGENTE 2: passou na 2a tentativa", flush=True)
@@ -663,6 +820,7 @@ for f in arquivos:
             "SINTESE_DO_VIDEO": {                   # <<< AGENTE 2: entendeu o video INTEIRO
                 "entendimento": (sintese.get("entendimento_do_video") or "").strip(),
                 "padrao_que_se_repete": (sintese.get("padrao_que_se_repete") or "").strip(),
+                "onde_entra_a_venda": (sintese.get("onde_entra_a_venda") or "").strip(),
                 "nada_novo": (sintese.get("nada_novo") or "").strip()},
             "AGREGAR_NO_MEU_PROJETO": v_apl,
             "produtos": v_prod, "numeros": v_num})
