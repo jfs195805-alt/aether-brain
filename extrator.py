@@ -25,7 +25,7 @@ MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
 TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
 MAXTENT = int(os.environ.get("EXTRAI_MAXTENT", "3"))   # tentativas antes de aceitar parcial
 T0 = time.time()
-VERSAO = 10
+VERSAO = 11
 
 PROJETO = os.environ.get("EXTRAI_PROJETO", """MEU PROJETO (Global Supplements):
 - Canal no YouTube + site de reviews. Publico: quem busca suplemento, emagrecimento, saude e fitness.
@@ -152,11 +152,19 @@ def valida_sintese(sintese, v_top, ntop):
     base_pref = {w[:5] for w in _PALAVRA.findall(base_txt)}
     base_nums = set(_NUMERO.findall(base_txt))
 
+    # texto para ANCORAGEM (inclui evidencia: e texto normal)
     sint_txt = " ".join([str(sintese.get("entendimento_do_video", "")),
                          str(sintese.get("padrao_que_se_repete", "")),
                          " ".join(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", "")) +
                                   " " + str(a.get("evidencia", ""))
                                   for a in (sintese.get("agregar") or []) if isinstance(a, dict))])
+    # texto para checar NUMERO INVENTADO -> NUNCA inclui 'evidencia' (la os numeros sao
+    # indices de topico, e legitimo citar "topicos 1, 4 e 9"). Bug real: o validador
+    # rejeitava a sintese honesta por causa disso.
+    sint_num_txt = " ".join([str(sintese.get("entendimento_do_video", "")),
+                             str(sintese.get("padrao_que_se_repete", "")),
+                             " ".join(str(a.get("o_que", "")) + " " + str(a.get("como_aplicar", ""))
+                                      for a in (sintese.get("agregar") or []) if isinstance(a, dict))])
     sw = _PALAVRA.findall(norm(sint_txt))
     if not sw:
         return False, "sintese vazia"
@@ -183,8 +191,19 @@ def valida_sintese(sintese, v_top, ntop):
         return False, ("nao ancora nos topicos (so %d/%d palavras de conteudo batem, %d%%) - "
                        "fala de: %s" % (len(ancorados), len(conteudo), int(100 * taxa), estranhas))
 
-    # NUMEROS inventados
-    fora = [n for n in set(_NUMERO.findall(sint_txt)) if n not in base_nums and len(n) > 1]
+    # NUMEROS inventados (fora da evidencia). Inteiro pequeno (<= ntop) pode ser referencia
+    # a topico dentro do texto -> nao conta como invencao.
+    fora = []
+    for n in set(_NUMERO.findall(sint_num_txt)):
+        nn = n.strip(".,")
+        if not nn or nn in base_nums:
+            continue
+        try:
+            if int(nn) <= ntop:      # "os 5 passos", "topico 3" - referencia legitima
+                continue
+        except Exception:
+            pass
+        fora.append(nn)
     if fora:
         return False, "cita numeros que nao estao nos topicos: %s" % fora[:5]
 
