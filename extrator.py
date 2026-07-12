@@ -21,6 +21,8 @@ MAXV = int(os.environ.get("EXTRAI_MAXV", "60"))
 CHUNK = int(os.environ.get("EXTRAI_CHUNK", "5500"))
 MAXCHUNKS = int(os.environ.get("EXTRAI_MAXCHUNKS", "8"))
 MAXCALLS = int(os.environ.get("EXTRAI_MAXCALLS", "1400"))
+TEMPO_MAX = int(os.environ.get("EXTRAI_TEMPO_MAX", "1500"))  # segundos (25 min)
+T0 = time.time()
 VERSAO = 3
 OUT = "CONHECIMENTO_PRODUCAO.json"
 PAUTA = "PAUTA.json"
@@ -122,10 +124,14 @@ if CANAIS:
 
 chamadas = 0
 videos_ok = videos_vazios = total_chunks = 0
+falhas_ia = nao_marcados = 0
 parou_no_teto = False
+abortou = False
 
 for f in arquivos:
-    if chamadas >= MAXCALLS:
+    if abortou:
+        break
+    if chamadas >= MAXCALLS or (time.time() - T0) > TEMPO_MAX:
         parou_no_teto = True
         break
     canal = os.path.splitext(os.path.basename(f))[0]
@@ -133,7 +139,7 @@ for f in arquivos:
                                           "tarefas": [], "produtos": [], "por_video": []})
     n = 0
     for ln in open(f, encoding="utf-8", errors="ignore"):
-        if n >= MAXV or chamadas >= MAXCALLS:
+        if n >= MAXV or chamadas >= MAXCALLS or (time.time() - T0) > TEMPO_MAX:
             break
         if not ln.strip():
             continue
@@ -152,26 +158,31 @@ for f in arquivos:
         if not parts:
             continue
 
+        ok_ia = False       # so marca o video como FEITO se a IA respondeu de verdade
         v_passos, v_tarefas, v_prod = [], [], []
         v_nicho = Counter()
         seen_p, seen_t, seen_pr = set(), set(), set()
 
         for parte in parts:
-            if chamadas >= MAXCALLS:
+            if chamadas >= MAXCALLS or (time.time() - T0) > TEMPO_MAX:
                 break
             try:
                 resp = ask(PROMPT.format(txt=parte[:CHUNK + 500]), max_tokens=900)
-            except Exception:
+            except Exception as e:
+                falhas_ia += 1
                 continue
             chamadas += 1
             total_chunks += 1
             m = re.search(r"\{.*\}", resp or "", re.S)
             if not m:
+                falhas_ia += 1
                 continue
             try:
                 d = json.loads(m.group(0))
             except Exception:
+                falhas_ia += 1
                 continue
+            ok_ia = True
             if d.get("nicho"):
                 v_nicho[d["nicho"]] += 1
             for p in (d.get("passos") or []):
@@ -194,6 +205,17 @@ for f in arquivos:
                     seen_pr.add(k)
                     v_prod.append(pr.strip())
 
+        if not ok_ia:
+            # IA nao respondeu para NENHUM bloco deste video -> NAO marca como feito,
+            # senao o video seria pulado para sempre e o ensinamento dele se perderia.
+            nao_marcados += 1
+            if falhas_ia >= 40 and chamadas == 0:
+                print("EXTRATOR: IA gratis nao respondeu em %d tentativas -> abortando ciclo "
+                      "(nenhum video marcado, nada perdido)" % falhas_ia, flush=True)
+                abortou = True
+                break
+            continue
+
         c["videos_processados"].append(vid)
         feitos.add(vid)
         n += 1
@@ -214,6 +236,8 @@ for f in arquivos:
         for pr in v_prod:
             c["produtos"].append({"produto": pr, "video": vid, "link": link})
         videos_ok += 1
+        print("  [%s] %s -> %d ensinamentos (%d blocos, %d chamadas)"
+          % (canal[:18], vid, len(v_passos), len(parts), chamadas), flush=True)
 
         # CHECKPOINT: run cancelada no meio nao pode perder o que ja foi captado
         if videos_ok % 10 == 0:
@@ -277,9 +301,9 @@ json.dump({"ts": base["ts"], "versao": VERSAO,
            "produtos_mais_citados": prod.most_common(30)},
           open(PAUTA, "w", encoding="utf-8"), ensure_ascii=False)
 
-print("EXTRATOR v3 (SEM FILTRO): %d videos com ensinamento (%d sem nada extraivel) | %d blocos lidos | "
+print("EXTRATOR v3 (SEM FILTRO): %d videos com ensinamento (%d sem nada extraivel, %d NAO marcados por falha de IA -> serao retentados) | %d blocos lidos | "
       "%d chamadas IA%s | %d ensinamentos captados | media %.2f por video | "
       "%d passos no backlog executavel | %d tarefas do projeto"
-      % (videos_ok, videos_vazios, total_chunks, chamadas,
+      % (videos_ok, videos_vazios, nao_marcados, total_chunks, chamadas,
          " (TETO - continua no proximo ciclo)" if parou_no_teto else "",
          total_ensin, media, len(backlog), len(tarefas_rank)))
