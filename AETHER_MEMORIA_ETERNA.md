@@ -249,16 +249,55 @@ Governador publica só com marca correta, foto real, QA ≥ 80, cooldowns.
 
 ---
 
-## 12. ESTADO MEDIDO (marco: 2026-07-11/12)
+## 12. ESTADO MEDIDO (marco: 2026-07-12, ciclo 5)
 
-- Corpus: **592 canais, 8.155 vídeos, 1.000.352 frases reais**
-- Grafo léxico: **648.901.489 pares/ciclo** a 1,67M pares/s, **6,3M sinapses/ciclo**
-- **Acumulado eterno: 1.697.575.572 pares (1,7 bilhão), 15.786.115 sinapses, 3 ciclos**
-- RAM: **2.946 MB de 15.989 MB (18%)** — muito folga
-- Espaço de trios do corpus: **C(1M,3) ≈ 1,67 × 10¹⁷**
-- Semântica (SVD 256d + IVF) e Monte Carlo: adicionados no ciclo seguinte
+**Corpus:** 592 canais · 8.155 vídeos · **1.000.280 frases reais**
+
+**Grafo (por ciclo):**
+- pares léxicos avaliados: **648.902.341** em 450 s (~1,44 M pares/s)
+- sinapses **léxicas**: **6.286.688**
+- sinapses **SEMÂNTICAS** (SVD 256d + IVF): **820.380** em apenas **56 s**
+- total: **7.107.068** sinapses/ciclo
+- **RAM: 11.993 MB de 15.989 MB (75% dos 16 GB)** — a camada espectral é o que ocupa a máquina
+
+**Acumulado eterno (ciclo 5):**
+- **2.995.378.934 pares** avaliados (≈3 bilhões)
+- **29.179.877 sinapses** descobertas
+
+**Sinapses de ordem superior (sobre o grafo inteiro):**
+- **TRIÂNGULOS EXATOS: 7.792.786** (7,8 milhões) — calculados em **11,1 s** por álgebra esparsa
+- **CLIQUES (figuras): 500.000** (teto batido) · maior figura: **10 pontos**
+- **Conceitos (comunidades): 42.903**
+- Insights raros: 36 · Oportunidades em produção: 12
+
+**Espaço combinatório:** C(1.000.280, 3) ≈ **1,67 × 10¹⁷** trios possíveis.
+O motor não enumera esse absurdo (ninguém pode) — percorre exatamente os que a estatística
+provou existirem.
 
 ---
+
+## 12-B. ANTI-CLICHÊ — a lição mais importante do projeto
+
+> **Num grafo de texto, o nó mais conectado NÃO é o mais valioso — é o mais genérico.**
+
+Quando o motor rodou pela primeira vez sobre o grafo inteiro, os "insights raros" foram:
+- *"Espero que esse vídeo tenha te ajudado"* (8 pontos, 3 categorias, 4 canais)
+- *"[__] que pariu"* (palavrão censurado, 9 pontos, 8 canais)
+
+A matemática estava **correta**: essas frases realmente se conectam com tudo, em todos os
+canais. O problema é que **fórmula de encerramento não é conhecimento**.
+
+**As três defesas (obrigatórias em qualquer projeto do tipo):**
+
+1. **Limpeza de texto** (`limpa_texto`): `html.unescape` (`&gt;`, `&nbsp;`, `&amp;`),
+   remover censura `[ __ ]`, remover marcador de falante `>>`.
+2. **Filtro de boilerplate**: calcular a *assinatura* de cada frase (conjunto ordenado dos
+   seus termos de conteúdo). Se a mesma assinatura aparece em **≥ N canais diferentes**
+   (N=4), é **fórmula** → remover do grafo. Isso mata "se inscreva", "bom dia pessoal",
+   "até o próximo vídeo" automaticamente, sem lista negra manual.
+3. **Diversidade lexical na figura**: uma figura só é insight se seus pontos **falam coisas
+   diferentes** — Jaccard médio de termos entre os pontos **< 0.55**. Senão é a mesma frase
+   repetida em canais diferentes.
 
 ## 13. ERROS REAIS COMETIDOS E CORRIGIDOS (aprender com eles)
 
@@ -277,6 +316,9 @@ Governador publica só com marca correta, foto real, QA ≥ 80, cooldowns.
 | decisões de stopword | "aqui + gente" ia publicar | filtro de qualidade |
 | OOM no grafo v3 | processo morto por RAM | heap fixo por nó + teto + rotação |
 | service key no navegador | risco de vazar banco | anon/publishable só no cliente |
+| **`yaml.dump` gravou `true:`** | PyYAML lê a chave `on` como booleano → workflow inválido → runs falham **sem nenhum job** | após reescrever YAML de workflow com Python, **sempre** trocar `true:` de volta por `on:` |
+| **CLICHÊ vira "insight"** | os 500k cliques mais conectados eram *"espero que esse vídeo tenha te ajudado"*, *"até o próximo vídeo"* e palavrão censurado. **O mais conectado é o mais genérico** — armadilha clássica de grafo de texto | 3 defesas: (1) `limpa_texto` remove HTML (`&gt;&gt;`, `&nbsp;`) e censura `[__]`; (2) **filtro de boilerplate** — frase cuja assinatura aparece em **≥4 canais diferentes** é fórmula, não conhecimento → removida do grafo; (3) **exigir diversidade lexical** na figura (Jaccard médio entre os pontos < 0.55) |
+| classificação em 8,3% | limiar do cosseno alto demais | baixar `CLS_LIM` para 0.06 + limpar o texto antes |
 
 ---
 

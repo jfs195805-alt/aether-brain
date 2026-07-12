@@ -108,6 +108,21 @@ Reprovou em qualquer item → **descartado**, não "publicado com ressalva".
 
 ---
 
+## 7-B. ANTI-CLICHÊ — o mais conectado é o mais genérico
+
+Num grafo de texto, fórmula de encerramento se conecta com tudo. **Isso não é insight.**
+
+Obrigatório, sempre:
+1. **Limpar o texto** antes de tudo: `html.unescape`, remover censura `[ __ ]`, remover `>>`.
+2. **Remover boilerplate por evidência, não por lista negra**: se a assinatura da frase
+   aparece em **≥4 canais diferentes**, é fórmula → fora do grafo.
+3. **Exigir diversidade lexical** na figura: Jaccard médio entre os pontos **< 0.55**.
+   Figura feita de frases quase iguais é clichê disfarçado de descoberta.
+
+Erro real cometido: o cérebro apresentou como "insight raro" a frase *"espero que esse vídeo
+tenha te ajudado"* — cruzando 3 categorias e 4 canais, com confiança 0.85. Matematicamente
+perfeito. Inútil na prática.
+
 ## 8. INFRAESTRUTURA — não derrubar a própria casa
 
 - **Nada de processo pesado na VM.** Todo cálculo pesado roda no GitHub Actions (16 GB).
@@ -131,6 +146,9 @@ Reprovou em qualquer item → **descartado**, não "publicado com ressalva".
 - **Repo público = Actions ilimitado.** Repo privado = minutos limitados.
 - **`paths-ignore`** nos arquivos de estado (JSON/HTML) — senão o commit do resultado
   re-dispara o workflow em loop infinito.
+- **Ao reescrever `.yml` de workflow com Python (`yaml.dump`), trocar `true:` de volta por
+  `on:`** — PyYAML lê a chave `on` como booleano. Workflow inválido = runs falham **sem nenhum
+  job**, sem mensagem de erro útil. (Erro real: runs 94/95 morreram por isso.)
 - **`concurrency: cancel-in-progress: true`.** Com `false`, cancelar runs trava a vaga do
   grupo e as próximas ficam eternamente em `pending` sem alocar runner. (Erro real: 20+ min
   de runs presas.)
